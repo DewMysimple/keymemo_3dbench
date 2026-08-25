@@ -30,9 +30,9 @@ from portable_blend_assets import (
 
 
 WORKBENCH = Path(__file__).resolve().parents[1]
-DEFAULT_SOURCE = WORKBENCH / "blender/Verminoble_Scene_Mirror_5_0.blend"
+DEFAULT_SOURCE = WORKBENCH / "blender/GwayLoo_Scene_5_0.blend"
 DEFAULT_OUTPUT = WORKBENCH / (
-    "versions/no-animation/blender/Verminoble_Scene_Mirror_5_0_no_animation.blend"
+    "versions/no-animation/blender/GwayLoo_Scene_5_0_no_animation.blend"
 )
 DEFAULT_REPORT = WORKBENCH / "versions/no-animation/reports/version-preparation.json"
 STATIC_FRAME = 3586

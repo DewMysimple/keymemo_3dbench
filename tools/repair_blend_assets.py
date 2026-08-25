@@ -14,7 +14,7 @@ from portable_blend_assets import make_blend_assets_portable
 
 
 WORKBENCH = Path(__file__).resolve().parents[1]
-DEFAULT_BLEND = WORKBENCH / "blender/Verminoble_Scene_Mirror_5_0.blend"
+DEFAULT_BLEND = WORKBENCH / "blender/GwayLoo_Scene_5_0.blend"
 DEFAULT_REPORT = WORKBENCH / "reports/blender-asset-repair.json"
 
 

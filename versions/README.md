@@ -4,7 +4,7 @@
 
 ## 版本边界
 
-- `full` 是唯一完整基准版本：`blender/Verminoble_Scene_Mirror_5_0.blend`。
+- `full` 是唯一完整基准版本：`blender/GwayLoo_Scene_5_0.blend`。
 - 派生版本必须从 `full` 生成独立 `.blend`，不得使用 Blender 链接库共享可变数据。
 - 派生版本使用 `versions/<version-id>/blender/`，并拥有自己的 `reports/` 和 `generated/` 输出目录。
 - 版本制作工具不会修改来源文件；资源路径会按照目标 `.blend` 的新目录重新计算。
@@ -16,13 +16,13 @@
 未来如果正式迁移工作台，完整版本保持用户约定的入口：
 
 ```text
-blender/_scenebench/blender/Verminoble_Scene_Mirror_5_0.blend
+blender/_scenebench/blender/GwayLoo_Scene_5_0.blend
 ```
 
 派生版本示例：
 
 ```text
-blender/_scenebench/versions/no-animation/blender/Verminoble_Scene_Mirror_5_0_no_animation.blend
+blender/_scenebench/versions/no-animation/blender/GwayLoo_Scene_5_0_no_animation.blend
 ```
 
 当前仍不创建 `blender/_scenebench/`；完整文件保持在当前工作台，派生文件位于集中版本目录。
@@ -32,7 +32,7 @@ blender/_scenebench/versions/no-animation/blender/Verminoble_Scene_Mirror_5_0_no
 已创建并验证：
 
 ```text
-versions/no-animation/blender/Verminoble_Scene_Mirror_5_0_no_animation.blend
+versions/no-animation/blender/GwayLoo_Scene_5_0_no_animation.blend
 ```
 
 该版本来自 `full`，默认显示第 3586 帧的立起终态；相机仍可按 0–3586 帧播放。
@@ -60,7 +60,7 @@ python blender_scenebench/tools/prepare_blend_version.py `
 
 ```powershell
 & 'F:\Blender\blender.exe' --background --factory-startup `
-  blender_scenebench/versions/no-animation/blender/Verminoble_Scene_Mirror_5_0_no_animation.blend `
+  blender_scenebench/versions/no-animation/blender/GwayLoo_Scene_5_0_no_animation.blend `
   --python blender_scenebench/tools/validate_blend.py -- `
   --version-id no-animation `
   --report blender_scenebench/versions/no-animation/reports/blender-validation.json

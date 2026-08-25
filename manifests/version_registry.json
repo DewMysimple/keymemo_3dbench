@@ -13,7 +13,7 @@
       "role": "baseline",
       "source_version": null,
       "root": ".",
-      "blend": "blender/Verminoble_Scene_Mirror_5_0.blend",
+      "blend": "blender/GwayLoo_Scene_5_0.blend",
       "change_set": [],
       "animation_policy": "preserve",
       "editable": true,
@@ -28,7 +28,7 @@
       "role": "derivative",
       "source_version": "full",
       "root": "versions/no-animation",
-      "blend": "versions/no-animation/blender/Verminoble_Scene_Mirror_5_0_no_animation.blend",
+      "blend": "versions/no-animation/blender/GwayLoo_Scene_5_0_no_animation.blend",
       "change_set": [
         "remove-all-non-camera-animation"
       ],

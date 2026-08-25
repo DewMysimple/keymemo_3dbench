@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "variant": "remove-all-non-camera-animation",
-  "source": "C:/Users/Administrator/Desktop/Verminoble/blender_scenebench/blender/Verminoble_Scene_Mirror_5_0.blend",
-  "output": "C:/Users/Administrator/Desktop/Verminoble/blender_scenebench/versions/no-animation/blender/Verminoble_Scene_Mirror_5_0_no_animation.blend",
+  "source": "C:/Users/Administrator/Desktop/Verminoble/blender_scenebench/blender/GwayLoo_Scene_5_0.blend",
+  "output": "C:/Users/Administrator/Desktop/Verminoble/blender_scenebench/versions/no-animation/blender/GwayLoo_Scene_5_0_no_animation.blend",
   "independent_copy": true,
   "linked_libraries": [],
   "assets": {

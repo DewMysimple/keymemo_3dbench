@@ -26,7 +26,7 @@ MANIFEST = WORKBENCH / "manifests/scene_manifest.json"
 OUTPUT = Path(
     os.environ.get(
         "VERMINOBLE_BLEND_OUTPUT",
-        str(WORKBENCH / "blender/Verminoble_Scene_Mirror_5_0.blend"),
+        str(WORKBENCH / "blender/GwayLoo_Scene_5_0.blend"),
     )
 ).resolve()
 REPORT = Path(
