@@ -46,7 +46,7 @@ The build and validation scripts never change or save Blender user preferences. 
 
 ## Version preparation
 
-The current complete file remains the only source of truth. Future versions use independent files under `versions/<version-id>/blender/`, with their own reports and generated outputs. The planned future workbench root is `blender/_scenebench/`, but this directory is not created or migrated by the current preparation step.
+The current complete file remains the only source of truth. Versions use independent files under `versions/<version-id>/blender/`, with their own reports and generated outputs. The planned future workbench root is `blender/_scenebench/`, but this directory is not created or migrated by the current preparation step.
 
 Preview a registered version without writing anything:
 
@@ -54,7 +54,7 @@ Preview a registered version without writing anything:
 python blender_scenebench/tools/prepare_blend_version.py --version-id no-animation --dry-run
 ```
 
-Creating a derivative requires an explicit `--create`; the tool opens the source and saves a separate target while rebasing portable asset paths. It does not remove animation or apply any artistic transformation.
+Creating a derivative requires an explicit `--create`; the tool opens the source and saves a separate target while rebasing portable asset paths. The registered `no-animation` change set freezes non-camera animation at frame 3586 and preserves camera actions; it never modifies `full`.
 
 Read [`reports/rendering-boundaries.md`](reports/rendering-boundaries.md) before changing materials. It distinguishes exact source data from renderer-specific approximations.
 

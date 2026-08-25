@@ -28,7 +28,13 @@
 - `full` 是唯一完整基准文件；派生版本必须从它生成独立 `.blend`，不得使用 Blender 链接库共享可变数据。
 - 使用 `python blender_scenebench/tools/prepare_blend_version.py --version-id <id> --dry-run` 预演；只有显式 `--create` 才能写入派生文件。
 - 版本准备会重算目标文件的相对资源路径，并在资源或独立性检查失败时标记失败，不得标记为可用。
-- “去除动画”等具体场景变更不属于版本复制动作，必须作为单独授权任务执行；完整版本不能被覆盖。
+- `no-animation` 版本在第 3586 帧固化所有非相机对象和形态键状态，删除非相机动作；`Camera_Animation_Baked`、`WEB_CAMERA_ACTIVE_BAKED` 和 `WEB_CAMERA_PATH_BAKED` 必须保留。
+- 完整版本不能被覆盖；任何新的场景变体都必须登记来源、变更集合、验证报告和哈希。
+
+## Git 交付规则
+
+- 每次任务完成后只创建本地 Git commit，不执行 `git push`。
+- 默认继续使用当前 `main`，不自动创建新分支；Blender 工作台和网页工程共用该提交历史。
 
 记忆体检和日志索引：
 

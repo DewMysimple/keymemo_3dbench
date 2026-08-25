@@ -24,19 +24,22 @@
     {
       "id": "no-animation",
       "label": "去除动画版本",
-      "status": "planned",
+      "status": "available",
       "role": "derivative",
       "source_version": "full",
       "root": "versions/no-animation",
       "blend": "versions/no-animation/blender/Verminoble_Scene_Mirror_5_0_no_animation.blend",
       "change_set": [
-        "remove-animation"
+        "remove-all-non-camera-animation"
       ],
-      "animation_policy": "pending",
+      "animation_policy": "preserve-camera-freeze-non-camera-at-frame-3586",
+      "static_frame": 3586,
       "editable": true,
       "source_of_truth": false,
-      "source_sha256": null,
-      "prepared_sha256": null
+      "source_sha256": "D4E8088EE1B38A7C084F6B57CDE37328A37950FFED37FCE8FAECB9F053D62C9D",
+      "prepared_sha256": "0582D5BB1584A3F0E6ABBD2BFC9EAA7349F54C3620E219D730FD98119CCA4DCD",
+      "available": true,
+      "validation_report": "versions/no-animation/reports/blender-validation.json"
     }
   ]
 }

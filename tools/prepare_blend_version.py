@@ -19,7 +19,7 @@ from typing import Any
 
 WORKBENCH = Path(__file__).resolve().parents[1]
 REGISTRY = WORKBENCH / "manifests/version_registry.json"
-REPAIR_SCRIPT = WORKBENCH / "tools/repair_blend_assets.py"
+VARIANT_SCRIPT = WORKBENCH / "tools/apply_blend_version_changes.py"
 DEFAULT_BLENDER = Path(os.environ.get("BLENDER_EXECUTABLE", r"F:\Blender\blender.exe"))
 
 
@@ -37,7 +37,7 @@ def load_registry() -> dict[str, Any]:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Prepare an independent Blender version without changing its source file."
+        description="Prepare a registered Blender version without changing its source file."
     )
     parser.add_argument("--version-id", required=True, help="Registered derivative version id.")
     mode = parser.add_mutually_exclusive_group()
@@ -152,12 +152,18 @@ def create_version(
             f"Source hash does not match the registered {source['id']} baseline: "
             f"{source_hash} != {registered_source_hash}"
         )
+    change_set = version.get("change_set", [])
+    if change_set != ["remove-all-non-camera-animation"]:
+        raise ValueError(
+            f"Unsupported change_set for {version['id']}: {change_set}; "
+            "only remove-all-non-camera-animation is implemented"
+        )
     command = [
         str(blender),
         "--background",
         "--factory-startup",
         "--python",
-        str(REPAIR_SCRIPT),
+        str(VARIANT_SCRIPT),
         "--",
         "--source",
         str(source_path),
@@ -165,12 +171,27 @@ def create_version(
         str(target_path),
         "--report",
         str(report_path),
+        "--variant",
+        change_set[0],
+        "--frame",
+        str(version.get("static_frame", 3586)),
     ]
     completed = subprocess.run(command, check=False, text=True)
     source_unchanged = sha256(source_path) == source_hash
     target_exists = target_path.is_file()
+    change_report: dict[str, Any] = {}
+    if report_path.is_file():
+        try:
+            change_report = json.loads(report_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            change_report = {}
     target_hash = sha256(target_path) if target_exists else None
-    passed = completed.returncode == 0 and source_unchanged and target_exists
+    passed = (
+        completed.returncode == 0
+        and source_unchanged
+        and target_exists
+        and change_report.get("passed") is True
+    )
     metadata = {
         "schema_version": 1,
         "version_id": version["id"],
@@ -185,7 +206,8 @@ def create_version(
         "requires_validation": True,
         "change_set": version.get("change_set", []),
         "animation_policy": version.get("animation_policy"),
-        "repair_exit_code": completed.returncode,
+        "change_exit_code": completed.returncode,
+        "change_report_passed": change_report.get("passed"),
     }
     metadata_path.parent.mkdir(parents=True, exist_ok=True)
     metadata_path.write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

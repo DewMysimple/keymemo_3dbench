@@ -32,6 +32,12 @@ def parse_script_args() -> argparse.Namespace:
         default=Path(os.environ.get("VERMINOBLE_BLEND_VALIDATION_REPORT", str(DEFAULT_REPORT))),
         help="JSON report path.",
     )
+    parser.add_argument(
+        "--version-id",
+        choices=("full", "no-animation"),
+        default=os.environ.get("VERMINOBLE_BLEND_VERSION_ID", "full"),
+        help="Validation profile; no-animation expects all non-camera animation to be removed.",
+    )
     return parser.parse_args(raw_args)
 
 
@@ -50,6 +56,14 @@ def action_fcurves(action: bpy.types.Action | None) -> list[bpy.types.FCurve]:
     ]
 
 
+def is_camera_animation_owner(obj: bpy.types.Object) -> bool:
+    return (
+        obj.type == "CAMERA"
+        or obj.name == "WEB_CAMERA_PATH_RIG"
+        or obj.name.startswith("WEB_CAMERA_")
+    )
+
+
 def fail(message: str, failures: list[str]) -> None:
     failures.append(message)
     print(f"[blend-validation] FAIL: {message}")
@@ -66,6 +80,7 @@ def main() -> None:
     args = parse_script_args()
     report = args.report.resolve()
     failures: list[str] = []
+    static_version = args.version_id == "no-animation"
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
     expected_texture_remaps = manifest["watercolor"]["texture_atlas_remaps"]
     expected_grass_layers = {
@@ -285,24 +300,27 @@ def main() -> None:
         action = obj.animation_data.action if obj.animation_data else None
         if action and action.name.startswith("WEB_REVEAL_"):
             animated_layers += 1
-            animation_paths = {fcurve.data_path for fcurve in action_fcurves(action)}
-            expected_animation_paths = {
-                '["web_alpha"]',
-                '["web_curve_coef"]',
-                '["web_curve_wave"]',
-                '["web_rotation_z"]',
-                '["web_reveal_progress"]',
-                '["web_cutout_alpha"]',
-                '["web_ground_alpha"]',
-                '["web_shadow_alpha"]',
-                "delta_rotation_euler",
-                "hide_viewport",
-                "hide_render",
-                "color",
-            }
-            missing_animation_paths = sorted(expected_animation_paths - animation_paths)
-            if missing_animation_paths:
-                fail(f"{obj.name} action is missing channels: {missing_animation_paths}", failures)
+            if static_version:
+                fail(f"{obj.name} retains non-camera action {action.name}", failures)
+            else:
+                animation_paths = {fcurve.data_path for fcurve in action_fcurves(action)}
+                expected_animation_paths = {
+                    '["web_alpha"]',
+                    '["web_curve_coef"]',
+                    '["web_curve_wave"]',
+                    '["web_rotation_z"]',
+                    '["web_reveal_progress"]',
+                    '["web_cutout_alpha"]',
+                    '["web_ground_alpha"]',
+                    '["web_shadow_alpha"]',
+                    "delta_rotation_euler",
+                    "hide_viewport",
+                    "hide_render",
+                    "color",
+                }
+                missing_animation_paths = sorted(expected_animation_paths - animation_paths)
+                if missing_animation_paths:
+                    fail(f"{obj.name} action is missing channels: {missing_animation_paths}", failures)
         required_properties = {
             "web_alpha",
             "web_curve_coef",
@@ -419,8 +437,9 @@ def main() -> None:
         if actual_remap != expected_texture_remaps.get(source_layer):
             fail(f"{material.name} does not use the legacy texture-atlas remap", failures)
         material_layers += 1
-    if animated_layers != 26:
-        fail(f"Expected 26 watercolor actions, got {animated_layers}", failures)
+    expected_animated_layers = 0 if static_version else 26
+    if animated_layers != expected_animated_layers:
+        fail(f"Expected {expected_animated_layers} watercolor actions, got {animated_layers}", failures)
     if curve_layers != 26:
         fail(f"Expected 26 source curve shape keys, got {curve_layers}", failures)
     if aligned_layers != 26:
@@ -469,17 +488,25 @@ def main() -> None:
             else None
         )
         wind_paths = {curve.data_path for curve in action_fcurves(wind_action)}
-        if wind_action and 'key_blocks["SOURCE_WIND"].value' in wind_paths:
+        if static_version:
+            if wind_action:
+                fail(f"{obj.name} retains non-camera shape-key action {wind_action.name}", failures)
+        elif wind_action and 'key_blocks["SOURCE_WIND"].value' in wind_paths:
             grass_wind_actions += 1
         else:
             fail(f"{obj.name} has no source wind animation channel", failures)
         reveal_action = obj.animation_data.action if obj.animation_data else None
         reveal_paths = {curve.data_path for curve in action_fcurves(reveal_action)}
-        if reveal_action and "color" in reveal_paths:
+        if static_version:
+            if reveal_action:
+                fail(f"{obj.name} retains non-camera action {reveal_action.name}", failures)
+        elif reveal_action and "color" in reveal_paths:
             grass_reveal_actions += 1
         else:
             fail(f"{obj.name} has no grass reveal animation channel", failures)
-        if wind_action is not reveal_action or not reveal_action.name.startswith("WEB_GRASS_ANIMATION_"):
+        if not static_version and (
+            wind_action is not reveal_action or not reveal_action.name.startswith("WEB_GRASS_ANIMATION_")
+        ):
             fail(f"{obj.name} does not use the Blender 5 combined grass action", failures)
         if len(obj.data.materials) != 1 or obj.data.materials[0].name != "WC_PROCEDURAL_GRASS":
             fail(f"{obj.name} does not use WC_PROCEDURAL_GRASS", failures)
@@ -492,9 +519,10 @@ def main() -> None:
         )
     if grass_blades <= 0:
         fail("Procedural grass contains no blades", failures)
-    if grass_wind_actions != expected_grass_count or grass_reveal_actions != expected_grass_count:
+    expected_grass_actions = 0 if static_version else expected_grass_count
+    if grass_wind_actions != expected_grass_actions or grass_reveal_actions != expected_grass_actions:
         fail(
-            f"Expected {expected_grass_count} grass wind/reveal actions, "
+            f"Expected {expected_grass_actions} grass wind/reveal actions, "
             f"got {grass_wind_actions}/{grass_reveal_actions}",
             failures,
         )
@@ -641,14 +669,40 @@ def main() -> None:
     if non_portable:
         fail(f"Non-portable external asset paths: {non_portable}", failures)
 
+    non_camera_object_actions = [
+        f"object:{obj.name}:{obj.animation_data.action.name}"
+        for obj in bpy.data.objects
+        if not is_camera_animation_owner(obj)
+        and obj.animation_data
+        and obj.animation_data.action
+    ]
+    non_camera_shape_key_actions = [
+        f"shape_keys:{obj.name}:{obj.data.shape_keys.animation_data.action.name}"
+        for obj in bpy.data.objects
+        if not is_camera_animation_owner(obj)
+        and getattr(obj.data, "shape_keys", None)
+        and obj.data.shape_keys.animation_data
+        and obj.data.shape_keys.animation_data.action
+    ]
+    if static_version and (non_camera_object_actions or non_camera_shape_key_actions):
+        fail(
+            "No-animation version retains non-camera actions: "
+            f"objects={non_camera_object_actions}, shape_keys={non_camera_shape_key_actions}",
+            failures,
+        )
+
     result = {
         "blender_version": bpy.app.version_string,
         "blend_file": bpy.data.filepath,
+        "version_id": args.version_id,
+        "static_frame": 3586 if static_version else None,
         "passed": not failures,
         "failures": failures,
         "source_meshes": len(source_meshes),
         "editable_watercolor_layers": len(editable_meshes),
         "animated_watercolor_layers": animated_layers,
+        "non_camera_object_actions": non_camera_object_actions,
+        "non_camera_shape_key_actions": non_camera_shape_key_actions,
         "source_curve_shape_keys": curve_layers,
         "source_aligned_editable_layers": aligned_layers,
         "selectable_editable_layers": selectable_layers,

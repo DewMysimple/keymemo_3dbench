@@ -18,6 +18,7 @@ supersedes: null
 | 2026-08-25 | bug | - | archived | blender-asset-portability | [[日志/2026-08-25-Blender文件资源可移植性修复.md|Blender 文件资源可移植性修复]] |
 | 2026-08-25 | maintenance | - | archived | blender-workbench-rename-memory-migration | [[日志/2026-08-25-Blender工作台重命名与记忆迁移.md|Blender 工作台重命名与记忆迁移]] |
 | 2026-08-25 | maintenance | - | archived | blender-version-preparation | [[日志/2026-08-25-Blender多版本制作预留.md|Blender 多版本制作预留]] |
+| 2026-08-25 | feature | - | archived | blender-no-animation-version | [[日志/2026-08-25-Blender去除非相机动画版本.md|Blender 去除非相机动画版本]] |
 | 2026-08-23 | feature | - | archived | blender-chinese-workspaces | [[日志/2026-08-23-生成Blender项目中文工作区.md|2026-08-23｜生成 Blender 项目中文工作区]] |
 | 2026-08-23 | bug | - | archived | blender-watercolor-alpha-depth-and-topology | [[日志/2026-08-23-Blender透明穿透与水彩卡拓扑整改.md|2026-08-23｜Blender 透明穿透与水彩卡拓扑整改]] |
 | 2026-08-23 | bug | 撤回 Blender 中不符合源网站结构的竖直阴影卡片，恢复只包含源内容的可编辑场景。 | archived | blender-shadow-approximation-removal | [[日志/2026-08-23-Blender误加阴影近似撤回与源阴影边界确认.md|2026-08-23｜Blender 误加阴影近似撤回与源阴影边界确认]] |

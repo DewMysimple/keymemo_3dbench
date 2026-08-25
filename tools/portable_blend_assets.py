@@ -63,6 +63,15 @@ def make_blend_assets_portable(blend_parent: Path) -> dict[str, Any]:
             image["portable_asset_path"] = str(public_path.relative_to(PROJECT_ROOT)).replace("\\", "/")
             mapped_images.append(image.name)
             continue
+        try:
+            absolute.relative_to(_resolved(PUBLIC_ASSETS))
+        except ValueError:
+            pass
+        else:
+            image.filepath = relative_to_blend(absolute, blend_parent)
+            image["portable_asset_path"] = str(absolute.relative_to(PROJECT_ROOT)).replace("\\", "/")
+            mapped_images.append(image.name)
+            continue
         if absolute == _resolved(GENERATED_GROUND):
             if image.packed_file is None:
                 image.pack()
