@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "workspace": {
+    "current_root": "blender_scenebench",
+    "planned_root": "blender/_scenebench",
+    "version_layout": "versions/<version-id>/blender/<blend-file>"
+  },
+  "versions": [
+    {
+      "id": "full",
+      "label": "完整版本",
+      "status": "active",
+      "role": "baseline",
+      "source_version": null,
+      "root": ".",
+      "blend": "blender/Verminoble_Scene_Mirror_5_0.blend",
+      "change_set": [],
+      "animation_policy": "preserve",
+      "editable": true,
+      "source_of_truth": true,
+      "source_sha256": "D4E8088EE1B38A7C084F6B57CDE37328A37950FFED37FCE8FAECB9F053D62C9D",
+      "prepared_sha256": null
+    },
+    {
+      "id": "no-animation",
+      "label": "去除动画版本",
+      "status": "planned",
+      "role": "derivative",
+      "source_version": "full",
+      "root": "versions/no-animation",
+      "blend": "versions/no-animation/blender/Verminoble_Scene_Mirror_5_0_no_animation.blend",
+      "change_set": [
+        "remove-animation"
+      ],
+      "animation_policy": "pending",
+      "editable": true,
+      "source_of_truth": false,
+      "source_sha256": null,
+      "prepared_sha256": null
+    }
+  ]
+}
