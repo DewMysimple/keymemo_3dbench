@@ -19,6 +19,7 @@ supersedes: null
 | 2026-08-25 | maintenance | - | archived | blender-workbench-rename-memory-migration | [[日志/2026-08-25-Blender工作台重命名与记忆迁移.md|Blender 工作台重命名与记忆迁移]] |
 | 2026-08-25 | maintenance | - | archived | blender-workbench-file-naming | [[日志/2026-08-25-Blender工作区文件命名统一.md|Blender 工作区文件命名统一]] |
 | 2026-08-25 | maintenance | - | archived | blender-version-preparation | [[日志/2026-08-25-Blender多版本制作预留.md|Blender 多版本制作预留]] |
+| 2026-08-25 | maintenance | - | archived | blender-reference-fixture-portability | [[日志/2026-08-25-Blender参考基准路径可移植化.md|Blender 参考基准路径可移植化]] |
 | 2026-08-25 | feature | - | archived | blender-no-animation-version | [[日志/2026-08-25-Blender去除非相机动画版本.md|Blender 去除非相机动画版本]] |
 | 2026-08-23 | feature | - | archived | blender-chinese-workspaces | [[日志/2026-08-23-生成Blender项目中文工作区.md|2026-08-23｜生成 Blender 项目中文工作区]] |
 | 2026-08-23 | bug | - | archived | blender-watercolor-alpha-depth-and-topology | [[日志/2026-08-23-Blender透明穿透与水彩卡拓扑整改.md|2026-08-23｜Blender 透明穿透与水彩卡拓扑整改]] |

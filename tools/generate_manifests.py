@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import shutil
 import struct
@@ -15,7 +16,6 @@ WORKBENCH = Path(__file__).resolve().parents[1]
 PROJECT = WORKBENCH.parent
 SNAPSHOT = WORKBENCH / "source_snapshot"
 CURRENT_XP = PROJECT / "public/wp-content/themes/davidwhyte/resources/assets/xp"
-REFERENCE_XP = Path(r"C:/Users/Administrator/Desktop/网页(1)/wp-content/themes/davidwhyte/resources/assets/xp")
 
 
 def sha256(path: Path) -> str:
@@ -240,7 +240,13 @@ def normalized_text_equal(left: Path, right: Path) -> bool:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Inventory the isolated GwayLoo scene snapshot")
-    parser.add_argument("--reference-root", type=Path, default=REFERENCE_XP)
+    configured_reference = os.environ.get("GWAYLOO_REFERENCE_XP")
+    parser.add_argument(
+        "--reference-root",
+        type=Path,
+        default=Path(configured_reference) if configured_reference else None,
+        help="Optional private XP reference directory used for byte comparison.",
+    )
     args = parser.parse_args()
 
     manifests = WORKBENCH / "manifests"
@@ -292,19 +298,20 @@ def main() -> None:
 
     differences: list[dict[str, str]] = []
     snapshot_assets = SNAPSHOT / "assets"
-    if args.reference_root.exists():
-        for copied in sorted(path for path in snapshot_assets.rglob("*") if path.is_file()):
-            relative = copied.relative_to(snapshot_assets)
-            reference = args.reference_root / relative
-            current = CURRENT_XP / relative
-            if not reference.exists():
-                differences.append({"path": relative.as_posix(), "kind": "missing-in-reference"})
-                continue
-            if sha256(copied) != sha256(reference):
-                kind = "newline-only" if normalized_text_equal(copied, reference) else "content-difference"
-                differences.append({"path": relative.as_posix(), "kind": kind})
-            if not current.exists() or sha256(copied) != sha256(current):
-                raise RuntimeError(f"Snapshot no longer matches current project source: {relative}")
+    for copied in sorted(path for path in snapshot_assets.rglob("*") if path.is_file()):
+        relative = copied.relative_to(snapshot_assets)
+        current = CURRENT_XP / relative
+        if not current.exists() or sha256(copied) != sha256(current):
+            raise RuntimeError(f"Snapshot no longer matches current project source: {relative}")
+        if args.reference_root is None:
+            continue
+        reference = args.reference_root / relative
+        if not reference.exists():
+            differences.append({"path": relative.as_posix(), "kind": "missing-in-reference"})
+            continue
+        if sha256(copied) != sha256(reference):
+            kind = "newline-only" if normalized_text_equal(copied, reference) else "content-difference"
+            differences.append({"path": relative.as_posix(), "kind": kind})
 
     (manifests / "asset_manifest.json").write_text(
         json.dumps({"schema": 1, "file_count": len(records), "files": records}, indent=2, ensure_ascii=False) + "\n",
@@ -322,6 +329,16 @@ def main() -> None:
     difference_rows = "\n".join(
         f"| `{item['path']}` | {item['kind']} |" for item in differences
     ) or "| — | No byte differences detected |"
+    reference_summary = (
+        f"`{args.reference_root}` (optional, read only)"
+        if args.reference_root is not None
+        else "Not configured; only the repository snapshot was checked"
+    )
+    reference_note = (
+        "The optional reference directory was inspected but not written."
+        if args.reference_root is not None
+        else "No external reference directory was configured."
+    )
     report = f"""# Source snapshot extraction report
 
 - Snapshot files: {len(records)}
@@ -331,7 +348,7 @@ def main() -> None:
 - GLB nodes: {len(scene_manifest['gltf']['nodes'])}
 - Camera animation samples: {scene_manifest['gltf']['animation_sample_count']}
 - Camera animation duration: {scene_manifest['gltf']['animation_duration_seconds']} seconds
-- Reference directory was read only: `{args.reference_root}`
+- Reference comparison: {reference_summary}
 
 ## Current snapshot versus read-only reference
 
@@ -349,7 +366,7 @@ def main() -> None:
 - Grass source parameters were extracted from the runtime: Poisson-disc spacing 1.8–2.8 with seven tries, 7–24 clustered blades per seed, ten blade-atlas regions, eight gradient groups with three columns each, eight vertical segments, global scale 5, wind displacement 3000, intensity 3 and speed 0.5.
 - The Blender generator uses a fixed local seed for reproducibility while retaining the source algorithm and resources. Browser cursor reveal and an uncaptured `Math.random()` outcome cannot be mirrored exactly without recording a specific browser session.
 
-The read-only reference directory was inspected but not written. All extraction and Blender generation use files copied into `blender_scenebench/source_snapshot/`.
+{reference_note} All extraction and Blender generation use files copied into `blender_scenebench/source_snapshot/`.
 """
     (reports / "source-extraction.md").write_text(report, encoding="utf-8")
     print(f"Wrote {len(records)} asset records ({total_bytes} bytes)")

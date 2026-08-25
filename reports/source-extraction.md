@@ -7,16 +7,13 @@
 - GLB nodes: 37
 - Camera animation samples: 3587
 - Camera animation duration: 59.766666666666666 seconds
-- Reference directory was read only: `C:\Users\Administrator\Desktop\网页(1)\wp-content\themes\davidwhyte\resources\assets\xp`
+- Reference comparison: Not configured; only the repository snapshot was checked
 
-## Current snapshot versus read-only reference
+## Current snapshot versus optional reference
 
 | Path | Difference |
 | --- | --- |
-| `libs/basis/basis_transcoder.js` | newline-only |
-| `lut/dry.3DL` | newline-only |
-| `lut/ink.3DL` | newline-only |
-| `msdf/CanelaText-Light/CanelaText-Light.json` | newline-only |
+| — | No byte differences detected |
 
 `newline-only` means decoded UTF-8 content is equal after CRLF/LF normalization. The Blender build always uses the current project snapshot copied into this isolated workbench.
 
@@ -28,4 +25,4 @@
 - Grass source parameters were extracted from the runtime: Poisson-disc spacing 1.8–2.8 with seven tries, 7–24 clustered blades per seed, ten blade-atlas regions, eight gradient groups with three columns each, eight vertical segments, global scale 5, wind displacement 3000, intensity 3 and speed 0.5.
 - The Blender generator uses a fixed local seed for reproducibility while retaining the source algorithm and resources. Browser cursor reveal and an uncaptured `Math.random()` outcome cannot be mirrored exactly without recording a specific browser session.
 
-The read-only reference directory was inspected but not written. All extraction and Blender generation use files copied into `blender_scenebench/source_snapshot/`.
+No external reference directory was configured. All extraction and Blender generation use files copied into `blender_scenebench/source_snapshot/`.
