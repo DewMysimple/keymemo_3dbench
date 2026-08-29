@@ -18,6 +18,7 @@ supersedes: null
 | 2026-08-29 | bug | - | archived | blender-azalea-workspace-localization-and-assets | [[日志/2026-08-29-杜鹃花工作区中文化与原始资料归档.md|杜鹃花工作区中文化与原始资料归档]] |
 | 2026-08-29 | bug | - | archived | blender-azalea-rig-animation-preservation | [[日志/2026-08-29-恢复杜鹃花骨骼与动画数据.md|恢复杜鹃花骨骼与动画数据]] |
 | 2026-08-29 | feature | - | archived | blender-azalea-modelbench-asset | [[日志/2026-08-29-创建杜鹃花Blender文件.md|创建杜鹃花 Blender 文件]] |
+| 2026-08-29 | maintenance | - | archived | blender-full-fidelity-conversion-policy | [[日志/2026-08-29-Blender模型转换完整数据保留规则.md|Blender 模型转换完整数据保留规则]] |
 | 2026-08-25 | bug | - | archived | blender-asset-portability | [[日志/2026-08-25-Blender文件资源可移植性修复.md|Blender 文件资源可移植性修复]] |
 | 2026-08-25 | maintenance | - | archived | blender-workbench-rename-memory-migration | [[日志/2026-08-25-Blender工作台重命名与记忆迁移.md|Blender 工作台重命名与记忆迁移]] |
 | 2026-08-25 | maintenance | - | archived | blender-workbench-file-naming | [[日志/2026-08-25-Blender工作区文件命名统一.md|Blender 工作区文件命名统一]] |
