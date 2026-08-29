@@ -3,7 +3,7 @@ type: moc
 status: active
 kind: process
 importance: high
-updated: 2026-08-25
+updated: 2026-08-29
 topic: work-log-index
 source_logs: []
 supersedes: null
@@ -15,6 +15,7 @@ supersedes: null
 
 | 时间 | 类型 | 目标 | 状态 | 主题 | 日志 |
 | --- | --- | --- | --- | --- | --- |
+| 2026-08-29 | feature | - | archived | blender-azalea-modelbench-asset | [[日志/2026-08-29-创建杜鹃花Blender文件.md|创建杜鹃花 Blender 文件]] |
 | 2026-08-25 | bug | - | archived | blender-asset-portability | [[日志/2026-08-25-Blender文件资源可移植性修复.md|Blender 文件资源可移植性修复]] |
 | 2026-08-25 | maintenance | - | archived | blender-workbench-rename-memory-migration | [[日志/2026-08-25-Blender工作台重命名与记忆迁移.md|Blender 工作台重命名与记忆迁移]] |
 | 2026-08-25 | maintenance | - | archived | blender-workbench-file-naming | [[日志/2026-08-25-Blender工作区文件命名统一.md|Blender 工作区文件命名统一]] |
