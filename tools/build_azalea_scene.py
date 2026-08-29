@@ -245,16 +245,21 @@ def create_scene():
     bpy.ops.import_scene.fbx(filepath=FBX_PATH)
     imported = list(bpy.context.scene.objects)
     model = next((obj for obj in imported if obj.type == "MESH" and obj.name.lower() == "rhododendron"), None)
+    armature = next((obj for obj in imported if obj.type == "ARMATURE"), None)
     ensure(model is not None, "FBX 中未找到 rhododendron 网格")
+    ensure(armature is not None, "FBX 中未找到杜鹃花骨架")
 
     for obj in imported:
         if obj == model:
             continue
         if obj.type == "ARMATURE":
-            obj.name = "源文件_昆虫骨架_隐藏"
+            obj.name = "源文件_昆虫骨架"
             move_to_collection(obj, model_collection)
             obj.hide_render = True
-            obj.hide_set(True)
+            obj.hide_set(False)
+            obj.hide_viewport = False
+            obj.show_in_front = True
+            obj.data.display_type = "OCTAHEDRAL"
         else:
             bpy.data.objects.remove(obj, do_unlink=True)
 
@@ -283,6 +288,9 @@ def create_scene():
     center = (minimum + maximum) * 0.5
     model.location += Vector((-center.x, -center.y, 0.18 - minimum.z))
     minimum, maximum = world_bounds(model)
+    model_world = model.matrix_world.copy()
+    model.parent = armature
+    model.matrix_world = model_world
 
     plinth = add_plinth(environment_collection)
     floor_material = make_material("背景_深灰蓝", (0.018, 0.026, 0.030), metallic=0.0, roughness=0.66)
@@ -332,7 +340,11 @@ def create_scene():
     scene = bpy.context.scene
     scene.name = "杜鹃花_模型展示"
     scene.frame_start = 1
-    scene.frame_end = 1
+    action_ends = [action.frame_range[1] for action in bpy.data.actions]
+    scene.frame_end = max(1, int(max(action_ends, default=1)))
+    if hasattr(scene, "frame_preview_start"):
+        scene.frame_preview_start = scene.frame_start
+        scene.frame_preview_end = scene.frame_end
     try:
         scene.render.engine = "BLENDER_EEVEE_NEXT"
     except TypeError:
@@ -369,6 +381,8 @@ def create_scene():
     localize_workspaces()
     scene["workspace_language"] = "中文"
     scene["external_asset_copy"] = "source/ 与 textures/"
+    scene["animation_preserved"] = True
+    scene["animation_frame_end"] = scene.frame_end
 
     for material in list(bpy.data.materials):
         if material.users == 0:
