@@ -15,6 +15,7 @@ supersedes: null
 
 | 时间 | 类型 | 目标 | 状态 | 主题 | 日志 |
 | --- | --- | --- | --- | --- | --- |
+| 2026-08-29 | feature | - | archived | blender-azalea-form2-as17-regeneration | [[日志/2026-08-29-重新生成杜鹃花形态2AS17Blender文件.md|重新生成杜鹃花形态2 AS17 Blender 文件]] |
 | 2026-08-29 | bug | - | archived | blender-azalea-workspace-localization-and-assets | [[日志/2026-08-29-杜鹃花工作区中文化与原始资料归档.md|杜鹃花工作区中文化与原始资料归档]] |
 | 2026-08-29 | bug | - | archived | blender-azalea-rig-animation-preservation | [[日志/2026-08-29-恢复杜鹃花骨骼与动画数据.md|恢复杜鹃花骨骼与动画数据]] |
 | 2026-08-29 | feature | - | archived | blender-azalea-modelbench-asset | [[日志/2026-08-29-创建杜鹃花Blender文件.md|创建杜鹃花 Blender 文件]] |
