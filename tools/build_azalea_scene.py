@@ -238,9 +238,11 @@ def create_scene():
     model_collection = bpy.data.collections.new("MODEL_杜鹃花")
     environment_collection = bpy.data.collections.new("ENVIRONMENT_展示环境")
     light_collection = bpy.data.collections.new("LIGHTS_摄影灯光")
+    source_collection = bpy.data.collections.new("SOURCE_原始FBX对象")
     root.children.link(model_collection)
     root.children.link(environment_collection)
     root.children.link(light_collection)
+    root.children.link(source_collection)
 
     bpy.ops.import_scene.fbx(filepath=FBX_PATH)
     imported = list(bpy.context.scene.objects)
@@ -250,29 +252,34 @@ def create_scene():
     ensure(armature is not None, "FBX 中未找到杜鹃花骨架")
 
     for obj in imported:
-        if obj == model:
+        if obj == model or obj == armature:
             continue
-        if obj.type == "ARMATURE":
-            obj.name = "源文件_昆虫骨架"
-            move_to_collection(obj, model_collection)
-            obj.hide_render = True
-            obj.hide_set(False)
-            obj.hide_viewport = False
-            obj.show_in_front = True
-            obj.data.display_type = "OCTAHEDRAL"
-        else:
-            bpy.data.objects.remove(obj, do_unlink=True)
+        original_name = obj.name
+        obj.name = f"源文件_{original_name}"
+        move_to_collection(obj, source_collection)
+        obj.hide_render = True
+        obj.hide_set(True)
 
-    original_matrix = model.matrix_world.copy()
-    model.parent = None
-    model.matrix_world = original_matrix
+    armature.name = "源文件_昆虫骨架"
+    move_to_collection(armature, model_collection)
+    armature.hide_render = True
+    armature.hide_set(False)
+    armature.hide_viewport = False
+    armature.show_in_front = True
+    armature.data.display_type = "OCTAHEDRAL"
+
     model.name = "杜鹃花_高模"
     move_to_collection(model, model_collection)
-    model.scale = model.scale * 28.0
-    bpy.context.view_layer.objects.active = model
-    model.select_set(True)
-    bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
-    bpy.ops.object.origin_set(type="ORIGIN_GEOMETRY", center="BOUNDS")
+    bpy.ops.object.empty_add(type="PLAIN_AXES", location=(0.0, 0.0, 0.0))
+    rig_root = bpy.context.object
+    rig_root.name = "资产根_杜鹃花_展示缩放"
+    rig_root.empty_display_size = 0.25
+    move_to_collection(rig_root, model_collection)
+    armature_world = armature.matrix_world.copy()
+    armature.parent = rig_root
+    armature.matrix_world = armature_world
+    rig_root.scale = (28.0, 28.0, 28.0)
+    bpy.context.view_layer.update()
     model.data.materials.clear()
     flower_material = build_flower_material()
     model.data.materials.append(flower_material)
@@ -283,14 +290,14 @@ def create_scene():
     model["source_mesh"] = "rhododendron"
     model["texture_set"] = "rhododendron_color / normal / rough / subsur"
     model["build_note"] = "FBX 导入后重新绑定贴图，保存前打包图像资源"
+    model["rig_scale_preserved"] = True
+    rig_root["presentation_scale"] = 28.0
+    rig_root["source_animation_safe"] = True
 
     minimum, maximum = world_bounds(model)
     center = (minimum + maximum) * 0.5
-    model.location += Vector((-center.x, -center.y, 0.18 - minimum.z))
+    rig_root.location += Vector((-center.x, -center.y, 0.18 - minimum.z))
     minimum, maximum = world_bounds(model)
-    model_world = model.matrix_world.copy()
-    model.parent = armature
-    model.matrix_world = model_world
 
     plinth = add_plinth(environment_collection)
     floor_material = make_material("背景_深灰蓝", (0.018, 0.026, 0.030), metallic=0.0, roughness=0.66)
@@ -383,6 +390,8 @@ def create_scene():
     scene["external_asset_copy"] = "source/ 与 textures/"
     scene["animation_preserved"] = True
     scene["animation_frame_end"] = scene.frame_end
+    scene["source_fbx_objects_preserved"] = True
+    scene["animation_safe_scale_root"] = rig_root.name
 
     for material in list(bpy.data.materials):
         if material.users == 0:
