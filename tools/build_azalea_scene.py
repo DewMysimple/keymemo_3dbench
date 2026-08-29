@@ -1,4 +1,5 @@
 import os
+import shutil
 import sys
 from mathutils import Vector
 
@@ -23,6 +24,8 @@ OUTPUT_DIR = os.path.join(
     "杜鹃花",
 )
 OUTPUT_PATH = os.path.join(OUTPUT_DIR, "杜鹃花.blend")
+EXTERNAL_SOURCE_DIR = os.path.join(OUTPUT_DIR, "source")
+EXTERNAL_TEXTURE_DIR = os.path.join(OUTPUT_DIR, "textures")
 PREVIEW_PATH = os.path.join(
     PROJECT_ROOT, "blender_scenebench", "generated", "杜鹃花_preview.png"
 )
@@ -31,6 +34,46 @@ PREVIEW_PATH = os.path.join(
 def ensure(condition, message):
     if not condition:
         raise RuntimeError(message)
+
+
+def localize_workspaces():
+    workspace_names = {
+        "Layout": "布局",
+        "Modeling": "建模",
+        "Sculpting": "雕刻",
+        "UV Editing": "UV编辑",
+        "Texture Paint": "纹理绘制",
+        "Shading": "着色",
+        "Animation": "动画",
+        "Rendering": "渲染",
+        "Compositing": "合成",
+        "Geometry Nodes": "几何节点",
+        "Scripting": "脚本",
+    }
+    for workspace in bpy.data.workspaces:
+        workspace.name = workspace_names.get(workspace.name, workspace.name)
+    if bpy.context.window:
+        layout = bpy.data.workspaces.get("布局")
+        if layout:
+            bpy.context.window.workspace = layout
+
+
+def preserve_external_assets():
+    os.makedirs(EXTERNAL_SOURCE_DIR, exist_ok=True)
+    os.makedirs(EXTERNAL_TEXTURE_DIR, exist_ok=True)
+    for filename in ("Western honey bee.fbx", "Western honey bee.max"):
+        source = os.path.join(SOURCE_ROOT, "source", filename)
+        if os.path.isfile(source):
+            shutil.copy2(source, os.path.join(EXTERNAL_SOURCE_DIR, filename))
+    for filename in (
+        "rhododendron_color.png",
+        "rhododendron_normal.png",
+        "rhododendron_rough.png",
+        "rhododendron_subsur.png",
+    ):
+        source = os.path.join(TEXTURE_ROOT, filename)
+        ensure(os.path.isfile(source), f"缺少贴图: {source}")
+        shutil.copy2(source, os.path.join(EXTERNAL_TEXTURE_DIR, filename))
 
 
 def make_material(name, base_color, metallic=0.0, roughness=0.5):
@@ -183,6 +226,7 @@ def create_scene():
     ensure(os.path.isfile(FBX_PATH), f"缺少模型: {FBX_PATH}")
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     os.makedirs(os.path.dirname(PREVIEW_PATH), exist_ok=True)
+    preserve_external_assets()
 
     bpy.ops.object.select_all(action="SELECT")
     bpy.ops.object.delete(use_global=False)
@@ -322,6 +366,9 @@ def create_scene():
     scene["render_camera"] = camera.name
     scene["model_dimensions"] = tuple(round(value, 4) for value in model.dimensions)
     scene["build_script"] = "blender_scenebench/tools/build_azalea_scene.py"
+    localize_workspaces()
+    scene["workspace_language"] = "中文"
+    scene["external_asset_copy"] = "source/ 与 textures/"
 
     for material in list(bpy.data.materials):
         if material.users == 0:
