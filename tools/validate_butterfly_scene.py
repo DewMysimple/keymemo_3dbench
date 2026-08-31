@@ -4,17 +4,28 @@ import json
 from pathlib import Path
 
 import bpy
+from mathutils import Vector
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-BLEND_PATH = PROJECT_ROOT / "blender" / "_scenebench" / "blender" / "_modelbench" / "Butterfly" / "Butterfly.blend"
-ARCHIVE_ROOT = BLEND_PATH.parent / "source_assets"
+OUTPUT_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
+ARCHIVE_ROOT = OUTPUT_ROOT / "source_assets"
 REPORT_PATH = PROJECT_ROOT / "blender_scenebench" / "reports" / "butterfly-validation.json"
 
 
 def ensure(condition, message):
     if not condition:
         raise RuntimeError(message)
+
+
+def source_fbx_paths():
+    return sorted(
+        (
+            path for path in OUTPUT_ROOT.glob("**/*.fbx")
+            if ARCHIVE_ROOT not in path.parents
+        ),
+        key=lambda path: str(path).lower(),
+    )
 
 
 def action_signature(scene, objects, frame):
@@ -31,20 +42,59 @@ def action_signature(scene, objects, frame):
     ]
 
 
-def validate():
-    bpy.ops.wm.open_mainfile(filepath=str(BLEND_PATH))
-    ensure(BLEND_PATH.is_file(), f"Blend 文件不存在: {BLEND_PATH}")
-    ensure({scene.name for scene in bpy.data.scenes} == {"ARTIST_EDIT", "SOURCE_REFERENCE"}, "场景入口不完整")
+def mesh_bounds(obj):
+    points = [obj.matrix_world @ Vector(corner) for corner in obj.bound_box]
+    low = Vector((
+        min(point.x for point in points),
+        min(point.y for point in points),
+        min(point.z for point in points),
+    ))
+    high = Vector((
+        max(point.x for point in points),
+        max(point.y for point in points),
+        max(point.z for point in points),
+    ))
+    return (low + high) * 0.5
+
+
+def validate_c4d():
+    c4d_text = bpy.data.texts.get("蝴蝶_C4D原始二进制_Base64")
+    ensure(c4d_text is not None, "C4D 原始二进制归档缺失")
+    c4d_archive = ARCHIVE_ROOT / "Animated_Butterflies_Project_File_ Travis_Davids.c4d"
+    ensure(c4d_archive.is_file(), "C4D 源文件归档缺失")
+    sections = c4d_text.as_string().split("\n\n", 1)
+    ensure(len(sections) == 2, "C4D Base64 归档格式损坏")
+    embedded_c4d = base64.b64decode(sections[1].replace("\n", ""), validate=True)
+    ensure(
+        hashlib.sha256(embedded_c4d).hexdigest() == hashlib.sha256(c4d_archive.read_bytes()).hexdigest(),
+        "C4D 内嵌字节校验失败",
+    )
+
+
+def find_scene_collection(scene, predicate):
+    return next((collection for collection in scene.collection.children if predicate(collection)), None)
+
+
+def validate_one(blend_path, expected_fbx_paths, master):
+    ensure(blend_path.is_file(), f"Blend 文件不存在: {blend_path}")
+    bpy.ops.wm.open_mainfile(filepath=str(blend_path), load_ui=False)
+    ensure({scene.name for scene in bpy.data.scenes} == {"ARTIST_EDIT", "SOURCE_REFERENCE"}, f"场景入口不完整: {blend_path.name}")
     artist = bpy.data.scenes["ARTIST_EDIT"]
     source = bpy.data.scenes["SOURCE_REFERENCE"]
-    ensure(artist == bpy.context.window.scene, "默认场景不是 ARTIST_EDIT")
+    ensure(artist == bpy.context.window.scene, f"默认场景不是 ARTIST_EDIT: {blend_path.name}")
 
-    source_root = bpy.data.collections.get("SOURCE_Butterfly_源文件")
-    model = bpy.data.collections.get("MODEL_Butterfly_展示模型")
-    ensure(source_root is not None and model is not None, "源文件或展示模型集合缺失")
+    source_root = find_scene_collection(
+        artist,
+        lambda collection: collection.name.startswith("SOURCE_") and collection.name.endswith("_源文件"),
+    )
+    model = find_scene_collection(
+        artist,
+        lambda collection: collection.name.startswith("MODEL_") and collection.name.endswith("_展示模型"),
+    )
+    ensure(source_root is not None and model is not None, f"源文件或展示模型集合缺失: {blend_path.name}")
     fbx_collections = [child for child in source_root.children if child.name.startswith("SOURCE_FBX_")]
-    ensure(len(fbx_collections) == 10, f"FBX 源集合数量错误: {len(fbx_collections)}")
-    ensure(len(list(source_root.objects)) == 0, "FBX 源对象不应脱离其分组集合")
+    ensure(len(fbx_collections) == len(expected_fbx_paths), f"FBX 源集合数量错误: {blend_path.name}")
+    ensure(len(list(source_root.objects)) == 0, f"FBX 源对象脱离分组集合: {blend_path.name}")
 
     source_objects = []
     source_actions = []
@@ -68,62 +118,104 @@ def validate():
             "action_ranges": [list(action.frame_range) for action in actions],
         })
 
-    ensure(len(source_objects) == 44, f"FBX 源对象总数错误: {len(source_objects)}")
-    ensure(len(source_actions) == 22, f"源动画 Action 使用数错误: {len(source_actions)}")
-    ensure({tuple(action.frame_range) for action in source_actions} == {(1.0, 85.0), (1.0, 91.0), (1.0, 121.0)}, "动作帧范围不完整")
+    expected_object_count = 44 if master else (6 if "FOLLOW_PATH" in expected_fbx_paths[0].upper() else 4)
+    expected_action_count = 22 if master else (3 if "FOLLOW_PATH" in expected_fbx_paths[0].upper() else 2)
+    ensure(len(source_objects) == expected_object_count, f"FBX 源对象数量错误: {blend_path.name}: {len(source_objects)}")
+    ensure(len(source_actions) == expected_action_count, f"源动画 Action 使用数错误: {blend_path.name}: {len(source_actions)}")
+    ensure(source_actions, f"源动画 Action 缺失: {blend_path.name}")
 
     obj_collection = bpy.data.collections.get("SOURCE_OBJ_Butterfly_Body")
-    ensure(obj_collection is not None and len(list(obj_collection.objects)) == 1, "OBJ 身体源对象缺失")
+    ensure(obj_collection is not None and len(list(obj_collection.objects)) == 1, f"OBJ 身体源对象缺失: {blend_path.name}")
     obj_body = next(iter(obj_collection.objects))
-    ensure(obj_body.type == "MESH" and len(obj_body.data.vertices) == 1239 and len(obj_body.data.polygons) == 1229, "OBJ 身体网格数据不完整")
+    ensure(obj_body.type == "MESH" and len(obj_body.data.vertices) == 1239 and len(obj_body.data.polygons) == 1229, f"OBJ 身体网格数据不完整: {blend_path.name}")
 
     packed_images = [image for image in bpy.data.images if image.name != "Render Result" and image.packed_file]
-    ensure(len(packed_images) == 4, f"打包图像数量错误: {len(packed_images)}")
-    c4d_text = bpy.data.texts.get("蝴蝶_C4D原始二进制_Base64")
-    ensure(c4d_text is not None, "C4D 原始二进制归档缺失")
-    c4d_archive = ARCHIVE_ROOT / "Animated_Butterflies_Project_File_ Travis_Davids.c4d"
-    c4d_lines = c4d_text.as_string().split("\n\n", 1)
-    ensure(len(c4d_lines) == 2, "C4D Base64 归档格式损坏")
-    embedded_c4d = base64.b64decode(c4d_lines[1].replace("\n", ""), validate=True)
-    ensure(c4d_archive.is_file(), "C4D 源文件归档缺失")
-    ensure(hashlib.sha256(embedded_c4d).hexdigest() == hashlib.sha256(c4d_archive.read_bytes()).hexdigest(), "C4D 内嵌字节校验失败")
+    ensure(len(packed_images) == 4, f"打包图像数量错误: {blend_path.name}: {len(packed_images)}")
+    validate_c4d()
 
-    display_root = bpy.data.objects.get("蝴蝶_展示根_不改变源动画")
-    ensure(display_root is not None, "展示根缺失")
+    display_root = next((obj for obj in model.objects if obj.name.startswith("DISPLAY_") and obj.type == "EMPTY"), None)
     display_objects = [obj for obj in model.objects if obj.name.startswith("展示_")]
     display_animated = [
-        obj for obj in display_objects if obj.animation_data and obj.animation_data.action
+        obj for obj in display_objects
+        if obj.animation_data and obj.animation_data.action
     ]
-    ensure(len(display_objects) == 4 and len(display_animated) == 2, "展示副本或展示动画缺失")
-    signature_1 = action_signature(artist, display_animated, 1)
-    signature_45 = action_signature(artist, display_animated, 45)
-    ensure(signature_1 != signature_45, "展示动画在第 1 与第 45 帧没有变化")
+    expected_display_count = 4 if master else expected_object_count
+    expected_display_action_count = 2 if master else expected_action_count
+    ensure(display_root is not None, f"展示根缺失: {blend_path.name}")
+    ensure(len(display_objects) == expected_display_count, f"展示对象数量错误: {blend_path.name}")
+    ensure(len(display_animated) == expected_display_action_count, f"展示动画数量错误: {blend_path.name}")
+
+    display_meshes = [obj for obj in display_objects if obj.type == "MESH"]
+    display_body = [obj for obj in display_meshes if "body" in obj.name.lower()]
+    display_wings = [obj for obj in display_meshes if "wing" in obj.name.lower()]
+    ensure(len(display_meshes) == 3 and len(display_body) == 1 and len(display_wings) == 2, f"左右翅膀/身体展示网格数量错误: {blend_path.name}")
+    showcase_frame = int(artist.get("default_showcase_frame", artist.frame_current))
+    artist.frame_set(showcase_frame)
+    bpy.context.view_layer.update()
+    body_center = mesh_bounds(display_body[0])
+    wing_centers = sorted((mesh_bounds(wing).x for wing in display_wings))
+    ensure(wing_centers[0] < body_center.x < wing_centers[1], f"左右翅膀没有分居身体两侧: {blend_path.name}")
+    ensure(display_root.scale.length > 0.0, f"展示根缩放无效: {blend_path.name}")
+
+    first_frame = int(round(min(action.frame_range[0] for action in source_actions)))
+    last_frame = int(round(max(action.frame_range[1] for action in source_actions)))
+    signature_first = action_signature(artist, display_animated, first_frame)
+    signature_mid = action_signature(artist, display_animated, min(last_frame, 45))
+    ensure(signature_first != signature_mid, f"展示动画帧变化缺失: {blend_path.name}")
 
     archive_files = [path for path in ARCHIVE_ROOT.rglob("*") if path.is_file()]
     ensure(len(archive_files) == 18, f"源文件归档数量错误: {len(archive_files)}")
-    for image in packed_images:
-        ensure(image.packed_file is not None, f"图像未打包: {image.name}")
-
-    artist.frame_set(1)
-    source.frame_set(1)
-    report = {
-        "blend": str(BLEND_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/"),
+    return {
+        "blend": str(blend_path.relative_to(PROJECT_ROOT)).replace("\\", "/"),
+        "master": master,
+        "active_fbx": expected_fbx_paths,
         "scenes": [scene.name for scene in bpy.data.scenes],
         "default_scene": bpy.context.window.scene.name,
         "fbx_source_collections": len(fbx_collections),
         "fbx_source_objects": len(source_objects),
         "source_actions": len(source_actions),
+        "source_action_ranges": sorted({tuple(action.frame_range) for action in source_actions}),
         "obj_body_vertices": len(obj_body.data.vertices),
         "obj_body_polygons": len(obj_body.data.polygons),
         "packed_images": [image.name for image in packed_images],
         "embedded_c4d": True,
         "archived_source_files": len(archive_files),
+        "display_objects": len(display_objects),
+        "display_animated_objects": len(display_animated),
+        "display_wing_centers_x": wing_centers,
+        "animation_signature_changed": True,
         "group_report": group_report,
-        "animation_signature_changed_1_to_45": True,
+    }
+
+
+def validate():
+    source_paths = source_fbx_paths()
+    ensure(len(source_paths) == 10, f"源 FBX 数量错误: {len(source_paths)}")
+    expected_rel_paths = [str(path.relative_to(OUTPUT_ROOT)).replace("\\", "/") for path in source_paths]
+    master_path = OUTPUT_ROOT / "Butterfly_Master.blend"
+    variant_paths = sorted(
+        (
+            path for path in OUTPUT_ROOT.glob("*.blend")
+            if path.name != master_path.name
+        ),
+        key=lambda path: path.name.lower(),
+    )
+    expected_variant_names = {path.stem for path in source_paths}
+    ensure({path.stem for path in variant_paths} == expected_variant_names, "独立 Blender 文件没有与 10 个 FBX 一一对应")
+
+    reports = [validate_one(master_path, expected_rel_paths, master=True)]
+    expected_by_stem = {path.stem: str(path.relative_to(OUTPUT_ROOT)).replace("\\", "/") for path in source_paths}
+    for variant_path in variant_paths:
+        reports.append(validate_one(variant_path, [expected_by_stem[variant_path.stem]], master=False))
+
+    payload = {
+        "output_root": str(OUTPUT_ROOT.relative_to(PROJECT_ROOT)).replace("\\", "/"),
+        "blend_file_count": len(reports),
+        "validated": reports,
     }
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    REPORT_PATH.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
-    print("BUTTERFLY_VALIDATION=" + json.dumps(report, ensure_ascii=False, sort_keys=True))
+    REPORT_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    print("BUTTERFLY_VALIDATION=" + json.dumps(payload, ensure_ascii=False, sort_keys=True))
 
 
 if __name__ == "__main__":

@@ -9,6 +9,7 @@ versions/*/generated/*
 versions/*/reports/rendered/
 versions/*/blender/*.blend1
 versions/*/blender/*.blend2
+blender_modelbench/**/*.blend1
 
 # Keep the reproducible structure visible in Git.
 !source_snapshot/.gitkeep

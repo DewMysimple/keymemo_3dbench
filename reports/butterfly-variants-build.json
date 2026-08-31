@@ -1,0 +1,327 @@
+{
+  "output_root": "blender_scenebench/blender_modelbench/Butterfly",
+  "source_file_count": 18,
+  "fbx_count": 10,
+  "blend_file_count": 11,
+  "reports": [
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Master.blend",
+      "document_label": "Butterfly_Master",
+      "document_type": "master",
+      "active_fbx": [
+        "Idle Animations (90 Frames)/Butterfly_Idle_1.fbx",
+        "Idle Animations (90 Frames)/Butterfly_Idle_2.fbx",
+        "Idle Animations (90 Frames)/Butterfly_Idle_3.fbx",
+        "Idle Animations (90 Frames)/Butterfly_Idle_4.fbx",
+        "Idle Animations (90 Frames)/Butterfly_Idle_5.fbx",
+        "Idle Animations (90 Frames)/Butterfly_Idle_6.fbx",
+        "Idle Animations (90 Frames)/Butterfly_Idle_7.fbx",
+        "Single Butterfly Following A Path (90 Frames)/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.fbx",
+        "Single Butterfly Following A Path (90 Frames)/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.fbx",
+        "Slow Wing Flapping (120 Frames)/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.fbx"
+      ],
+      "source_fbx_count": 10,
+      "source_object_count": 44,
+      "source_action_count": 22,
+      "action_ranges": [
+        [
+          1.0,
+          85.0
+        ],
+        [
+          1.0,
+          91.0
+        ],
+        [
+          1.0,
+          121.0
+        ]
+      ],
+      "source_obj_object_count": 1,
+      "packed_image_count": 4,
+      "scene_names": [
+        "ARTIST_EDIT",
+        "SOURCE_REFERENCE"
+      ],
+      "default_scene": "ARTIST_EDIT",
+      "default_frame": 45,
+      "display_object_count": 4,
+      "output_size": 10177914
+    },
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Idle_1.blend",
+      "document_label": "Butterfly_Idle_1",
+      "document_type": "single_fbx_variant",
+      "active_fbx": [
+        "Idle Animations (90 Frames)/Butterfly_Idle_1.fbx"
+      ],
+      "source_fbx_count": 1,
+      "source_object_count": 4,
+      "source_action_count": 2,
+      "action_ranges": [
+        [
+          1.0,
+          85.0
+        ],
+        [
+          1.0,
+          91.0
+        ]
+      ],
+      "source_obj_object_count": 1,
+      "packed_image_count": 4,
+      "scene_names": [
+        "ARTIST_EDIT",
+        "SOURCE_REFERENCE"
+      ],
+      "default_scene": "ARTIST_EDIT",
+      "default_frame": 45,
+      "display_object_count": 4,
+      "output_size": 9923315
+    },
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Idle_2.blend",
+      "document_label": "Butterfly_Idle_2",
+      "document_type": "single_fbx_variant",
+      "active_fbx": [
+        "Idle Animations (90 Frames)/Butterfly_Idle_2.fbx"
+      ],
+      "source_fbx_count": 1,
+      "source_object_count": 4,
+      "source_action_count": 2,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ]
+      ],
+      "source_obj_object_count": 1,
+      "packed_image_count": 4,
+      "scene_names": [
+        "ARTIST_EDIT",
+        "SOURCE_REFERENCE"
+      ],
+      "default_scene": "ARTIST_EDIT",
+      "default_frame": 45,
+      "display_object_count": 4,
+      "output_size": 9923914
+    },
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Idle_3.blend",
+      "document_label": "Butterfly_Idle_3",
+      "document_type": "single_fbx_variant",
+      "active_fbx": [
+        "Idle Animations (90 Frames)/Butterfly_Idle_3.fbx"
+      ],
+      "source_fbx_count": 1,
+      "source_object_count": 4,
+      "source_action_count": 2,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ]
+      ],
+      "source_obj_object_count": 1,
+      "packed_image_count": 4,
+      "scene_names": [
+        "ARTIST_EDIT",
+        "SOURCE_REFERENCE"
+      ],
+      "default_scene": "ARTIST_EDIT",
+      "default_frame": 45,
+      "display_object_count": 4,
+      "output_size": 9922162
+    },
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Idle_4.blend",
+      "document_label": "Butterfly_Idle_4",
+      "document_type": "single_fbx_variant",
+      "active_fbx": [
+        "Idle Animations (90 Frames)/Butterfly_Idle_4.fbx"
+      ],
+      "source_fbx_count": 1,
+      "source_object_count": 4,
+      "source_action_count": 2,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ]
+      ],
+      "source_obj_object_count": 1,
+      "packed_image_count": 4,
+      "scene_names": [
+        "ARTIST_EDIT",
+        "SOURCE_REFERENCE"
+      ],
+      "default_scene": "ARTIST_EDIT",
+      "default_frame": 45,
+      "display_object_count": 4,
+      "output_size": 9926564
+    },
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Idle_5.blend",
+      "document_label": "Butterfly_Idle_5",
+      "document_type": "single_fbx_variant",
+      "active_fbx": [
+        "Idle Animations (90 Frames)/Butterfly_Idle_5.fbx"
+      ],
+      "source_fbx_count": 1,
+      "source_object_count": 4,
+      "source_action_count": 2,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ]
+      ],
+      "source_obj_object_count": 1,
+      "packed_image_count": 4,
+      "scene_names": [
+        "ARTIST_EDIT",
+        "SOURCE_REFERENCE"
+      ],
+      "default_scene": "ARTIST_EDIT",
+      "default_frame": 45,
+      "display_object_count": 4,
+      "output_size": 9920340
+    },
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Idle_6.blend",
+      "document_label": "Butterfly_Idle_6",
+      "document_type": "single_fbx_variant",
+      "active_fbx": [
+        "Idle Animations (90 Frames)/Butterfly_Idle_6.fbx"
+      ],
+      "source_fbx_count": 1,
+      "source_object_count": 4,
+      "source_action_count": 2,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ]
+      ],
+      "source_obj_object_count": 1,
+      "packed_image_count": 4,
+      "scene_names": [
+        "ARTIST_EDIT",
+        "SOURCE_REFERENCE"
+      ],
+      "default_scene": "ARTIST_EDIT",
+      "default_frame": 45,
+      "display_object_count": 4,
+      "output_size": 9918568
+    },
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Idle_7.blend",
+      "document_label": "Butterfly_Idle_7",
+      "document_type": "single_fbx_variant",
+      "active_fbx": [
+        "Idle Animations (90 Frames)/Butterfly_Idle_7.fbx"
+      ],
+      "source_fbx_count": 1,
+      "source_object_count": 4,
+      "source_action_count": 2,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ]
+      ],
+      "source_obj_object_count": 1,
+      "packed_image_count": 4,
+      "scene_names": [
+        "ARTIST_EDIT",
+        "SOURCE_REFERENCE"
+      ],
+      "default_scene": "ARTIST_EDIT",
+      "default_frame": 45,
+      "display_object_count": 4,
+      "output_size": 9921209
+    },
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
+      "document_label": "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1",
+      "document_type": "single_fbx_variant",
+      "active_fbx": [
+        "Single Butterfly Following A Path (90 Frames)/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.fbx"
+      ],
+      "source_fbx_count": 1,
+      "source_object_count": 6,
+      "source_action_count": 3,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ]
+      ],
+      "source_obj_object_count": 1,
+      "packed_image_count": 4,
+      "scene_names": [
+        "ARTIST_EDIT",
+        "SOURCE_REFERENCE"
+      ],
+      "default_scene": "ARTIST_EDIT",
+      "default_frame": 1,
+      "display_object_count": 6,
+      "output_size": 9930550
+    },
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
+      "document_label": "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2",
+      "document_type": "single_fbx_variant",
+      "active_fbx": [
+        "Single Butterfly Following A Path (90 Frames)/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.fbx"
+      ],
+      "source_fbx_count": 1,
+      "source_object_count": 6,
+      "source_action_count": 3,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ]
+      ],
+      "source_obj_object_count": 1,
+      "packed_image_count": 4,
+      "scene_names": [
+        "ARTIST_EDIT",
+        "SOURCE_REFERENCE"
+      ],
+      "default_scene": "ARTIST_EDIT",
+      "default_frame": 1,
+      "display_object_count": 6,
+      "output_size": 9931073
+    },
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.blend",
+      "document_label": "BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES",
+      "document_type": "single_fbx_variant",
+      "active_fbx": [
+        "Slow Wing Flapping (120 Frames)/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.fbx"
+      ],
+      "source_fbx_count": 1,
+      "source_object_count": 4,
+      "source_action_count": 2,
+      "action_ranges": [
+        [
+          1.0,
+          121.0
+        ]
+      ],
+      "source_obj_object_count": 1,
+      "packed_image_count": 4,
+      "scene_names": [
+        "ARTIST_EDIT",
+        "SOURCE_REFERENCE"
+      ],
+      "default_scene": "ARTIST_EDIT",
+      "default_frame": 45,
+      "display_object_count": 4,
+      "output_size": 9921415
+    }
+  ],
+  "preview": "blender_scenebench/generated/Butterfly_preview.png"
+}

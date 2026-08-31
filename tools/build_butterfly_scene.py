@@ -12,8 +12,8 @@ from mathutils import Vector
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SOURCE_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
-OUTPUT_DIR = PROJECT_ROOT / "blender" / "_scenebench" / "blender" / "_modelbench" / "Butterfly"
-OUTPUT_PATH = OUTPUT_DIR / "Butterfly.blend"
+OUTPUT_DIR = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
+OUTPUT_PATH = OUTPUT_DIR / "Butterfly_Master.blend"
 ARCHIVE_ROOT = OUTPUT_DIR / "source_assets"
 PREVIEW_PATH = PROJECT_ROOT / "blender_scenebench" / "generated" / "Butterfly_preview.png"
 REPORT_PATH = PROJECT_ROOT / "blender_scenebench" / "reports" / "butterfly-build.json"
@@ -163,6 +163,15 @@ def make_wing_material(images):
     normal.inputs["Strength"].default_value = 0.65
 
     links.new(color.outputs["Color"], shader.inputs["Base Color"])
+    # The FBX wing cards are double-sided planes. A small texture-driven
+    # emission component keeps the back-facing card from reading as a black
+    # or broken wing under a one-sided light, without changing the source mesh.
+    emission_color = shader.inputs.get("Emission Color") or shader.inputs.get("Emission")
+    if emission_color:
+        links.new(color.outputs["Color"], emission_color)
+    emission_strength = shader.inputs.get("Emission Strength")
+    if emission_strength:
+        emission_strength.default_value = 0.12
     links.new(alpha.outputs["Color"], shader.inputs["Alpha"])
     links.new(normal_tex.outputs["Color"], normal.inputs["Color"])
     links.new(normal.outputs["Normal"], shader.inputs["Normal"])
@@ -313,6 +322,21 @@ def copy_animation_data(source, target):
     target.animation_data_create()
     if source.animation_data.action:
         target.animation_data.action = source.animation_data.action
+        # Blender 5 uses layered Actions with an explicit Action Slot. Merely
+        # assigning .action leaves the duplicate static unless its slot is
+        # bound as well.
+        source_slot = getattr(source.animation_data, "action_slot", None)
+        if source_slot is not None:
+            source_identifier = getattr(source_slot, "identifier", None)
+            target_slot = next(
+                (
+                    slot for slot in getattr(target.animation_data.action, "slots", [])
+                    if getattr(slot, "identifier", None) == source_identifier
+                ),
+                None,
+            )
+            if target_slot is not None:
+                target.animation_data.action_slot = target_slot
     for source_track in source.animation_data.nla_tracks:
         target_track = target.animation_data.nla_tracks.new()
         target_track.name = source_track.name
@@ -436,7 +460,7 @@ def configure_scene(scene, frame_end=250):
         pass
     scene["asset_name"] = "Butterfly"
     scene["source_root"] = "blender_scenebench/blender_modelbench/Butterfly"
-    scene["source_archive"] = "blender/_scenebench/blender/_modelbench/Butterfly/source_assets"
+    scene["source_archive"] = "blender_scenebench/blender_modelbench/Butterfly/source_assets"
     scene["data_fidelity"] = "full: geometry, materials, textures, UVs, hierarchy, modifiers, constraints, shape keys, actions/NLA, timeline, cameras/lights, custom properties"
     scene["source_animation_policy"] = "all 10 FBX files imported as independent source collections; original actions retained"
     scene.timeline_markers.new("Idle_1_90帧", frame=1)
@@ -630,7 +654,7 @@ def main():
     manifest_payload = {
         "asset": "Butterfly",
         "source_root": "blender_scenebench/blender_modelbench/Butterfly",
-        "archive_root": "blender/_scenebench/blender/_modelbench/Butterfly/source_assets",
+        "archive_root": "blender_scenebench/blender_modelbench/Butterfly/source_assets",
         "files": manifest_records,
         "fbx_imports": [
             {
