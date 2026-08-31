@@ -2,16 +2,16 @@
   "document_label": "Butterfly_Master",
   "document_type": "master",
   "active_fbx": [
-    "Idle Animations (90 Frames)/Butterfly_Idle_1.fbx",
-    "Idle Animations (90 Frames)/Butterfly_Idle_2.fbx",
-    "Idle Animations (90 Frames)/Butterfly_Idle_3.fbx",
-    "Idle Animations (90 Frames)/Butterfly_Idle_4.fbx",
-    "Idle Animations (90 Frames)/Butterfly_Idle_5.fbx",
-    "Idle Animations (90 Frames)/Butterfly_Idle_6.fbx",
-    "Idle Animations (90 Frames)/Butterfly_Idle_7.fbx",
-    "Single Butterfly Following A Path (90 Frames)/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.fbx",
-    "Single Butterfly Following A Path (90 Frames)/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.fbx",
-    "Slow Wing Flapping (120 Frames)/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.fbx"
+    "animations/idle/Butterfly_Idle_1.fbx",
+    "animations/idle/Butterfly_Idle_2.fbx",
+    "animations/idle/Butterfly_Idle_3.fbx",
+    "animations/idle/Butterfly_Idle_4.fbx",
+    "animations/idle/Butterfly_Idle_5.fbx",
+    "animations/idle/Butterfly_Idle_6.fbx",
+    "animations/idle/Butterfly_Idle_7.fbx",
+    "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.fbx",
+    "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.fbx",
+    "animations/slow_flap/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.fbx"
   ],
   "source_fbx_count": 10,
   "source_object_count": 44,
@@ -39,8 +39,9 @@
   "default_scene": "ARTIST_EDIT",
   "default_frame": 45,
   "display_object_count": 4,
-  "output_size": 10177914,
-  "output": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Master.blend",
+  "output_size": 10177319,
+  "output": "blender_scenebench/blender_modelbench/Butterfly/blender/Butterfly_Master.blend",
   "preview": "blender_scenebench/generated/Butterfly_preview.png",
-  "source_archive": "blender_scenebench/blender_modelbench/Butterfly/source_assets"
+  "source_directory": "blender_scenebench/blender_modelbench/Butterfly/source",
+  "source_manifest": "blender_scenebench/blender_modelbench/Butterfly/manifests/source-files.json"
 }

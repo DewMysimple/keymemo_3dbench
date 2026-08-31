@@ -1,0 +1,97 @@
+{
+  "asset": "Butterfly",
+  "source_root": "blender_scenebench/blender_modelbench/Butterfly/source",
+  "source_file_count": 18,
+  "files": [
+    {
+      "path": "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.fbx",
+      "size": 124272,
+      "sha256": "a11ffbe523381870c992c60e2bddf843982ee1ce9c8fa5bc6530f80829c375fe"
+    },
+    {
+      "path": "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.fbx",
+      "size": 124352,
+      "sha256": "28d19b25a93216700e1ed2cdd0a0f591f19f7a8a9fdf10ff10a727844f8f79c4"
+    },
+    {
+      "path": "animations/idle/Butterfly_Idle_1.fbx",
+      "size": 132800,
+      "sha256": "778577aeb0335bc1dd80ddb56c5c4407565b8e7262cd548e2facdd8e4c7bd7d6"
+    },
+    {
+      "path": "animations/idle/Butterfly_Idle_2.fbx",
+      "size": 132576,
+      "sha256": "1bc2feb998d68b67271f6e7519d33de56098586efd3ca656f8f07e088b43f68f"
+    },
+    {
+      "path": "animations/idle/Butterfly_Idle_3.fbx",
+      "size": 117712,
+      "sha256": "28a27713842864a01f243197a9acab2e9e8083ce5ef1552f0e5331b70af4ae79"
+    },
+    {
+      "path": "animations/idle/Butterfly_Idle_4.fbx",
+      "size": 133504,
+      "sha256": "50cbc771c2781ebd81fef87dbde60f279266dea44dbfbcde23b0abc39f74a495"
+    },
+    {
+      "path": "animations/idle/Butterfly_Idle_5.fbx",
+      "size": 117712,
+      "sha256": "c7538b4032cffa8eb330012667468556b22d36fbdab0c36e8f75f3523348cf18"
+    },
+    {
+      "path": "animations/idle/Butterfly_Idle_6.fbx",
+      "size": 114912,
+      "sha256": "cc5536297ffbc0458a5e514b88a19f938cb7eb3362e95bd4335c6d0e55c85ec1"
+    },
+    {
+      "path": "animations/idle/Butterfly_Idle_7.fbx",
+      "size": 117712,
+      "sha256": "d4c8fb66162e0ca69f01297aafa7aa9c6bd56a5a50698c51ab65c9bd6748db1a"
+    },
+    {
+      "path": "animations/slow_flap/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.fbx",
+      "size": 117104,
+      "sha256": "7b185a532f67748fb415c889ef75c448efaf235dccc5a32f9c3e725047a2bffe"
+    },
+    {
+      "path": "model/BASIC BUTTERFLY BODY_Travis_Davids.OBJ",
+      "size": 84291,
+      "sha256": "84542023d1641a999c4c96101fddf8e18b5a8eedcc783cd4c6641dc9ac654436"
+    },
+    {
+      "path": "project/Animated_Butterflies_Project_File_ Travis_Davids.c4d",
+      "size": 2498665,
+      "sha256": "6e7e75d5c6b695e0930684a6a831392ec8b8760fdc0fd64e2ce3986a50f5a069"
+    },
+    {
+      "path": "Read Me.txt",
+      "size": 1525,
+      "sha256": "e48b7dd6bd97aaafa2b8081c7786cebd7fe0ad810199996748f2943210cb6f40"
+    },
+    {
+      "path": "textures/_Male_Dos_MHNT.jpg",
+      "size": 5686501,
+      "sha256": "743b6ed3342c17e5509d3d977474218d3f7e9e8b2e1a3a0f92820cc9d7d1c70d"
+    },
+    {
+      "path": "textures/ALPHA_OR_OPACITY_MASK_Morpho_didius_Male_Dos_MHNT.jpg",
+      "size": 369950,
+      "sha256": "16b50ad64972cfad30f037a5d316afd6f85716773b19ac42351f9913ef4c8f94"
+    },
+    {
+      "path": "textures/DIFFUSE_Morpho_didius_Male_Dos_MHNT.jpg",
+      "size": 2271547,
+      "sha256": "105546b2271542ea94493b260cec27bea7033d95ae8602061240d938bf8bdf4b"
+    },
+    {
+      "path": "textures/NORMAL_MAP_Morpho_didius_Male_Dos_MHNT_NRM.jpg",
+      "size": 887549,
+      "sha256": "01812413917dec9c97a75d2b816a346bca229f6468ef56232ecafba2a9b7d847"
+    },
+    {
+      "path": "textures/Read Me.txt",
+      "size": 564,
+      "sha256": "2da7092837ff04fbb82dea6888f1527ae4655e43facb511370ed7c64ecbfc48f"
+    }
+  ]
+}

@@ -10,9 +10,9 @@ import build_butterfly_scene as base
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-SOURCE_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
-OUTPUT_DIR = SOURCE_ROOT
-ARCHIVE_ROOT = OUTPUT_DIR / "source_assets"
+ASSET_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
+SOURCE_ROOT = ASSET_ROOT / "source"
+OUTPUT_DIR = ASSET_ROOT / "blender"
 REPORT_PATH = PROJECT_ROOT / "blender_scenebench" / "reports" / "butterfly-variants-build.json"
 LEGACY_REPORT_PATH = PROJECT_ROOT / "blender_scenebench" / "reports" / "butterfly-build.json"
 PREVIEW_PATH = PROJECT_ROOT / "blender_scenebench" / "generated" / "Butterfly_preview.png"
@@ -21,7 +21,6 @@ PREVIEW_PATH = PROJECT_ROOT / "blender_scenebench" / "generated" / "Butterfly_pr
 # the real, single-root Blender workspace requested by the user.
 base.SOURCE_ROOT = SOURCE_ROOT
 base.OUTPUT_DIR = OUTPUT_DIR
-base.ARCHIVE_ROOT = ARCHIVE_ROOT
 base.PREVIEW_PATH = PREVIEW_PATH
 base.REPORT_PATH = REPORT_PATH
 
@@ -29,6 +28,14 @@ base.REPORT_PATH = REPORT_PATH
 def safe_name(value):
     result = re.sub(r"[^0-9A-Za-z\u4e00-\u9fff]+", "_", value).strip("_")
     return result or "Butterfly"
+
+
+def variant_output_path(path):
+    relative_parts = path.relative_to(SOURCE_ROOT).parts
+    base.ensure(len(relative_parts) >= 3 and relative_parts[0] == "animations", f"无法确定动画分类: {path}")
+    category = relative_parts[1]
+    base.ensure(category in {"idle", "follow_path", "slow_flap"}, f"未知 Butterfly 动画分类: {category}")
+    return OUTPUT_DIR / category / f"{safe_name(path.stem)}.blend"
 
 
 def duplicate_group_preserving_animation(source_objects, collection, prefix):
@@ -65,7 +72,7 @@ def duplicate_group_preserving_animation(source_objects, collection, prefix):
 
 
 def image_bundle():
-    image_root = SOURCE_ROOT / "Textures And Butterfly Body"
+    image_root = SOURCE_ROOT / "textures"
     return {
         "diffuse": base.load_image(
             image_root / "DIFFUSE_Morpho_didius_Male_Dos_MHNT.jpg",
@@ -98,33 +105,10 @@ def make_source_collection(source_collection, path, group_id):
     return group_collection
 
 
-def copy_source_assets():
-    """Copy only the original source formats, not generated files in this root."""
-    base.ensure(SOURCE_ROOT.is_dir(), f"缺少 Butterfly 素材目录: {SOURCE_ROOT}")
-    ARCHIVE_ROOT.mkdir(parents=True, exist_ok=True)
-    allowed_suffixes = {".fbx", ".obj", ".jpg", ".jpeg", ".c4d", ".txt"}
-    copied = []
-    for source in sorted(SOURCE_ROOT.rglob("*"), key=lambda path: str(path).lower()):
-        if not source.is_file() or ARCHIVE_ROOT in source.parents:
-            continue
-        if source.suffix.lower() not in allowed_suffixes:
-            continue
-        relative = source.relative_to(SOURCE_ROOT)
-        target = ARCHIVE_ROOT / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(source.read_bytes())
-        copied.append({
-            "path": str(relative).replace("\\", "/"),
-            "size": source.stat().st_size,
-            "sha256": base.sha256(source),
-        })
-    base.ensure(len(copied) == 18, f"预期 18 个源文件，实际找到 {len(copied)} 个")
-    return copied
-
-
 def create_document(fbx_paths, output_path, document_label, copied_files, master=False):
     base.reset_factory()
     base.localized_workspaces()
+    output_path.parent.mkdir(parents=True, exist_ok=True)
 
     artist_scene = bpy.context.scene
     artist_scene.name = "ARTIST_EDIT"
@@ -150,7 +134,7 @@ def create_document(fbx_paths, output_path, document_label, copied_files, master
         records.append(record)
         group_objects[group_id] = record["objects"]
 
-    obj_path = SOURCE_ROOT / "Textures And Butterfly Body" / "BASIC BUTTERFLY BODY_Travis_Davids.OBJ"
+    obj_path = SOURCE_ROOT / "model" / "BASIC BUTTERFLY BODY_Travis_Davids.OBJ"
     obj_collection = bpy.data.collections.new("SOURCE_OBJ_Butterfly_Body")
     source_collection.children.link(obj_collection)
     body_source_objects = base.import_obj(obj_path, obj_collection)
@@ -264,7 +248,8 @@ def create_document(fbx_paths, output_path, document_label, copied_files, master
     artist_scene["source_fbx_count"] = len(fbx_paths)
     artist_scene["source_obj_imported"] = True
     artist_scene["c4d_source_archived"] = True
-    artist_scene["source_archive"] = "blender_scenebench/blender_modelbench/Butterfly/source_assets"
+    artist_scene["source_directory"] = "blender_scenebench/blender_modelbench/Butterfly/source"
+    artist_scene["source_manifest"] = "blender_scenebench/blender_modelbench/Butterfly/manifests/source-files.json"
     artist_scene["source_coordinate_policy"] = "原始 FBX 坐标与父子关系不重算；展示根只负责统一可视化尺寸"
     artist_scene["wing_material_policy"] = "保留源材质槽；带贴图材质只追加到展示副本"
     artist_scene["default_showcase_frame"] = showcase_frame
@@ -275,7 +260,8 @@ def create_document(fbx_paths, output_path, document_label, copied_files, master
     base.configure_scene(source_scene, frame_end=max_frame)
     source_scene["asset_name"] = document_label
     source_scene["reference_scene"] = "当前文件对应的 FBX 原始导入对象、OBJ 身体和 Action 数据"
-    source_scene["source_archive"] = "blender_scenebench/blender_modelbench/Butterfly/source_assets"
+    source_scene["source_directory"] = "blender_scenebench/blender_modelbench/Butterfly/source"
+    source_scene["source_manifest"] = "blender_scenebench/blender_modelbench/Butterfly/manifests/source-files.json"
 
     base.set_scene_collection_visibility(
         artist_scene,
@@ -287,7 +273,7 @@ def create_document(fbx_paths, output_path, document_label, copied_files, master
         encoding="utf-8",
         errors="replace",
     )
-    texture_readme = (SOURCE_ROOT / "Textures And Butterfly Body" / "Read Me.txt").read_text(
+    texture_readme = (SOURCE_ROOT / "textures" / "Read Me.txt").read_text(
         encoding="utf-8",
         errors="replace",
     )
@@ -300,8 +286,8 @@ def create_document(fbx_paths, output_path, document_label, copied_files, master
         "asset": "Butterfly",
         "document_label": document_label,
         "document_type": "master" if master else "single_fbx_variant",
-        "source_root": "blender_scenebench/blender_modelbench/Butterfly",
-        "archive_root": "blender_scenebench/blender_modelbench/Butterfly/source_assets",
+        "source_root": "blender_scenebench/blender_modelbench/Butterfly/source",
+        "source_manifest": "blender_scenebench/blender_modelbench/Butterfly/manifests/source-files.json",
         "active_fbx": [base.source_relative(path) for path in fbx_paths],
         "files": imported_records,
         "fbx_imports": [
@@ -320,7 +306,7 @@ def create_document(fbx_paths, output_path, document_label, copied_files, master
             "SOURCE_REFERENCE 保留当前 FBX 的原始对象层级、父子关系、网格、UV、材质槽和 Action。",
             "左右翅膀动作保留为 Blender Action；路径动画的空物体父级链不扁平化。",
             "OBJ 身体与 4 张图像均已导入；图像在保存前打包进 .blend。",
-            "C4D 工程无法由 Blender 5 原生解析；原始字节已同时放入 source_assets 并嵌入 Base64 文本数据块。",
+            "C4D 工程无法由 Blender 5 原生解析；原始字节保留在 source/project 并嵌入 Base64 文本数据块。",
         ],
     }
     base.create_text(
@@ -381,10 +367,10 @@ def write_readme(reports):
         "",
         "## 文件",
         "",
-        "- `Butterfly_Master.blend`：全素材总文件，包含 10 个源 FBX 的 SOURCE_REFERENCE 数据，默认展示 Butterfly_Idle_1。",
+        "- `blender/Butterfly_Master.blend`：全素材总文件，包含 10 个源 FBX 的 SOURCE_REFERENCE 数据，默认展示 Butterfly_Idle_1。",
     ]
     for item in variants:
-        filename = Path(item["file"]).name
+        filename = item["file"].split("/Butterfly/", 1)[-1]
         lines.append(
             f"- `{filename}`：{item['active_fbx'][0]}；源对象 {item['source_object_count']} 个，Action {item['source_action_count']} 个。"
         )
@@ -394,7 +380,8 @@ def write_readme(reports):
         "",
         "- 默认场景 `ARTIST_EDIT`：单个已居中的展示模型，展示副本保持左右翅膀的原始父子关系和动作。",
         "- 场景 `SOURCE_REFERENCE`：对应文件的原始 FBX 导入对象；用于核对源数据，不会与其它动画叠加。",
-        "- `source_assets/`：18 个源文件的原样归档；4 张图像已同时打包进每个 `.blend`。",
+        "- `source/`：18 个源文件的唯一原样来源；4 张图像已同时打包进每个 `.blend`。",
+        "- `manifests/source-files.json`：记录每个源文件的大小与 SHA-256。",
         "- C4D 不能被 Blender 5 原生解析；C4D 原始字节保存在 `蝴蝶_C4D原始二进制_Base64` 文本块，并有 SHA-256 记录。",
         "",
         "## 翅膀修正说明",
@@ -404,7 +391,7 @@ def write_readme(reports):
         "构建报告：`blender_scenebench/reports/butterfly-variants-build.json`",
         "预览图：`blender_scenebench/generated/Butterfly_preview.png`",
     ])
-    (OUTPUT_DIR / "Butterfly_README.md").write_text(
+    (ASSET_ROOT / "README.md").write_text(
         "\n".join(lines) + "\n",
         encoding="utf-8",
     )
@@ -413,15 +400,12 @@ def write_readme(reports):
 def main():
     base.ensure(SOURCE_ROOT.is_dir(), f"缺少 Butterfly 素材目录: {SOURCE_ROOT}")
     fbx_files = sorted(
-        (
-            path for path in SOURCE_ROOT.glob("**/*.fbx")
-            if ARCHIVE_ROOT not in path.parents
-        ),
-        key=lambda path: str(path).lower(),
+        SOURCE_ROOT.glob("animations/**/*.fbx"),
+        key=base.fbx_sort_key,
     )
     base.ensure(len(fbx_files) == 10, f"预期 10 个 FBX，实际找到 {len(fbx_files)} 个")
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    copied_files = copy_source_assets()
+    copied_files = base.copy_source_assets()
 
     reports = []
     reports.append(
@@ -437,7 +421,7 @@ def main():
         reports.append(
             create_document(
                 [path],
-                OUTPUT_DIR / f"{safe_name(path.stem)}.blend",
+                variant_output_path(path),
                 path.stem,
                 copied_files,
                 master=False,
@@ -458,7 +442,8 @@ def main():
     master_report = dict(reports[0])
     master_report["output"] = master_report.pop("file")
     master_report["preview"] = str(PREVIEW_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/")
-    master_report["source_archive"] = "blender_scenebench/blender_modelbench/Butterfly/source_assets"
+    master_report["source_directory"] = "blender_scenebench/blender_modelbench/Butterfly/source"
+    master_report["source_manifest"] = "blender_scenebench/blender_modelbench/Butterfly/manifests/source-files.json"
     LEGACY_REPORT_PATH.write_text(json.dumps(master_report, ensure_ascii=False, indent=2), encoding="utf-8")
     print("BUTTERFLY_VARIANTS_BUILD=" + json.dumps(payload, ensure_ascii=False, sort_keys=True))
 

@@ -9,7 +9,10 @@ from mathutils import Vector
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
-ARCHIVE_ROOT = OUTPUT_ROOT / "source_assets"
+SOURCE_ROOT = OUTPUT_ROOT / "source"
+BLENDER_ROOT = OUTPUT_ROOT / "blender"
+MANIFEST_PATH = OUTPUT_ROOT / "manifests" / "source-files.json"
+LEGACY_ARCHIVE_ROOT = OUTPUT_ROOT / "archive" / "legacy"
 REPORT_PATH = PROJECT_ROOT / "blender_scenebench" / "reports" / "butterfly-validation.json"
 
 
@@ -19,13 +22,14 @@ def ensure(condition, message):
 
 
 def source_fbx_paths():
-    return sorted(
-        (
-            path for path in OUTPUT_ROOT.glob("**/*.fbx")
-            if ARCHIVE_ROOT not in path.parents
-        ),
-        key=lambda path: str(path).lower(),
-    )
+    category_order = {"idle": 0, "follow_path": 1, "slow_flap": 2}
+
+    def sort_key(path):
+        relative_parts = path.relative_to(SOURCE_ROOT).parts
+        category = relative_parts[1] if len(relative_parts) > 1 else ""
+        return (category_order.get(category, 99), str(path).lower())
+
+    return sorted(SOURCE_ROOT.glob("animations/**/*.fbx"), key=sort_key)
 
 
 def action_signature(scene, objects, frame):
@@ -60,15 +64,30 @@ def mesh_bounds(obj):
 def validate_c4d():
     c4d_text = bpy.data.texts.get("蝴蝶_C4D原始二进制_Base64")
     ensure(c4d_text is not None, "C4D 原始二进制归档缺失")
-    c4d_archive = ARCHIVE_ROOT / "Animated_Butterflies_Project_File_ Travis_Davids.c4d"
-    ensure(c4d_archive.is_file(), "C4D 源文件归档缺失")
+    c4d_source = SOURCE_ROOT / "project" / "Animated_Butterflies_Project_File_ Travis_Davids.c4d"
+    ensure(c4d_source.is_file(), "C4D 源文件缺失")
     sections = c4d_text.as_string().split("\n\n", 1)
     ensure(len(sections) == 2, "C4D Base64 归档格式损坏")
     embedded_c4d = base64.b64decode(sections[1].replace("\n", ""), validate=True)
     ensure(
-        hashlib.sha256(embedded_c4d).hexdigest() == hashlib.sha256(c4d_archive.read_bytes()).hexdigest(),
+        hashlib.sha256(embedded_c4d).hexdigest() == hashlib.sha256(c4d_source.read_bytes()).hexdigest(),
         "C4D 内嵌字节校验失败",
     )
+
+
+def validate_source_manifest():
+    ensure(MANIFEST_PATH.is_file(), "源文件哈希清单缺失")
+    payload = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
+    files = payload.get("files", [])
+    ensure(payload.get("source_file_count") == 18 and len(files) == 18, "源文件哈希清单数量错误")
+    actual = []
+    for item in files:
+        path = SOURCE_ROOT / item["path"]
+        ensure(path.is_file(), f"源文件缺失: {item['path']}")
+        ensure(path.stat().st_size == item["size"], f"源文件大小校验失败: {item['path']}")
+        ensure(hashlib.sha256(path.read_bytes()).hexdigest() == item["sha256"], f"源文件哈希校验失败: {item['path']}")
+        actual.append(path)
+    ensure(len({path.resolve() for path in actual}) == 18, "源文件清单存在重复路径")
 
 
 def find_scene_collection(scene, predicate):
@@ -163,8 +182,8 @@ def validate_one(blend_path, expected_fbx_paths, master):
     signature_mid = action_signature(artist, display_animated, min(last_frame, 45))
     ensure(signature_first != signature_mid, f"展示动画帧变化缺失: {blend_path.name}")
 
-    archive_files = [path for path in ARCHIVE_ROOT.rglob("*") if path.is_file()]
-    ensure(len(archive_files) == 18, f"源文件归档数量错误: {len(archive_files)}")
+    source_files = [path for path in SOURCE_ROOT.rglob("*") if path.is_file()]
+    ensure(len(source_files) == 18, f"源文件数量错误: {len(source_files)}")
     return {
         "blend": str(blend_path.relative_to(PROJECT_ROOT)).replace("\\", "/"),
         "master": master,
@@ -179,7 +198,7 @@ def validate_one(blend_path, expected_fbx_paths, master):
         "obj_body_polygons": len(obj_body.data.polygons),
         "packed_images": [image.name for image in packed_images],
         "embedded_c4d": True,
-        "archived_source_files": len(archive_files),
+        "source_files": len(source_files),
         "display_objects": len(display_objects),
         "display_animated_objects": len(display_animated),
         "display_wing_centers_x": wing_centers,
@@ -189,13 +208,18 @@ def validate_one(blend_path, expected_fbx_paths, master):
 
 
 def validate():
+    ensure(not (OUTPUT_ROOT / "source_assets").exists(), "旧 source_assets 重复目录仍存在")
+    ensure(not any(OUTPUT_ROOT.glob("*.blend")), "正式根目录仍有未分类 Blender 文件")
+    legacy_files = {path.name for path in LEGACY_ARCHIVE_ROOT.glob("*") if path.is_file()}
+    ensure(legacy_files == {"Butterfly_legacy_master.blend", "Butterfly_legacy_master.blend1"}, "历史 Butterfly 归档不完整")
+    validate_source_manifest()
     source_paths = source_fbx_paths()
     ensure(len(source_paths) == 10, f"源 FBX 数量错误: {len(source_paths)}")
-    expected_rel_paths = [str(path.relative_to(OUTPUT_ROOT)).replace("\\", "/") for path in source_paths]
-    master_path = OUTPUT_ROOT / "Butterfly_Master.blend"
+    expected_rel_paths = [str(path.relative_to(SOURCE_ROOT)).replace("\\", "/") for path in source_paths]
+    master_path = BLENDER_ROOT / "Butterfly_Master.blend"
     variant_paths = sorted(
         (
-            path for path in OUTPUT_ROOT.glob("*.blend")
+            path for path in BLENDER_ROOT.glob("**/*.blend")
             if path.name != master_path.name
         ),
         key=lambda path: path.name.lower(),
@@ -204,12 +228,14 @@ def validate():
     ensure({path.stem for path in variant_paths} == expected_variant_names, "独立 Blender 文件没有与 10 个 FBX 一一对应")
 
     reports = [validate_one(master_path, expected_rel_paths, master=True)]
-    expected_by_stem = {path.stem: str(path.relative_to(OUTPUT_ROOT)).replace("\\", "/") for path in source_paths}
+    expected_by_stem = {path.stem: str(path.relative_to(SOURCE_ROOT)).replace("\\", "/") for path in source_paths}
     for variant_path in variant_paths:
         reports.append(validate_one(variant_path, [expected_by_stem[variant_path.stem]], master=False))
 
     payload = {
         "output_root": str(OUTPUT_ROOT.relative_to(PROJECT_ROOT)).replace("\\", "/"),
+        "blender_root": str(BLENDER_ROOT.relative_to(PROJECT_ROOT)).replace("\\", "/"),
+        "source_root": str(SOURCE_ROOT.relative_to(PROJECT_ROOT)).replace("\\", "/"),
         "blend_file_count": len(reports),
         "validated": reports,
     }

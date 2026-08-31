@@ -15,6 +15,7 @@ supersedes: null
 
 | 时间 | 类型 | 目标 | 状态 | 主题 | 日志 |
 | --- | --- | --- | --- | --- | --- |
+| 2026-09-01 | maintenance | - | archived | butterfly-directory-organization | [[日志/2026-09-01-整理蝴蝶素材目录结构.md|整理蝴蝶素材目录结构]] |
 | 2026-09-01 | feature | - | archived | blender-butterfly-full-fidelity-asset | [[日志/2026-09-01-创建蝴蝶Blender完整文件.md|创建蝴蝶 Blender 完整文件]] |
 | 2026-09-01 | bug | - | archived | blender-butterfly-variant-files-and-wing-display | [[日志/2026-09-01-修正蝴蝶独立文件与翅膀展示.md|修正蝴蝶独立文件与翅膀展示]] |
 | 2026-08-30 | feature | - | archived | blender-water-uasset-material-reconstruction | [[日志/2026-08-30-水UAsset材质重建.md|水 UAsset 材质重建]] |

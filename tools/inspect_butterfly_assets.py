@@ -7,6 +7,7 @@ import bpy
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 ASSET_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
+SOURCE_ROOT = ASSET_ROOT / "source"
 
 
 def object_snapshot(objects):
@@ -74,9 +75,9 @@ def import_one(path):
 
 
 def main():
-    files = sorted(ASSET_ROOT.glob("**/*.fbx"), key=lambda path: str(path).lower())
+    files = sorted(SOURCE_ROOT.glob("animations/**/*.fbx"), key=lambda path: str(path).lower())
     if not files:
-        raise RuntimeError(f"No FBX files found under {ASSET_ROOT}")
+        raise RuntimeError(f"No FBX files found under {SOURCE_ROOT}")
     for path in files:
         import_one(path)
 

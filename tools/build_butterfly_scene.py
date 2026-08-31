@@ -2,7 +2,6 @@ import hashlib
 import json
 import math
 import os
-import shutil
 import base64
 from pathlib import Path
 
@@ -11,10 +10,10 @@ from mathutils import Vector
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-SOURCE_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
-OUTPUT_DIR = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
+ASSET_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
+SOURCE_ROOT = ASSET_ROOT / "source"
+OUTPUT_DIR = ASSET_ROOT / "blender"
 OUTPUT_PATH = OUTPUT_DIR / "Butterfly_Master.blend"
-ARCHIVE_ROOT = OUTPUT_DIR / "source_assets"
 PREVIEW_PATH = PROJECT_ROOT / "blender_scenebench" / "generated" / "Butterfly_preview.png"
 REPORT_PATH = PROJECT_ROOT / "blender_scenebench" / "reports" / "butterfly-build.json"
 
@@ -75,23 +74,20 @@ def set_image_colorspace(image, colorspace):
 
 
 def copy_source_assets():
+    """Return the canonical source inventory without creating a duplicate."""
     ensure(SOURCE_ROOT.is_dir(), f"缺少 Butterfly 素材目录: {SOURCE_ROOT}")
-    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    copied = []
+    records = []
     for source in sorted(SOURCE_ROOT.rglob("*"), key=lambda path: str(path).lower()):
         if not source.is_file():
             continue
         relative = source.relative_to(SOURCE_ROOT)
-        target = ARCHIVE_ROOT / relative
-        target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(source, target)
-        copied.append({
+        records.append({
             "path": str(relative).replace("\\", "/"),
             "size": source.stat().st_size,
             "sha256": sha256(source),
         })
-    ensure(copied, "Butterfly 素材目录为空")
-    return copied
+    ensure(len(records) == 18, f"预期 18 个 Butterfly 源文件，实际找到 {len(records)} 个")
+    return records
 
 
 def sha256(path):
@@ -106,8 +102,11 @@ def source_relative(path):
     return str(Path(path).resolve().relative_to(SOURCE_ROOT.resolve())).replace("\\", "/")
 
 
-def archive_relative(path):
-    return str(Path(path).resolve().relative_to(ARCHIVE_ROOT.resolve())).replace("\\", "/")
+def fbx_sort_key(path):
+    relative_parts = path.relative_to(SOURCE_ROOT).parts
+    category = relative_parts[1] if len(relative_parts) > 1 else ""
+    category_order = {"idle": 0, "follow_path": 1, "slow_flap": 2}
+    return (category_order.get(category, 99), str(path).lower())
 
 
 def load_image(path, name, colorspace):
@@ -116,7 +115,6 @@ def load_image(path, name, colorspace):
     image.name = name
     set_image_colorspace(image, colorspace)
     image["source_path"] = source_relative(path)
-    image["archive_path"] = f"source_assets/{source_relative(path)}"
     return image
 
 
@@ -459,8 +457,8 @@ def configure_scene(scene, frame_end=250):
     except (AttributeError, TypeError, ValueError):
         pass
     scene["asset_name"] = "Butterfly"
-    scene["source_root"] = "blender_scenebench/blender_modelbench/Butterfly"
-    scene["source_archive"] = "blender_scenebench/blender_modelbench/Butterfly/source_assets"
+    scene["source_root"] = "blender_scenebench/blender_modelbench/Butterfly/source"
+    scene["source_manifest"] = "blender_scenebench/blender_modelbench/Butterfly/manifests/source-files.json"
     scene["data_fidelity"] = "full: geometry, materials, textures, UVs, hierarchy, modifiers, constraints, shape keys, actions/NLA, timeline, cameras/lights, custom properties"
     scene["source_animation_policy"] = "all 10 FBX files imported as independent source collections; original actions retained"
     scene.timeline_markers.new("Idle_1_90帧", frame=1)
@@ -495,7 +493,7 @@ def create_text(name, content):
 
 
 def embed_unimportable_sources():
-    c4d_path = SOURCE_ROOT / "Animated_Butterflies_Project_File_ Travis_Davids.c4d"
+    c4d_path = SOURCE_ROOT / "project" / "Animated_Butterflies_Project_File_ Travis_Davids.c4d"
     ensure(c4d_path.is_file(), f"缺少 C4D 源文件: {c4d_path}")
     encoded_raw = base64.b64encode(c4d_path.read_bytes()).decode("ascii")
     encoded = "\n".join(encoded_raw[index : index + 76] for index in range(0, len(encoded_raw), 76))
@@ -538,6 +536,7 @@ def main():
     reset_factory()
     localized_workspaces()
     copied_files = copy_source_assets()
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     artist_scene = bpy.context.scene
     artist_scene.name = "ARTIST_EDIT"
@@ -546,7 +545,7 @@ def main():
     env_collection = new_collection(ENV_COLLECTION_NAME)
     light_collection = new_collection(LIGHT_COLLECTION_NAME)
 
-    fbx_files = sorted(SOURCE_ROOT.glob("**/*.fbx"), key=lambda path: str(path).lower())
+    fbx_files = sorted(SOURCE_ROOT.glob("animations/**/*.fbx"), key=fbx_sort_key)
     ensure(len(fbx_files) == 10, f"预期 10 个 FBX，实际找到 {len(fbx_files)} 个")
     imported_records = []
     group_objects = {}
@@ -558,12 +557,12 @@ def main():
         imported_records.append(record)
         group_objects[group_id] = record["objects"]
 
-    obj_path = SOURCE_ROOT / "Textures And Butterfly Body" / "BASIC BUTTERFLY BODY_Travis_Davids.OBJ"
+    obj_path = SOURCE_ROOT / "model" / "BASIC BUTTERFLY BODY_Travis_Davids.OBJ"
     obj_collection = bpy.data.collections.new("SOURCE_OBJ_Butterfly_Body")
     source_collection.children.link(obj_collection)
     import_obj(obj_path, obj_collection)
 
-    image_root = SOURCE_ROOT / "Textures And Butterfly Body"
+    image_root = SOURCE_ROOT / "textures"
     images = {
         "diffuse": load_image(
             image_root / "DIFFUSE_Morpho_didius_Male_Dos_MHNT.jpg",
@@ -653,8 +652,8 @@ def main():
     manifest_records = source_file_records(copied_files, imported_records)
     manifest_payload = {
         "asset": "Butterfly",
-        "source_root": "blender_scenebench/blender_modelbench/Butterfly",
-        "archive_root": "blender_scenebench/blender_modelbench/Butterfly/source_assets",
+        "source_root": "blender_scenebench/blender_modelbench/Butterfly/source",
+        "source_manifest": "blender_scenebench/blender_modelbench/Butterfly/manifests/source-files.json",
         "files": manifest_records,
         "fbx_imports": [
             {
@@ -671,7 +670,7 @@ def main():
             "左/右翅动作作为 Blender Action 保留，沿路径 FBX 的空物体父级链保留。",
             "OBJ 身体已导入并保留为独立源对象。",
             "4 张图像已加载并在保存前打包进 .blend。",
-            "C4D 工程无法由 Blender 5 原生解析；原文件已复制到 source_assets，并记录为归档源文件，不伪造转换结果。",
+            "C4D 工程无法由 Blender 5 原生解析；原始字节保留在 source/project，并嵌入 Base64 文本数据块，不伪造转换结果。",
         ],
     }
     create_text("蝴蝶_源文件清单_完整数据", json.dumps(manifest_payload, ensure_ascii=False, indent=2))
@@ -697,7 +696,7 @@ def main():
     report = {
         "output": str(OUTPUT_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/"),
         "preview": str(PREVIEW_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/"),
-        "source_archive": str(ARCHIVE_ROOT.relative_to(PROJECT_ROOT)).replace("\\", "/"),
+        "source_directory": str(SOURCE_ROOT.relative_to(PROJECT_ROOT)).replace("\\", "/"),
         "source_file_count": len(copied_files),
         "fbx_count": len(fbx_files),
         "source_object_count": sum(len(record["objects"]) for record in imported_records),

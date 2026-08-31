@@ -1,21 +1,23 @@
 {
   "output_root": "blender_scenebench/blender_modelbench/Butterfly",
+  "blender_root": "blender_scenebench/blender_modelbench/Butterfly/blender",
+  "source_root": "blender_scenebench/blender_modelbench/Butterfly/source",
   "blend_file_count": 11,
   "validated": [
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Master.blend",
+      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/Butterfly_Master.blend",
       "master": true,
       "active_fbx": [
-        "Idle Animations (90 Frames)/Butterfly_Idle_1.fbx",
-        "Idle Animations (90 Frames)/Butterfly_Idle_2.fbx",
-        "Idle Animations (90 Frames)/Butterfly_Idle_3.fbx",
-        "Idle Animations (90 Frames)/Butterfly_Idle_4.fbx",
-        "Idle Animations (90 Frames)/Butterfly_Idle_5.fbx",
-        "Idle Animations (90 Frames)/Butterfly_Idle_6.fbx",
-        "Idle Animations (90 Frames)/Butterfly_Idle_7.fbx",
-        "Single Butterfly Following A Path (90 Frames)/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.fbx",
-        "Single Butterfly Following A Path (90 Frames)/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.fbx",
-        "Slow Wing Flapping (120 Frames)/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.fbx"
+        "animations/idle/Butterfly_Idle_1.fbx",
+        "animations/idle/Butterfly_Idle_2.fbx",
+        "animations/idle/Butterfly_Idle_3.fbx",
+        "animations/idle/Butterfly_Idle_4.fbx",
+        "animations/idle/Butterfly_Idle_5.fbx",
+        "animations/idle/Butterfly_Idle_6.fbx",
+        "animations/idle/Butterfly_Idle_7.fbx",
+        "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.fbx",
+        "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.fbx",
+        "animations/slow_flap/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.fbx"
       ],
       "scenes": [
         "ARTIST_EDIT",
@@ -48,7 +50,7 @@
         "蝴蝶翅膀_颜色_DIFFUSE"
       ],
       "embedded_c4d": true,
-      "archived_source_files": 18,
+      "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
       "display_wing_centers_x": [
@@ -218,10 +220,10 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
+      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
       "master": false,
       "active_fbx": [
-        "Single Butterfly Following A Path (90 Frames)/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.fbx"
+        "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.fbx"
       ],
       "scenes": [
         "ARTIST_EDIT",
@@ -246,7 +248,7 @@
         "蝴蝶翅膀_颜色_DIFFUSE"
       ],
       "embedded_c4d": true,
-      "archived_source_files": 18,
+      "source_files": 18,
       "display_objects": 6,
       "display_animated_objects": 3,
       "display_wing_centers_x": [
@@ -277,10 +279,10 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
+      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
       "master": false,
       "active_fbx": [
-        "Single Butterfly Following A Path (90 Frames)/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.fbx"
+        "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.fbx"
       ],
       "scenes": [
         "ARTIST_EDIT",
@@ -305,7 +307,7 @@
         "蝴蝶翅膀_颜色_DIFFUSE"
       ],
       "embedded_c4d": true,
-      "archived_source_files": 18,
+      "source_files": 18,
       "display_objects": 6,
       "display_animated_objects": 3,
       "display_wing_centers_x": [
@@ -336,10 +338,10 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Idle_1.blend",
+      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_1.blend",
       "master": false,
       "active_fbx": [
-        "Idle Animations (90 Frames)/Butterfly_Idle_1.fbx"
+        "animations/idle/Butterfly_Idle_1.fbx"
       ],
       "scenes": [
         "ARTIST_EDIT",
@@ -368,7 +370,7 @@
         "蝴蝶翅膀_颜色_DIFFUSE"
       ],
       "embedded_c4d": true,
-      "archived_source_files": 18,
+      "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
       "display_wing_centers_x": [
@@ -395,10 +397,10 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Idle_2.blend",
+      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_2.blend",
       "master": false,
       "active_fbx": [
-        "Idle Animations (90 Frames)/Butterfly_Idle_2.fbx"
+        "animations/idle/Butterfly_Idle_2.fbx"
       ],
       "scenes": [
         "ARTIST_EDIT",
@@ -423,7 +425,7 @@
         "蝴蝶翅膀_颜色_DIFFUSE"
       ],
       "embedded_c4d": true,
-      "archived_source_files": 18,
+      "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
       "display_wing_centers_x": [
@@ -450,10 +452,10 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Idle_3.blend",
+      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_3.blend",
       "master": false,
       "active_fbx": [
-        "Idle Animations (90 Frames)/Butterfly_Idle_3.fbx"
+        "animations/idle/Butterfly_Idle_3.fbx"
       ],
       "scenes": [
         "ARTIST_EDIT",
@@ -478,7 +480,7 @@
         "蝴蝶翅膀_颜色_DIFFUSE"
       ],
       "embedded_c4d": true,
-      "archived_source_files": 18,
+      "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
       "display_wing_centers_x": [
@@ -505,10 +507,10 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Idle_4.blend",
+      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_4.blend",
       "master": false,
       "active_fbx": [
-        "Idle Animations (90 Frames)/Butterfly_Idle_4.fbx"
+        "animations/idle/Butterfly_Idle_4.fbx"
       ],
       "scenes": [
         "ARTIST_EDIT",
@@ -533,7 +535,7 @@
         "蝴蝶翅膀_颜色_DIFFUSE"
       ],
       "embedded_c4d": true,
-      "archived_source_files": 18,
+      "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
       "display_wing_centers_x": [
@@ -560,10 +562,10 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Idle_5.blend",
+      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_5.blend",
       "master": false,
       "active_fbx": [
-        "Idle Animations (90 Frames)/Butterfly_Idle_5.fbx"
+        "animations/idle/Butterfly_Idle_5.fbx"
       ],
       "scenes": [
         "ARTIST_EDIT",
@@ -588,7 +590,7 @@
         "蝴蝶翅膀_颜色_DIFFUSE"
       ],
       "embedded_c4d": true,
-      "archived_source_files": 18,
+      "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
       "display_wing_centers_x": [
@@ -615,10 +617,10 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Idle_6.blend",
+      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_6.blend",
       "master": false,
       "active_fbx": [
-        "Idle Animations (90 Frames)/Butterfly_Idle_6.fbx"
+        "animations/idle/Butterfly_Idle_6.fbx"
       ],
       "scenes": [
         "ARTIST_EDIT",
@@ -643,7 +645,7 @@
         "蝴蝶翅膀_颜色_DIFFUSE"
       ],
       "embedded_c4d": true,
-      "archived_source_files": 18,
+      "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
       "display_wing_centers_x": [
@@ -670,10 +672,10 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/Butterfly_Idle_7.blend",
+      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_7.blend",
       "master": false,
       "active_fbx": [
-        "Idle Animations (90 Frames)/Butterfly_Idle_7.fbx"
+        "animations/idle/Butterfly_Idle_7.fbx"
       ],
       "scenes": [
         "ARTIST_EDIT",
@@ -698,7 +700,7 @@
         "蝴蝶翅膀_颜色_DIFFUSE"
       ],
       "embedded_c4d": true,
-      "archived_source_files": 18,
+      "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
       "display_wing_centers_x": [
@@ -725,10 +727,10 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.blend",
+      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/slow_flap/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.blend",
       "master": false,
       "active_fbx": [
-        "Slow Wing Flapping (120 Frames)/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.fbx"
+        "animations/slow_flap/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.fbx"
       ],
       "scenes": [
         "ARTIST_EDIT",
@@ -753,7 +755,7 @@
         "蝴蝶翅膀_颜色_DIFFUSE"
       ],
       "embedded_c4d": true,
-      "archived_source_files": 18,
+      "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
       "display_wing_centers_x": [
