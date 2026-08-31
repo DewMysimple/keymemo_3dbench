@@ -3,7 +3,7 @@ type: moc
 status: active
 kind: process
 importance: high
-updated: 2026-08-30
+updated: 2026-09-01
 topic: work-log-index
 source_logs: []
 supersedes: null
@@ -15,6 +15,7 @@ supersedes: null
 
 | 时间 | 类型 | 目标 | 状态 | 主题 | 日志 |
 | --- | --- | --- | --- | --- | --- |
+| 2026-09-01 | feature | - | archived | blender-butterfly-full-fidelity-asset | [[日志/2026-09-01-创建蝴蝶Blender完整文件.md|创建蝴蝶 Blender 完整文件]] |
 | 2026-08-30 | feature | - | archived | blender-water-uasset-material-reconstruction | [[日志/2026-08-30-水UAsset材质重建.md|水 UAsset 材质重建]] |
 | 2026-08-29 | feature | - | archived | blender-azalea-form2-as17-regeneration | [[日志/2026-08-29-重新生成杜鹃花形态2AS17Blender文件.md|重新生成杜鹃花形态2 AS17 Blender 文件]] |
 | 2026-08-29 | bug | - | archived | blender-azalea-workspace-localization-and-assets | [[日志/2026-08-29-杜鹃花工作区中文化与原始资料归档.md|杜鹃花工作区中文化与原始资料归档]] |

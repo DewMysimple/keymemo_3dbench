@@ -1,0 +1,31 @@
+{
+  "output": "blender/_scenebench/blender/_modelbench/Butterfly/Butterfly.blend",
+  "preview": "blender_scenebench/generated/Butterfly_preview.png",
+  "source_archive": "blender/_scenebench/blender/_modelbench/Butterfly/source_assets",
+  "source_file_count": 18,
+  "fbx_count": 10,
+  "source_object_count": 44,
+  "source_action_count": 22,
+  "action_ranges": [
+    [
+      1.0,
+      85.0
+    ],
+    [
+      1.0,
+      91.0
+    ],
+    [
+      1.0,
+      121.0
+    ]
+  ],
+  "packed_image_count": 4,
+  "scene_names": [
+    "ARTIST_EDIT",
+    "SOURCE_REFERENCE"
+  ],
+  "default_scene": "ARTIST_EDIT",
+  "display_scale": 0.718819716060974,
+  "raw_display_extent": 8.625250339508057
+}

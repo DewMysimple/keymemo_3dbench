@@ -1,0 +1,182 @@
+{
+  "blend": "blender/_scenebench/blender/_modelbench/Butterfly/Butterfly.blend",
+  "scenes": [
+    "ARTIST_EDIT",
+    "SOURCE_REFERENCE"
+  ],
+  "default_scene": "ARTIST_EDIT",
+  "fbx_source_collections": 10,
+  "fbx_source_objects": 44,
+  "source_actions": 22,
+  "obj_body_vertices": 1239,
+  "obj_body_polygons": 1229,
+  "packed_images": [
+    "蝴蝶源图参考_Male_Dos_MHNT",
+    "蝴蝶翅膀_法线_NORMAL",
+    "蝴蝶翅膀_透明度_ALPHA",
+    "蝴蝶翅膀_颜色_DIFFUSE"
+  ],
+  "embedded_c4d": true,
+  "archived_source_files": 18,
+  "group_report": [
+    {
+      "collection": "SOURCE_FBX_01_Butterfly_Idle_1",
+      "objects": 4,
+      "animated_objects": 2,
+      "action_ranges": [
+        [
+          1.0,
+          85.0
+        ],
+        [
+          1.0,
+          91.0
+        ]
+      ]
+    },
+    {
+      "collection": "SOURCE_FBX_02_Butterfly_Idle_2",
+      "objects": 4,
+      "animated_objects": 2,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ],
+        [
+          1.0,
+          91.0
+        ]
+      ]
+    },
+    {
+      "collection": "SOURCE_FBX_03_Butterfly_Idle_3",
+      "objects": 4,
+      "animated_objects": 2,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ],
+        [
+          1.0,
+          91.0
+        ]
+      ]
+    },
+    {
+      "collection": "SOURCE_FBX_04_Butterfly_Idle_4",
+      "objects": 4,
+      "animated_objects": 2,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ],
+        [
+          1.0,
+          91.0
+        ]
+      ]
+    },
+    {
+      "collection": "SOURCE_FBX_05_Butterfly_Idle_5",
+      "objects": 4,
+      "animated_objects": 2,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ],
+        [
+          1.0,
+          91.0
+        ]
+      ]
+    },
+    {
+      "collection": "SOURCE_FBX_06_Butterfly_Idle_6",
+      "objects": 4,
+      "animated_objects": 2,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ],
+        [
+          1.0,
+          91.0
+        ]
+      ]
+    },
+    {
+      "collection": "SOURCE_FBX_07_Butterfly_Idle_7",
+      "objects": 4,
+      "animated_objects": 2,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ],
+        [
+          1.0,
+          91.0
+        ]
+      ]
+    },
+    {
+      "collection": "SOURCE_FBX_08_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1",
+      "objects": 6,
+      "animated_objects": 3,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ],
+        [
+          1.0,
+          91.0
+        ],
+        [
+          1.0,
+          91.0
+        ]
+      ]
+    },
+    {
+      "collection": "SOURCE_FBX_09_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2",
+      "objects": 6,
+      "animated_objects": 3,
+      "action_ranges": [
+        [
+          1.0,
+          91.0
+        ],
+        [
+          1.0,
+          91.0
+        ],
+        [
+          1.0,
+          91.0
+        ]
+      ]
+    },
+    {
+      "collection": "SOURCE_FBX_10_BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES",
+      "objects": 4,
+      "animated_objects": 2,
+      "action_ranges": [
+        [
+          1.0,
+          121.0
+        ],
+        [
+          1.0,
+          121.0
+        ]
+      ]
+    }
+  ],
+  "animation_signature_changed_1_to_45": true
+}
