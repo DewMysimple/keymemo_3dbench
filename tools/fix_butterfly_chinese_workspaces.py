@@ -21,10 +21,6 @@ def update_current_file():
     if artist_scene is None:
         raise RuntimeError(f"缺少 ARTIST_EDIT 场景: {path.name}")
     bpy.context.window.scene = artist_scene
-    if path.parent.name == "follow_path":
-        animation_workspace = bpy.data.workspaces.get("动画")
-        if animation_workspace:
-            bpy.context.window.workspace = animation_workspace
     bpy.ops.wm.save_as_mainfile(filepath=str(path))
     return {
         "file": str(path.relative_to(PROJECT_ROOT)).replace("\\", "/"),

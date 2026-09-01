@@ -20,7 +20,7 @@
 
 ## 打开方式
 
-- 默认场景 `ARTIST_EDIT`：单个已居中的展示模型，展示副本保持左右翅膀的原始父子关系和动作；两个 `follow_path` 文件默认打开中文 `动画` 工作区，方便编辑轨迹关键帧。
+- 默认场景 `ARTIST_EDIT`：单个已居中的展示模型，展示副本保持左右翅膀的原始父子关系和动作；编辑两个 `follow_path` 文件时切换到中文 `动画` 工作区即可。
 - 场景 `SOURCE_REFERENCE`：对应文件的原始 FBX 导入对象；用于核对源数据，不会与其它动画叠加。
 - 两个 `follow_path` 文件已保存 Blender Motion Path：打开 `ARTIST_EDIT` 后选中名称以 `展示_` 开头的动画空物体，即可看到轨迹；通过该对象的 Action 关键帧可以手动调整运动。`SOURCE_REFERENCE` 同时保留原始 FBX 空物体的轨迹显示。
 - 顶部工作区已固定为中文：`布局`、`建模`、`动画`、`合成` 等；如果手动切换语言或加载旧文件，运行 `blender_scenebench/tools/fix_butterfly_chinese_workspaces.py` 可重新固定。
