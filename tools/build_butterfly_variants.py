@@ -269,6 +269,17 @@ def create_document(fbx_paths, output_path, document_label, copied_files, master
     )
     base.set_scene_collection_visibility(source_scene, {source_collection.name})
 
+    display_path_object = next(
+        (obj for obj in hero_objects if obj.type == "EMPTY" and obj.animation_data and obj.animation_data.action),
+        None,
+    )
+    source_path_object = next(
+        (obj for obj in hero_source_objects if obj.type == "EMPTY" and obj.animation_data and obj.animation_data.action),
+        None,
+    )
+    base.calculate_motion_path(display_path_object, artist_scene, "ARTIST_EDIT")
+    base.calculate_motion_path(source_path_object, source_scene, "SOURCE_REFERENCE")
+
     readme_root = (SOURCE_ROOT / "Read Me.txt").read_text(
         encoding="utf-8",
         errors="replace",

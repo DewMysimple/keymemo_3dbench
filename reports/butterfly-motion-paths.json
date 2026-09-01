@@ -1,0 +1,30 @@
+{
+  "files": [
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
+      "artist_edit_target": "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_源_FBX_01_03_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_1_2",
+      "source_reference_target": "源_FBX_01_03_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_1_2",
+      "artist_edit_frames": [
+        1,
+        92
+      ],
+      "source_reference_frames": [
+        1,
+        92
+      ]
+    },
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
+      "artist_edit_target": "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_源_FBX_01_03_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_2",
+      "source_reference_target": "源_FBX_01_03_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_2",
+      "artist_edit_frames": [
+        1,
+        92
+      ],
+      "source_reference_frames": [
+        1,
+        92
+      ]
+    }
+  ]
+}

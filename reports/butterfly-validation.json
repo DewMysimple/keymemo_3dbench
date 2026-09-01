@@ -53,6 +53,10 @@
       "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
+      "motion_path": {
+        "display_targets": [],
+        "display_points": 0
+      },
       "display_wing_centers_x": [
         -1.094193935394287,
         0.6852579116821289
@@ -251,6 +255,12 @@
       "source_files": 18,
       "display_objects": 6,
       "display_animated_objects": 3,
+      "motion_path": {
+        "display_targets": [
+          "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_源_FBX_01_03_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_1_2"
+        ],
+        "display_points": 91
+      },
       "display_wing_centers_x": [
         -0.15304434299468994,
         0.5607882738113403
@@ -310,6 +320,12 @@
       "source_files": 18,
       "display_objects": 6,
       "display_animated_objects": 3,
+      "motion_path": {
+        "display_targets": [
+          "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_源_FBX_01_03_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_2"
+        ],
+        "display_points": 91
+      },
       "display_wing_centers_x": [
         -0.901028037071228,
         0.32883626222610474
@@ -373,6 +389,10 @@
       "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
+      "motion_path": {
+        "display_targets": [],
+        "display_points": 0
+      },
       "display_wing_centers_x": [
         -1.094193935394287,
         0.6852579116821289
@@ -428,6 +448,10 @@
       "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
+      "motion_path": {
+        "display_targets": [],
+        "display_points": 0
+      },
       "display_wing_centers_x": [
         -1.6108136177062988,
         1.7307566404342651
@@ -483,6 +507,10 @@
       "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
+      "motion_path": {
+        "display_targets": [],
+        "display_points": 0
+      },
       "display_wing_centers_x": [
         -1.554692029953003,
         1.5872818231582642
@@ -538,6 +566,10 @@
       "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
+      "motion_path": {
+        "display_targets": [],
+        "display_points": 0
+      },
       "display_wing_centers_x": [
         -1.8206392526626587,
         1.8166284561157227
@@ -593,6 +625,10 @@
       "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
+      "motion_path": {
+        "display_targets": [],
+        "display_points": 0
+      },
       "display_wing_centers_x": [
         -1.1705073118209839,
         1.168813705444336
@@ -648,6 +684,10 @@
       "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
+      "motion_path": {
+        "display_targets": [],
+        "display_points": 0
+      },
       "display_wing_centers_x": [
         -1.5703434944152832,
         1.5446484088897705
@@ -703,6 +743,10 @@
       "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
+      "motion_path": {
+        "display_targets": [],
+        "display_points": 0
+      },
       "display_wing_centers_x": [
         -0.8898497819900513,
         0.8908087015151978
@@ -758,6 +802,10 @@
       "source_files": 18,
       "display_objects": 4,
       "display_animated_objects": 2,
+      "motion_path": {
+        "display_targets": [],
+        "display_points": 0
+      },
       "display_wing_centers_x": [
         -1.1924471855163574,
         1.192379117012024

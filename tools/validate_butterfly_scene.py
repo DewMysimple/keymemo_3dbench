@@ -182,6 +182,21 @@ def validate_one(blend_path, expected_fbx_paths, master):
     signature_mid = action_signature(artist, display_animated, min(last_frame, 45))
     ensure(signature_first != signature_mid, f"展示动画帧变化缺失: {blend_path.name}")
 
+    motion_path_targets = [
+        obj for obj in display_objects
+        if obj.type == "EMPTY" and obj.animation_data and obj.animation_data.action and obj.motion_path
+    ]
+    is_follow_path = (not master) and any("FOLLOW_PATH" in value.upper() for value in expected_fbx_paths)
+    if is_follow_path:
+        ensure(len(motion_path_targets) == 1, f"Follow Path 展示运动路径缺失: {blend_path.name}")
+        ensure(motion_path_targets[0].motion_path.length > 1, f"Follow Path 展示运动路径没有轨迹点: {blend_path.name}")
+        source_motion_path_targets = [
+            obj for obj in source_objects
+            if obj.type == "EMPTY" and obj.animation_data and obj.animation_data.action and obj.motion_path
+        ]
+        ensure(len(source_motion_path_targets) == 1, f"Follow Path 源运动路径缺失: {blend_path.name}")
+        ensure(source_motion_path_targets[0].motion_path.length > 1, f"Follow Path 源运动路径没有轨迹点: {blend_path.name}")
+
     source_files = [path for path in SOURCE_ROOT.rglob("*") if path.is_file()]
     ensure(len(source_files) == 18, f"源文件数量错误: {len(source_files)}")
     return {
@@ -201,6 +216,10 @@ def validate_one(blend_path, expected_fbx_paths, master):
         "source_files": len(source_files),
         "display_objects": len(display_objects),
         "display_animated_objects": len(display_animated),
+        "motion_path": {
+            "display_targets": [obj.name for obj in motion_path_targets],
+            "display_points": motion_path_targets[0].motion_path.length if motion_path_targets else 0,
+        },
         "display_wing_centers_x": wing_centers,
         "animation_signature_changed": True,
         "group_report": group_report,

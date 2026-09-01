@@ -484,6 +484,50 @@ def set_scene_collection_visibility(scene, included_names):
             layer.exclude = child.name not in included_names
 
 
+def calculate_motion_path(obj, scene, label="animation"):
+    """Bake a visible Blender Motion Path without changing source animation data."""
+    ensure(obj is not None, f"{label} 动画路径对象缺失")
+    ensure(obj.animation_data and obj.animation_data.action, f"{label} 动画路径对象没有 Action")
+
+    previous_scene = bpy.context.window.scene if bpy.context.window else None
+    if bpy.context.window:
+        bpy.context.window.scene = scene
+    bpy.ops.object.select_all(action="DESELECT")
+    obj.select_set(True)
+    bpy.context.view_layer.objects.active = obj
+    if obj.motion_path:
+        bpy.ops.object.paths_clear()
+    result = bpy.ops.object.paths_calculate(display_type="RANGE", range="SCENE")
+    ensure(result == {"FINISHED"} and obj.motion_path, f"{label} Blender Motion Path 计算失败")
+
+    motion_path = obj.motion_path
+    motion_path.lines = True
+    motion_path.line_thickness = 2
+    motion_path.use_custom_color = True
+    motion_path.color = (0.08, 0.78, 1.0)
+    motion_path.color_post = (1.0, 0.34, 0.08)
+    obj.show_name = True
+    obj["animation_path_display"] = "Blender Motion Path"
+    obj["animation_path_editable"] = True
+    obj["animation_path_frame_start"] = int(motion_path.frame_start)
+    obj["animation_path_frame_end"] = int(motion_path.frame_end)
+    obj["animation_path_edit_note"] = "在 ARTIST_EDIT 中选中此对象，编辑其 Action 的关键帧即可调整运动轨迹；SOURCE_REFERENCE 保留原始动画。"
+
+    for screen in bpy.data.screens:
+        for area in screen.areas:
+            if area.type != "VIEW_3D":
+                continue
+            overlay = area.spaces.active.overlay
+            if hasattr(overlay, "show_motion_paths"):
+                overlay.show_motion_paths = True
+            if hasattr(overlay, "show_relationship_lines"):
+                overlay.show_relationship_lines = True
+
+    if previous_scene and previous_scene != scene and bpy.context.window:
+        bpy.context.window.scene = previous_scene
+    return motion_path
+
+
 def create_text(name, content):
     text = bpy.data.texts.new(name)
     # from_string() avoids the quadratic behavior of repeated Text.write() on
@@ -643,6 +687,17 @@ def main():
     source_scene["reference_scene"] = "所有原始 FBX 导入对象、OBJ 身体和动作库可见"
     set_scene_collection_visibility(artist_scene, {MODEL_COLLECTION_NAME, ENV_COLLECTION_NAME, LIGHT_COLLECTION_NAME})
     set_scene_collection_visibility(source_scene, {SOURCE_COLLECTION_NAME})
+
+    display_path_object = next(
+        (obj for obj in hero_objects if obj.type == "EMPTY" and obj.animation_data and obj.animation_data.action),
+        None,
+    )
+    source_path_object = next(
+        (obj for obj in hero_source_objects if obj.type == "EMPTY" and obj.animation_data and obj.animation_data.action),
+        None,
+    )
+    calculate_motion_path(display_path_object, artist_scene, "ARTIST_EDIT")
+    calculate_motion_path(source_path_object, source_scene, "SOURCE_REFERENCE")
 
     readme = (SOURCE_ROOT / "Read Me.txt").read_text(encoding="utf-8", errors="replace")
     texture_readme = (image_root / "Read Me.txt").read_text(encoding="utf-8", errors="replace")
