@@ -29,14 +29,14 @@
 
 `CAMERA_HEAD_FOLLOW → CAMERA_HEAD_ANCHOR → 展示身体网格 → 原始 FBX 父级动画链`
 
-镜头是头部后上方的第三人称视角，完整继承蝴蝶的位置、旋转和翻滚；原来的 `蝴蝶_英雄相机` 仍保留。当前 FBX 没有独立的头部对象，因此 `CAMERA_HEAD_ANCHOR` 使用展示身体网格的头部端几何位置作为绑定点，`CAMERA_HEAD_LOOK_TARGET` 作为头部与身体之间的瞄准参考点。
+镜头是参考图所示的自上而下正面展开第三人称视角。`CAMERA_HEAD_FOLLOW` 的位置通过头部父级链跟随蝴蝶，`CAMERA_HEAD_TRACK_TO` 使用 `DAMPED_TRACK` 持续旋转对准 `CAMERA_HEAD_LOOK_TARGET`，因此蝴蝶飞行、转向时摄像机也会不断更新朝向并保持正面构图；原来的 `蝴蝶_英雄相机` 仍保留。当前 FBX 没有独立的头部对象，因此 `CAMERA_HEAD_ANCHOR` 使用展示身体网格的头部端几何位置作为绑定点，`CAMERA_HEAD_LOOK_TARGET` 作为整体蝴蝶展开区域的瞄准参考点。
 
 手动调整摄像机：
 
 1. 在 `ARTIST_EDIT` 中选中 `CAMERA_HEAD_ANCHOR`，移动它可以调整头部绑定位置。
 2. 选中 `CAMERA_HEAD_FOLLOW`，移动或旋转它可以调整第三人称镜头的距离、高度和视角。
-3. 保留 `CAMERA_HEAD_FOLLOW` 的父级 `CAMERA_HEAD_ANCHOR`，这样播放动画时摄像机仍会跟随蝴蝶。
-4. 播放第 1 帧到最后一帧检查跟随效果；运动路径仍可在原有 Follow Path 动画空物体上编辑。
+3. 保留 `CAMERA_HEAD_FOLLOW` 的父级 `CAMERA_HEAD_ANCHOR` 和 `CAMERA_HEAD_TRACK_TO` 约束，这样摄像机才会跟随并持续对准蝴蝶。
+4. 播放第 1 帧到最后一帧检查正面构图；运动路径仍可在原有 Follow Path 动画空物体上编辑。
 
 ## 打开方式
 

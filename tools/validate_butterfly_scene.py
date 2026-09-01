@@ -227,10 +227,6 @@ def validate_one(blend_path, expected_fbx_paths, master):
     }
 
 
-def matrix_signature(matrix):
-    return tuple(round(value, 6) for row in matrix for value in row)
-
-
 def validate_head_camera_variant(blend_path, expected_fbx_path):
     report = validate_one(blend_path, [expected_fbx_path], master=False)
     bpy.ops.wm.open_mainfile(filepath=str(blend_path), load_ui=False)
@@ -251,7 +247,12 @@ def validate_head_camera_variant(blend_path, expected_fbx_path):
     ensure(look_target.parent == anchor.parent, f"头部瞄准点未绑定身体网格: {blend_path.name}")
     ensure(camera.get("bound_to_anchor") == anchor.name, f"头部摄像机绑定属性错误: {blend_path.name}")
     ensure(camera.get("look_target") == look_target.name, f"头部摄像机瞄准属性错误: {blend_path.name}")
-    ensure("翻滚" in str(camera.get("follow_policy", "")), f"头部摄像机未声明完整旋转/翻滚跟随: {blend_path.name}")
+    ensure(camera.data.type == "ORTHO", f"头部摄像机不是正面展开正交视角: {blend_path.name}")
+    track_to = camera.constraints.get("CAMERA_HEAD_TRACK_TO")
+    ensure(track_to is not None and track_to.type == "DAMPED_TRACK", f"头部摄像机持续跟踪约束缺失: {blend_path.name}")
+    ensure(track_to.target == look_target, f"头部摄像机跟踪目标错误: {blend_path.name}")
+    ensure(track_to.track_axis == "TRACK_NEGATIVE_Z", f"头部摄像机跟踪轴错误: {blend_path.name}")
+    ensure("跟随" in str(camera.get("follow_policy", "")) or "跟踪" in str(camera.get("follow_policy", "")), f"头部摄像机未声明持续旋转跟踪: {blend_path.name}")
 
     scene = artist
     sample_frames = [scene.frame_start, min(scene.frame_end, 45), scene.frame_end]
@@ -265,21 +266,28 @@ def validate_head_camera_variant(blend_path, expected_fbx_path):
             "camera_rotation": [round(value, 6) for value in camera.matrix_world.to_quaternion()],
             "anchor_location": [round(value, 6) for value in anchor.matrix_world.to_translation()],
             "camera_anchor_distance": round((camera.matrix_world.translation - anchor.matrix_world.translation).length, 6),
-            "camera_local_matrix": matrix_signature(camera.matrix_local),
+            "camera_anchor_offset": [round(value, 6) for value in (anchor.matrix_world.inverted() @ camera.matrix_world.translation)],
+            "target_facing_dot": round(
+                ((look_target.matrix_world.translation - camera.matrix_world.translation).normalized()).dot(
+                    camera.matrix_world.to_quaternion() @ Vector((0.0, 0.0, -1.0))
+                ),
+                6,
+            ),
         })
 
     ensure(len({tuple(sample["camera_location"]) for sample in samples}) > 1, f"头部摄像机位置未随动画变化: {blend_path.name}")
     ensure(len({tuple(sample["camera_rotation"]) for sample in samples}) > 1, f"头部摄像机旋转未随动画变化: {blend_path.name}")
-    local_reference = samples[0]["camera_local_matrix"]
+    offset_reference = samples[0]["camera_anchor_offset"]
     ensure(
         all(
-            max(abs(left - right) for left, right in zip(local_reference, sample["camera_local_matrix"])) < 0.0001
+            max(abs(left - right) for left, right in zip(offset_reference, sample["camera_anchor_offset"])) < 0.0001
             for sample in samples[1:]
         ),
-        f"头部摄像机相对锚点偏移不恒定: {blend_path.name}",
+        f"头部摄像机位置相对锚点偏移不恒定: {blend_path.name}",
     )
     first_distance = samples[0]["camera_anchor_distance"]
     ensure(all(abs(sample["camera_anchor_distance"] - first_distance) < 0.0001 for sample in samples), f"头部摄像机与锚点距离变化: {blend_path.name}")
+    ensure(all(sample["target_facing_dot"] > 0.999 for sample in samples), f"头部摄像机没有持续对准蝴蝶: {blend_path.name}")
 
     report["head_camera"] = {
         "camera": camera.name,
@@ -289,8 +297,8 @@ def validate_head_camera_variant(blend_path, expected_fbx_path):
         "anchor_parent": anchor.parent.name,
         "default_camera": artist.camera.name,
         "hero_camera_preserved": hero_camera.name,
-        "full_rotation_and_roll_follow": True,
-        "relative_transform_constant": True,
+        "tracks_target_continuously": True,
+        "position_offset_constant": True,
         "samples": samples,
     }
     return report

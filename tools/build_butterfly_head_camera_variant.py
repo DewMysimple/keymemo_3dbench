@@ -116,6 +116,59 @@ def matrix_from_location_rotation(location, rotation):
     return matrix
 
 
+def world_bounds(objects):
+    points = [obj.matrix_world @ Vector(corner) for obj in objects for corner in obj.bound_box]
+    ensure(points, "展示网格没有可用边界点")
+    low = Vector(tuple(min(point[index] for point in points) for index in range(3)))
+    high = Vector(tuple(max(point[index] for point in points) for index in range(3)))
+    return low, high
+
+
+def top_view_camera_matrix(anchor, body, display_meshes):
+    display_low, display_high = world_bounds(display_meshes)
+    display_target = (display_low + display_high) * 0.5
+    body_low, body_high = world_bounds([body])
+    body_center = (body_low + body_high) * 0.5
+
+    view_normal = Vector((0.0, 0.0, 1.0))
+    camera_position = anchor.matrix_world.translation + view_normal * 10.0
+    view_direction = (display_target - camera_position).normalized()
+    screen_up = anchor.matrix_world.translation - body_center
+    screen_up -= view_direction * screen_up.dot(view_direction)
+    if screen_up.length < 0.05:
+        screen_up = Vector((-1.0, 0.0, 0.0))
+        screen_up -= view_direction * screen_up.dot(view_direction)
+    screen_up.normalize()
+    screen_right = view_direction.cross(screen_up).normalized()
+    screen_up = screen_right.cross(view_direction).normalized()
+
+    rotation = Matrix((screen_right, screen_up, -view_direction)).transposed().to_4x4()
+    rotation.translation = camera_position
+    return display_target, camera_position, rotation
+
+
+def apply_top_view(camera, anchor, look_target, body, display_meshes):
+    display_target, camera_position, camera_matrix = top_view_camera_matrix(anchor, body, display_meshes)
+    ensure(camera.parent == anchor, "头部摄像机必须保留 CAMERA_HEAD_ANCHOR 父级")
+    camera.data.type = "ORTHO"
+    camera.data.ortho_scale = 7.15
+    camera.matrix_world = camera_matrix
+    look_target.matrix_world = Matrix.Translation(display_target)
+    constraint = camera.constraints.get("CAMERA_HEAD_TRACK_TO")
+    if constraint is not None and constraint.type != "DAMPED_TRACK":
+        camera.constraints.remove(constraint)
+        constraint = None
+    constraint = constraint or camera.constraints.new("DAMPED_TRACK")
+    constraint.name = "CAMERA_HEAD_TRACK_TO"
+    constraint.target = look_target
+    constraint.track_axis = "TRACK_NEGATIVE_Z"
+    constraint.influence = 1.0
+    bpy.context.view_layer.update()
+    camera["view_policy"] = "自上而下的蝴蝶展开视角；画面上方对准头部方向；持续对准蝴蝶"
+    camera["rotation_policy"] = "通过 CAMERA_HEAD_TRACK_TO 持续旋转对准 CAMERA_HEAD_LOOK_TARGET"
+    return display_target, camera_position
+
+
 def add_head_camera(input_path):
     output = output_path(input_path)
     ensure(not output.exists(), f"输出文件已存在，拒绝覆盖: {output}")
@@ -132,6 +185,11 @@ def add_head_camera(input_path):
     model_collection = find_collection(artist_scene, "MODEL_", "_展示模型")
     light_collection = find_collection(artist_scene, "LIGHTS_", "_摄影灯光")
     body = find_display_body(model_collection)
+    display_meshes = [
+        obj for obj in model_collection.objects
+        if obj.type == "MESH" and obj.name.startswith("展示_")
+    ]
+    ensure(len(display_meshes) == 3, f"展示蝴蝶网格数量应为 3，实际为 {len(display_meshes)}")
     body_center, head_point, forward = calculate_head_reference(body, artist_scene)
 
     anchor = make_empty("CAMERA_HEAD_ANCHOR", model_collection, "SPHERE", 0.16)
@@ -156,25 +214,23 @@ def add_head_camera(input_path):
     camera_data.clip_start = 0.01
     camera_data.clip_end = 1000.0
 
-    world_up = Vector((0.0, 0.0, 1.0))
-    if abs(forward.dot(world_up)) > 0.92:
-        world_up = Vector((0.0, 1.0, 0.0))
-    camera_position = head_point - forward * 5.5 + world_up * 2.25
-    camera_rotation = (body_center - camera_position).to_track_quat("-Z", "Y")
+    camera_position = head_point.copy()
+    camera_rotation = Matrix.Identity(4)
     camera.matrix_world = matrix_from_location_rotation(camera_position, camera_rotation)
     parent_preserve_world(camera, anchor)
-    camera["camera_role"] = "蝴蝶头部第三人称跟随摄像机"
+    display_target, camera_position = apply_top_view(camera, anchor, look_target, body, display_meshes)
+    camera["camera_role"] = "蝴蝶头部正面第三人称跟随摄像机"
     camera["bound_to_anchor"] = anchor.name
     camera["look_target"] = look_target.name
-    camera["follow_policy"] = "完整继承头部父级变换，包括位置、旋转和翻滚"
-    camera["view_policy"] = "第三人称后上方视角"
-    camera["edit_note"] = "移动 CAMERA_HEAD_ANCHOR 调整绑定点，移动 CAMERA_HEAD_FOLLOW 调整镜头偏移；保持父级关系即可继续跟随动画。"
+    camera["follow_policy"] = "头部位置跟随；使用 DAMPED_TRACK 持续旋转对准蝴蝶；保持正面展开构图"
+    camera["edit_note"] = "移动 CAMERA_HEAD_ANCHOR 调整绑定点，移动 CAMERA_HEAD_FOLLOW 调整镜头偏移；保持父级和 DAMPED_TRACK 约束即可继续跟随动画。"
 
     artist_scene.camera = camera
     artist_scene["head_camera_name"] = camera.name
     artist_scene["head_camera_anchor"] = anchor.name
     artist_scene["head_camera_look_target"] = look_target.name
-    artist_scene["head_camera_policy"] = "第三人称后上方；完整继承头部旋转和翻滚；原英雄摄像机保留"
+    artist_scene["head_camera_policy"] = "正面第三人称；头部位置跟随；持续旋转对准蝴蝶；原英雄摄像机保留"
+    artist_scene["head_camera_view_mode"] = "TOP_DOWN_BUTTERFLY_PROFILE_TRACKED"
     artist_scene["head_camera_source_file"] = str(input_path.relative_to(PROJECT_ROOT)).replace("\\", "/")
 
     instructions = (
@@ -182,11 +238,11 @@ def add_head_camera(input_path):
         f"源文件副本：{input_path.name}\n"
         "默认摄像机：CAMERA_HEAD_FOLLOW\n"
         "绑定链：CAMERA_HEAD_FOLLOW → CAMERA_HEAD_ANCHOR → 展示身体网格 → 原始 FBX 父级动画链\n"
-        "镜头模式：第三人称后上方；完整继承头部移动、旋转和翻滚。\n\n"
+        "镜头模式：自上而下的正面展开第三人称；头部位置跟随，摄像机持续旋转对准蝴蝶。\n\n"
         "手动调整：\n"
         "1. 在 ARTIST_EDIT 中选中 CAMERA_HEAD_ANCHOR，移动它可改变头部绑定位置。\n"
-        "2. 选中 CAMERA_HEAD_FOLLOW，移动或旋转它可改变镜头偏移和视角。\n"
-        "3. 不要清除父级关系，否则摄像机不会继续跟随蝴蝶。\n"
+        "2. 选中 CAMERA_HEAD_FOLLOW，移动或旋转它可改变正面镜头偏移和视角。\n"
+        "3. 不要清除父级关系或 DAMPED_TRACK 约束，否则摄像机不会继续对准蝴蝶。\n"
         "4. 播放时间轴检查第 1、中间和最后帧的跟随效果。\n"
     )
     text = bpy.data.texts.get("蝴蝶_头部摄像机说明") or bpy.data.texts.new("蝴蝶_头部摄像机说明")
@@ -210,6 +266,8 @@ def add_head_camera(input_path):
         "bound_body": body.name,
         "head_point_frame_1": [round(value, 6) for value in head_point],
         "forward_frame_1": [round(value, 6) for value in forward],
+        "view_mode": "TOP_DOWN_BUTTERFLY_PROFILE_TRACKED",
+        "display_target_frame_1": [round(value, 6) for value in display_target],
         "camera_lens_mm": camera_data.lens,
         "default_scene": bpy.context.window.scene.name,
         "default_camera": artist_scene.camera.name,
