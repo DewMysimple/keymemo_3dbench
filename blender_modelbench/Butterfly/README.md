@@ -20,9 +20,10 @@
 
 ## 打开方式
 
-- 默认场景 `ARTIST_EDIT`：单个已居中的展示模型，展示副本保持左右翅膀的原始父子关系和动作。
+- 默认场景 `ARTIST_EDIT`：单个已居中的展示模型，展示副本保持左右翅膀的原始父子关系和动作；两个 `follow_path` 文件默认打开中文 `动画` 工作区，方便编辑轨迹关键帧。
 - 场景 `SOURCE_REFERENCE`：对应文件的原始 FBX 导入对象；用于核对源数据，不会与其它动画叠加。
 - 两个 `follow_path` 文件已保存 Blender Motion Path：打开 `ARTIST_EDIT` 后选中名称以 `展示_` 开头的动画空物体，即可看到轨迹；通过该对象的 Action 关键帧可以手动调整运动。`SOURCE_REFERENCE` 同时保留原始 FBX 空物体的轨迹显示。
+- 顶部工作区已固定为中文：`布局`、`建模`、`动画`、`合成` 等；如果手动切换语言或加载旧文件，运行 `blender_scenebench/tools/fix_butterfly_chinese_workspaces.py` 可重新固定。
 - `source/`：18 个源文件的唯一原样来源；4 张图像已同时打包进每个 `.blend`。
 - `manifests/source-files.json`：记录每个源文件的大小与 SHA-256。
 - C4D 不能被 Blender 5 原生解析；C4D 原始字节保存在 `蝴蝶_C4D原始二进制_Base64` 文本块，并有 SHA-256 记录。
@@ -30,6 +31,17 @@
 ## 翅膀修正说明
 
 上一版的问题是把所有 FBX 同时放进一个源场景，并把展示变换叠加到层级中的多个对象上。新版每个文件只显示一个 FBX，展示缩放只施加于单一展示根节点；源对象和 Action 不改名、不合并、不删除。
+
+## 手动编辑 Follow Path
+
+FBX 里的路径是动画关键帧，不是可直接拖拽的曲线。操作步骤：
+
+1. 打开 `blender/follow_path/` 下的文件，保持场景为 `ARTIST_EDIT`。
+2. 在视图中选中已自动选中的 `展示_..._03_...` 动画空物体；按小键盘 `.`（View Selected）可将它和轨迹居中。
+3. 切换顶部 `动画` 工作区，在 Dope Sheet 或 Graph Editor 中编辑这个对象的 Location/Rotation 关键帧。
+4. 修改后执行 `物体（Object）→ 运动路径（Motion Paths）→ 更新路径（Update Paths）`。
+
+这会调整展示动画的运动轨迹；`SOURCE_REFERENCE` 仍保留原始 FBX 关键帧，作为对照。
 
 构建报告：`blender_scenebench/reports/butterfly-variants-build.json`
 预览图：`blender_scenebench/generated/Butterfly_preview.png`

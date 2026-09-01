@@ -42,8 +42,13 @@ def localized_workspaces():
         "Geometry Nodes": "几何节点",
         "Scripting": "脚本",
     }
-    for workspace in bpy.data.workspaces:
+    # Renaming while iterating the RNA collection can reorder it and skip
+    # entries in Blender 5. Iterate over a stable Python snapshot instead.
+    for workspace in list(bpy.data.workspaces):
+        # Chinese names are intentionally left unchanged so this is idempotent.
         workspace.name = names.get(workspace.name, workspace.name)
+        for screen in list(workspace.screens):
+            screen.name = workspace.name
     if bpy.context.window:
         layout = bpy.data.workspaces.get("布局")
         if layout:

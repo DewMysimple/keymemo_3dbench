@@ -36,7 +36,7 @@ def find_animated_empty(prefix):
 def update_file(path):
     if not path.is_file():
         raise RuntimeError(f"Blend 文件不存在: {path}")
-    bpy.ops.wm.open_mainfile(filepath=str(path), load_ui=False)
+    bpy.ops.wm.open_mainfile(filepath=str(path))
     artist_scene = bpy.data.scenes.get("ARTIST_EDIT")
     source_scene = bpy.data.scenes.get("SOURCE_REFERENCE")
     if not artist_scene or not source_scene:
