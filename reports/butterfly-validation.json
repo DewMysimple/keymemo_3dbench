@@ -3,6 +3,7 @@
   "blender_root": "blender_scenebench/blender_modelbench/Butterfly/blender",
   "source_root": "blender_scenebench/blender_modelbench/Butterfly/source",
   "blend_file_count": 11,
+  "head_camera_file_count": 2,
   "validated": [
     {
       "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/Butterfly_Master.blend",
@@ -828,6 +829,392 @@
           ]
         }
       ]
+    }
+  ],
+  "head_camera_validated": [
+    {
+      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/head_camera/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_HEAD_CAMERA.blend",
+      "master": false,
+      "active_fbx": [
+        "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.fbx"
+      ],
+      "scenes": [
+        "ARTIST_EDIT",
+        "SOURCE_REFERENCE"
+      ],
+      "default_scene": "ARTIST_EDIT",
+      "fbx_source_collections": 1,
+      "fbx_source_objects": 6,
+      "source_actions": 3,
+      "source_action_ranges": [
+        [
+          1.0,
+          91.0
+        ]
+      ],
+      "obj_body_vertices": 1239,
+      "obj_body_polygons": 1229,
+      "packed_images": [
+        "蝴蝶源图参考_Male_Dos_MHNT",
+        "蝴蝶翅膀_法线_NORMAL",
+        "蝴蝶翅膀_透明度_ALPHA",
+        "蝴蝶翅膀_颜色_DIFFUSE"
+      ],
+      "embedded_c4d": true,
+      "source_files": 18,
+      "display_objects": 6,
+      "display_animated_objects": 3,
+      "motion_path": {
+        "display_targets": [
+          "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_源_FBX_01_03_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_1_2"
+        ],
+        "display_points": 91
+      },
+      "display_wing_centers_x": [
+        -0.15304434299468994,
+        0.5607882738113403
+      ],
+      "animation_signature_changed": true,
+      "group_report": [
+        {
+          "collection": "SOURCE_FBX_01_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1",
+          "objects": 6,
+          "animated_objects": 3,
+          "action_ranges": [
+            [
+              1.0,
+              91.0
+            ],
+            [
+              1.0,
+              91.0
+            ],
+            [
+              1.0,
+              91.0
+            ]
+          ]
+        }
+      ],
+      "head_camera": {
+        "camera": "CAMERA_HEAD_FOLLOW",
+        "anchor": "CAMERA_HEAD_ANCHOR",
+        "look_target": "CAMERA_HEAD_LOOK_TARGET",
+        "camera_parent": "CAMERA_HEAD_ANCHOR",
+        "anchor_parent": "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_源_FBX_01_01_BASIC_BUTTERFLY_BODY_Travis_Davids_OBJ_1",
+        "default_camera": "CAMERA_HEAD_FOLLOW",
+        "hero_camera_preserved": "蝴蝶_英雄相机",
+        "full_rotation_and_roll_follow": true,
+        "relative_transform_constant": true,
+        "samples": [
+          {
+            "frame": 1,
+            "camera_location": [
+              4.700305,
+              -2.318231,
+              1.336297
+            ],
+            "camera_rotation": [
+              0.704611,
+              0.490946,
+              0.292895,
+              0.420367
+            ],
+            "anchor_location": [
+              -0.120335,
+              0.283919,
+              -0.42356
+            ],
+            "camera_anchor_distance": 5.753855,
+            "camera_local_matrix": [
+              0.475008,
+              -0.304799,
+              0.825509,
+              4.82064,
+              0.879981,
+              0.164528,
+              -0.445604,
+              -2.60215,
+              -0.0,
+              0.938098,
+              0.346369,
+              1.759856,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 45,
+            "camera_location": [
+              -12.367266,
+              2.213219,
+              10.880415
+            ],
+            "camera_rotation": [
+              0.63603,
+              0.258854,
+              0.185513,
+              0.702883
+            ],
+            "anchor_location": [
+              -16.012426,
+              2.576835,
+              6.443361
+            ],
+            "camera_anchor_distance": 5.753856,
+            "camera_local_matrix": [
+              0.475008,
+              -0.304799,
+              0.825509,
+              4.820641,
+              0.879981,
+              0.164528,
+              -0.445604,
+              -2.60215,
+              -0.0,
+              0.938098,
+              0.346369,
+              1.759858,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 91,
+            "camera_location": [
+              4.700305,
+              -2.318232,
+              1.336297
+            ],
+            "camera_rotation": [
+              0.704611,
+              0.490946,
+              0.292895,
+              0.420367
+            ],
+            "anchor_location": [
+              -0.120335,
+              0.283919,
+              -0.42356
+            ],
+            "camera_anchor_distance": 5.753855,
+            "camera_local_matrix": [
+              0.475008,
+              -0.304799,
+              0.825509,
+              4.82064,
+              0.879981,
+              0.164528,
+              -0.445604,
+              -2.60215,
+              -0.0,
+              0.938098,
+              0.346369,
+              1.759856,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/head_camera/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_HEAD_CAMERA.blend",
+      "master": false,
+      "active_fbx": [
+        "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.fbx"
+      ],
+      "scenes": [
+        "ARTIST_EDIT",
+        "SOURCE_REFERENCE"
+      ],
+      "default_scene": "ARTIST_EDIT",
+      "fbx_source_collections": 1,
+      "fbx_source_objects": 6,
+      "source_actions": 3,
+      "source_action_ranges": [
+        [
+          1.0,
+          91.0
+        ]
+      ],
+      "obj_body_vertices": 1239,
+      "obj_body_polygons": 1229,
+      "packed_images": [
+        "蝴蝶源图参考_Male_Dos_MHNT",
+        "蝴蝶翅膀_法线_NORMAL",
+        "蝴蝶翅膀_透明度_ALPHA",
+        "蝴蝶翅膀_颜色_DIFFUSE"
+      ],
+      "embedded_c4d": true,
+      "source_files": 18,
+      "display_objects": 6,
+      "display_animated_objects": 3,
+      "motion_path": {
+        "display_targets": [
+          "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_源_FBX_01_03_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_2"
+        ],
+        "display_points": 91
+      },
+      "display_wing_centers_x": [
+        -0.901028037071228,
+        0.32883626222610474
+      ],
+      "animation_signature_changed": true,
+      "group_report": [
+        {
+          "collection": "SOURCE_FBX_01_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2",
+          "objects": 6,
+          "animated_objects": 3,
+          "action_ranges": [
+            [
+              1.0,
+              91.0
+            ],
+            [
+              1.0,
+              91.0
+            ],
+            [
+              1.0,
+              91.0
+            ]
+          ]
+        }
+      ],
+      "head_camera": {
+        "camera": "CAMERA_HEAD_FOLLOW",
+        "anchor": "CAMERA_HEAD_ANCHOR",
+        "look_target": "CAMERA_HEAD_LOOK_TARGET",
+        "camera_parent": "CAMERA_HEAD_ANCHOR",
+        "anchor_parent": "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_源_FBX_01_01_BASIC_BUTTERFLY_BODY_Travis_Davids_OBJ_1",
+        "default_camera": "CAMERA_HEAD_FOLLOW",
+        "hero_camera_preserved": "蝴蝶_英雄相机",
+        "full_rotation_and_roll_follow": true,
+        "relative_transform_constant": true,
+        "samples": [
+          {
+            "frame": 1,
+            "camera_location": [
+              -2.856498,
+              -2.630067,
+              5.64116
+            ],
+            "camera_rotation": [
+              0.893911,
+              0.226622,
+              -0.095038,
+              -0.374877
+            ],
+            "anchor_location": [
+              -0.285128,
+              -0.103471,
+              -0.762679
+            ],
+            "camera_anchor_distance": 7.348795,
+            "camera_local_matrix": [
+              0.70087,
+              0.627139,
+              -0.339822,
+              -2.571369,
+              -0.713289,
+              0.616219,
+              -0.333905,
+              -2.526596,
+              0.0,
+              0.476415,
+              0.879221,
+              6.403839,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 45,
+            "camera_location": [
+              -17.542849,
+              12.595654,
+              4.557822
+            ],
+            "camera_rotation": [
+              0.32505,
+              0.152576,
+              0.311938,
+              0.879635
+            ],
+            "anchor_location": [
+              -21.061802,
+              9.221622,
+              -0.941055
+            ],
+            "camera_anchor_distance": 7.348794,
+            "camera_local_matrix": [
+              0.70087,
+              0.627139,
+              -0.339822,
+              -2.571367,
+              -0.71329,
+              0.616219,
+              -0.333905,
+              -2.526597,
+              0.0,
+              0.476415,
+              0.879221,
+              6.403839,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          },
+          {
+            "frame": 91,
+            "camera_location": [
+              -2.856497,
+              -2.630067,
+              5.641161
+            ],
+            "camera_rotation": [
+              0.893911,
+              0.226622,
+              -0.095038,
+              -0.374877
+            ],
+            "anchor_location": [
+              -0.285128,
+              -0.103471,
+              -0.762679
+            ],
+            "camera_anchor_distance": 7.348795,
+            "camera_local_matrix": [
+              0.70087,
+              0.627139,
+              -0.339822,
+              -2.571369,
+              -0.713289,
+              0.616219,
+              -0.333905,
+              -2.526596,
+              0.0,
+              0.476415,
+              0.879221,
+              6.403839,
+              0.0,
+              0.0,
+              0.0,
+              1.0
+            ]
+          }
+        ]
+      }
     }
   ]
 }

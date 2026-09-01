@@ -11,6 +11,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
 SOURCE_ROOT = OUTPUT_ROOT / "source"
 BLENDER_ROOT = OUTPUT_ROOT / "blender"
+HEAD_CAMERA_ROOT = BLENDER_ROOT / "follow_path" / "head_camera"
 MANIFEST_PATH = OUTPUT_ROOT / "manifests" / "source-files.json"
 LEGACY_ARCHIVE_ROOT = OUTPUT_ROOT / "archive" / "legacy"
 REPORT_PATH = PROJECT_ROOT / "blender_scenebench" / "reports" / "butterfly-validation.json"
@@ -226,6 +227,75 @@ def validate_one(blend_path, expected_fbx_paths, master):
     }
 
 
+def matrix_signature(matrix):
+    return tuple(round(value, 6) for row in matrix for value in row)
+
+
+def validate_head_camera_variant(blend_path, expected_fbx_path):
+    report = validate_one(blend_path, [expected_fbx_path], master=False)
+    bpy.ops.wm.open_mainfile(filepath=str(blend_path), load_ui=False)
+    artist = bpy.data.scenes["ARTIST_EDIT"]
+    ensure(artist == bpy.context.window.scene, f"头部摄像机副本默认场景不是 ARTIST_EDIT: {blend_path.name}")
+
+    camera = bpy.data.objects.get("CAMERA_HEAD_FOLLOW")
+    anchor = bpy.data.objects.get("CAMERA_HEAD_ANCHOR")
+    look_target = bpy.data.objects.get("CAMERA_HEAD_LOOK_TARGET")
+    hero_camera = bpy.data.objects.get("蝴蝶_英雄相机")
+    ensure(camera is not None and camera.type == "CAMERA", f"头部跟随摄像机缺失: {blend_path.name}")
+    ensure(anchor is not None and anchor.type == "EMPTY", f"头部绑定锚点缺失: {blend_path.name}")
+    ensure(look_target is not None and look_target.type == "EMPTY", f"头部瞄准点缺失: {blend_path.name}")
+    ensure(hero_camera is not None and hero_camera.type == "CAMERA", f"原英雄摄像机未保留: {blend_path.name}")
+    ensure(artist.camera == camera, f"ARTIST_EDIT 默认摄像机错误: {blend_path.name}")
+    ensure(camera.parent == anchor, f"头部摄像机父级错误: {blend_path.name}")
+    ensure(anchor.parent is not None and anchor.parent.type == "MESH", f"头部锚点未绑定身体网格: {blend_path.name}")
+    ensure(look_target.parent == anchor.parent, f"头部瞄准点未绑定身体网格: {blend_path.name}")
+    ensure(camera.get("bound_to_anchor") == anchor.name, f"头部摄像机绑定属性错误: {blend_path.name}")
+    ensure(camera.get("look_target") == look_target.name, f"头部摄像机瞄准属性错误: {blend_path.name}")
+    ensure("翻滚" in str(camera.get("follow_policy", "")), f"头部摄像机未声明完整旋转/翻滚跟随: {blend_path.name}")
+
+    scene = artist
+    sample_frames = [scene.frame_start, min(scene.frame_end, 45), scene.frame_end]
+    samples = []
+    for frame in sample_frames:
+        scene.frame_set(frame)
+        bpy.context.view_layer.update()
+        samples.append({
+            "frame": frame,
+            "camera_location": [round(value, 6) for value in camera.matrix_world.to_translation()],
+            "camera_rotation": [round(value, 6) for value in camera.matrix_world.to_quaternion()],
+            "anchor_location": [round(value, 6) for value in anchor.matrix_world.to_translation()],
+            "camera_anchor_distance": round((camera.matrix_world.translation - anchor.matrix_world.translation).length, 6),
+            "camera_local_matrix": matrix_signature(camera.matrix_local),
+        })
+
+    ensure(len({tuple(sample["camera_location"]) for sample in samples}) > 1, f"头部摄像机位置未随动画变化: {blend_path.name}")
+    ensure(len({tuple(sample["camera_rotation"]) for sample in samples}) > 1, f"头部摄像机旋转未随动画变化: {blend_path.name}")
+    local_reference = samples[0]["camera_local_matrix"]
+    ensure(
+        all(
+            max(abs(left - right) for left, right in zip(local_reference, sample["camera_local_matrix"])) < 0.0001
+            for sample in samples[1:]
+        ),
+        f"头部摄像机相对锚点偏移不恒定: {blend_path.name}",
+    )
+    first_distance = samples[0]["camera_anchor_distance"]
+    ensure(all(abs(sample["camera_anchor_distance"] - first_distance) < 0.0001 for sample in samples), f"头部摄像机与锚点距离变化: {blend_path.name}")
+
+    report["head_camera"] = {
+        "camera": camera.name,
+        "anchor": anchor.name,
+        "look_target": look_target.name,
+        "camera_parent": camera.parent.name,
+        "anchor_parent": anchor.parent.name,
+        "default_camera": artist.camera.name,
+        "hero_camera_preserved": hero_camera.name,
+        "full_rotation_and_roll_follow": True,
+        "relative_transform_constant": True,
+        "samples": samples,
+    }
+    return report
+
+
 def validate():
     ensure(not (OUTPUT_ROOT / "source_assets").exists(), "旧 source_assets 重复目录仍存在")
     ensure(not any(OUTPUT_ROOT.glob("*.blend")), "正式根目录仍有未分类 Blender 文件")
@@ -239,7 +309,7 @@ def validate():
     variant_paths = sorted(
         (
             path for path in BLENDER_ROOT.glob("**/*.blend")
-            if path.name != master_path.name
+            if path.name != master_path.name and path.parent.name in {"idle", "follow_path", "slow_flap"}
         ),
         key=lambda path: path.name.lower(),
     )
@@ -251,12 +321,28 @@ def validate():
     for variant_path in variant_paths:
         reports.append(validate_one(variant_path, [expected_by_stem[variant_path.stem]], master=False))
 
+    expected_head_camera_paths = {
+        "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_HEAD_CAMERA.blend": "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.fbx",
+        "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_HEAD_CAMERA.blend": "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.fbx",
+    }
+    head_camera_paths = sorted(HEAD_CAMERA_ROOT.glob("*.blend"), key=lambda path: path.name.lower())
+    ensure(
+        {path.name for path in head_camera_paths} == set(expected_head_camera_paths),
+        "头部摄像机副本应恰好包含两个目标文件",
+    )
+    head_camera_reports = [
+        validate_head_camera_variant(path, expected_head_camera_paths[path.name])
+        for path in head_camera_paths
+    ]
+
     payload = {
         "output_root": str(OUTPUT_ROOT.relative_to(PROJECT_ROOT)).replace("\\", "/"),
         "blender_root": str(BLENDER_ROOT.relative_to(PROJECT_ROOT)).replace("\\", "/"),
         "source_root": str(SOURCE_ROOT.relative_to(PROJECT_ROOT)).replace("\\", "/"),
         "blend_file_count": len(reports),
+        "head_camera_file_count": len(head_camera_reports),
         "validated": reports,
+        "head_camera_validated": head_camera_reports,
     }
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
     REPORT_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")

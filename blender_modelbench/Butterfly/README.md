@@ -18,6 +18,26 @@
 - `blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend`：animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.fbx；源对象 6 个，Action 3 个。
 - `blender/slow_flap/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.blend`：animations/slow_flap/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.fbx；源对象 4 个，Action 2 个。
 
+## 头部跟随摄像机版本
+
+以下两个文件是 Follow Path 原文件的独立副本；原始两个 Follow Path 文件保持不变：
+
+- `blender/follow_path/head_camera/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_HEAD_CAMERA.blend`
+- `blender/follow_path/head_camera/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_HEAD_CAMERA.blend`
+
+这两个副本的 `ARTIST_EDIT` 默认摄像机为 `CAMERA_HEAD_FOLLOW`，绑定关系为：
+
+`CAMERA_HEAD_FOLLOW → CAMERA_HEAD_ANCHOR → 展示身体网格 → 原始 FBX 父级动画链`
+
+镜头是头部后上方的第三人称视角，完整继承蝴蝶的位置、旋转和翻滚；原来的 `蝴蝶_英雄相机` 仍保留。当前 FBX 没有独立的头部对象，因此 `CAMERA_HEAD_ANCHOR` 使用展示身体网格的头部端几何位置作为绑定点，`CAMERA_HEAD_LOOK_TARGET` 作为头部与身体之间的瞄准参考点。
+
+手动调整摄像机：
+
+1. 在 `ARTIST_EDIT` 中选中 `CAMERA_HEAD_ANCHOR`，移动它可以调整头部绑定位置。
+2. 选中 `CAMERA_HEAD_FOLLOW`，移动或旋转它可以调整第三人称镜头的距离、高度和视角。
+3. 保留 `CAMERA_HEAD_FOLLOW` 的父级 `CAMERA_HEAD_ANCHOR`，这样播放动画时摄像机仍会跟随蝴蝶。
+4. 播放第 1 帧到最后一帧检查跟随效果；运动路径仍可在原有 Follow Path 动画空物体上编辑。
+
 ## 打开方式
 
 - 默认场景 `ARTIST_EDIT`：单个已居中的展示模型，展示副本保持左右翅膀的原始父子关系和动作；编辑两个 `follow_path` 文件时切换到中文 `动画` 工作区即可。
@@ -25,6 +45,7 @@
 - 两个 `follow_path` 文件已保存 Blender Motion Path：打开 `ARTIST_EDIT` 后选中名称以 `展示_` 开头的动画空物体，即可看到轨迹；通过该对象的 Action 关键帧可以手动调整运动。`SOURCE_REFERENCE` 同时保留原始 FBX 空物体的轨迹显示。
 - 顶部工作区已固定为中文：`布局`、`建模`、`动画`、`合成` 等；如果手动切换语言或加载旧文件，运行 `blender_scenebench/tools/fix_butterfly_chinese_workspaces.py` 可重新固定。
 - `source/`：18 个源文件的唯一原样来源；4 张图像已同时打包进每个 `.blend`。
+- `blender/follow_path/head_camera/`：两个不覆盖原文件的头部跟随摄像机副本。
 - `manifests/source-files.json`：记录每个源文件的大小与 SHA-256。
 - C4D 不能被 Blender 5 原生解析；C4D 原始字节保存在 `蝴蝶_C4D原始二进制_Base64` 文本块，并有 SHA-256 记录。
 
@@ -44,4 +65,5 @@ FBX 里的路径是动画关键帧，不是可直接拖拽的曲线。操作步�
 这会调整展示动画的运动轨迹；`SOURCE_REFERENCE` 仍保留原始 FBX 关键帧，作为对照。
 
 构建报告：`blender_scenebench/reports/butterfly-variants-build.json`
+头部摄像机验证结果：`blender_scenebench/reports/butterfly-validation.json`
 预览图：`blender_scenebench/generated/Butterfly_preview.png`
