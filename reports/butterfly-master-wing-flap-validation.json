@@ -1,0 +1,51 @@
+{
+  "asset": "Butterfly",
+  "variant": "master_wing_flap_replacement",
+  "validated_count": 2,
+  "master_sha256_after": "90d8ecc946b50cb5a8106292f23a0e335b0f67f0c6e87c2b75335eed3fb38c63",
+  "source_sha256_after": {
+    "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend": "ba25f8d2dc57b84385c8a2f777851cf50653fd0a4917783efcea111d38df0a71",
+    "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend": "050665b051ad69c647247faaa22133e958102e654025f6cacbb6093a60635a3a"
+  },
+  "master_default_frame": 45,
+  "validated": [
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
+      "source": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
+      "default_scene": "ARTIST_EDIT",
+      "default_frame": 45,
+      "display_wings": {
+        "left": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+        "right": "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
+      },
+      "display_animated_objects": [
+        "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+        "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
+      ],
+      "master_non_wing_transforms_preserved": true,
+      "master_wing_frame_one_transforms_preserved": true,
+      "source_reference_unchanged": true,
+      "source_wing_action_deltas_preserved": true,
+      "wing_animation_changed": true
+    },
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
+      "source": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
+      "default_scene": "ARTIST_EDIT",
+      "default_frame": 45,
+      "display_wings": {
+        "left": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+        "right": "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
+      },
+      "display_animated_objects": [
+        "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+        "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
+      ],
+      "master_non_wing_transforms_preserved": true,
+      "master_wing_frame_one_transforms_preserved": true,
+      "source_reference_unchanged": true,
+      "source_wing_action_deltas_preserved": true,
+      "wing_animation_changed": true
+    }
+  ]
+}

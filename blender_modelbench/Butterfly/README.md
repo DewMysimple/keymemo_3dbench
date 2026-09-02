@@ -38,17 +38,19 @@
 3. 保留 `CAMERA_HEAD_FOLLOW` 的父级 `CAMERA_HEAD_ANCHOR` 和 `CAMERA_HEAD_TRACK_TO` 约束，这样摄像机才会跟随并持续对准蝴蝶。
 4. 播放第 1 帧到最后一帧检查正面构图；运动路径仍可在原有 Follow Path 动画空物体上编辑。
 
-## 仅翅膀扇动版本
+## Master 扇翅替换版本
 
-以下两个文件分别由对应的 Follow Path 文件独立生成：
+以下两个文件均以 `Butterfly_Master.blend` 为基准，分别使用对应 Follow Path 文件中的左右翅膀扇动变化：
 
 - `blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend`
 - `blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend`
 
-这两个版本的 `ARTIST_EDIT` 只保留左右翅膀的拍动 Action；路径控制器的位置和旋转固定为第 1 帧，因此蝴蝶不会沿路径产生位移，也不会随路径改变朝向。`SOURCE_REFERENCE` 仍保留对应原始 Follow Path 对象和 Action，方便核对源数据。
+这两个版本的场景、展示根、身体、材质、相机、灯光和整体布局都来自 Master。`ARTIST_EDIT` 只替换左右翅膀的扇动变化：翅膀第 1 帧的位置/旋转保持 Master 原值，Follow Path 的路径位移和路径转向不会应用到 Master。`SOURCE_REFERENCE` 保留 Master 原有的全部源对象和 Action，方便核对源数据；Master 原文件与两个 Follow Path 原文件均不覆盖。
 
-专用构建报告：`blender_scenebench/reports/butterfly-wing-only-variants.json`
-专用验证报告：`blender_scenebench/reports/butterfly-wing-only-validation.json`
+专用构建脚本：`blender_scenebench/tools/build_butterfly_master_wing_flap_variants.py`
+专用验证脚本：`blender_scenebench/tools/validate_butterfly_master_wing_flap_variants.py`
+专用构建报告：`blender_scenebench/reports/butterfly-master-wing-flap-variants.json`
+专用验证报告：`blender_scenebench/reports/butterfly-master-wing-flap-validation.json`
 
 ## 打开方式
 
