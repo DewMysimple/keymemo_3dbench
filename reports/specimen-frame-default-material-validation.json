@@ -1,0 +1,79 @@
+{
+  "asset": "Transparent Specimen Frame - Default Material Variant",
+  "source": "blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent.blend",
+  "blend": "blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent_Default_Material.blend",
+  "scene": "SPECIMEN_FRAME_WORKBENCH",
+  "objects": [
+    "CAMERA_SPECIMEN_FRAME",
+    "SPECIMEN_INNER_PANEL",
+    "SPECIMEN_OUTER_FRAME"
+  ],
+  "frame": {
+    "name": "SPECIMEN_OUTER_FRAME",
+    "origin": [
+      -0.0,
+      0.0,
+      4.55
+    ],
+    "geometric_center": [
+      -0.0,
+      0.0,
+      4.55
+    ],
+    "world_dimensions": [
+      0.420001,
+      9.1,
+      9.1
+    ]
+  },
+  "materials_removed": [
+    "MAT_InnerPanel_TransparentLavender",
+    "MAT_OuterFrame_TranslucentWhite"
+  ],
+  "default_material": "Material",
+  "material_slots": {
+    "SPECIMEN_OUTER_FRAME": [
+      "Material"
+    ],
+    "SPECIMEN_INNER_PANEL": [
+      "Material"
+    ]
+  },
+  "images_removed": [
+    "HDRI_SPECIMEN_FRAME_STUDIO"
+  ],
+  "world": {
+    "name": null,
+    "world_datablocks": 0,
+    "image_datablocks": 0
+  },
+  "render_preview": "generated/SpecimenFrame/Specimen_Frame_Transparent_Default_Material_preview.png",
+  "render_engine": "BLENDER_WORKBENCH",
+  "checks": {
+    "source_objects_preserved": true,
+    "outer_frame_origin_at_geometric_center": true,
+    "outer_frame_geometry_position_preserved": true,
+    "inner_panel_geometry_position_preserved": true,
+    "inner_panel_parent_preserved": true,
+    "camera_position_preserved": true,
+    "one_default_material_datablock": true,
+    "default_material_assigned": true,
+    "no_transparent_material_nodes": true,
+    "world_environment_removed": true,
+    "image_datablocks_removed": true,
+    "transparent_background_preserved": true,
+    "no_modifiers": true,
+    "all_passed": true
+  },
+  "reopen_checks": {
+    "one_default_material_datablock": true,
+    "default_material_assigned": true,
+    "no_transparent_material_nodes": true,
+    "world_environment_removed": true,
+    "image_datablocks_removed": true,
+    "outer_frame_origin_at_geometric_center": true,
+    "inner_panel_parent_preserved": true,
+    "all_passed": true
+  },
+  "preview_bytes": 421570
+}

@@ -24,7 +24,9 @@ supersedes: null
 | 2026-09-02 | feature | - | archived | transparent-pale-lavender-specimen-frame-hdri-applied-rotation | [[日志/2026-09-02-改用HDRI世界环境光并应用旋转.md|改用 HDRI 世界环境光并应用旋转]] |
 | 2026-09-02 | feature | - | archived | transparent-pale-lavender-specimen-frame | [[日志/2026-09-02-创建透明浅紫标本方框.md|创建透明浅紫标本方框]] |
 | 2026-09-02 | feature | - | archived | butterfly-wing-flap-only-variants | [[日志/2026-09-02-创建蝴蝶仅翅膀扇动版本.md|创建蝴蝶仅翅膀扇动版本]] |
+| 2026-09-02 | feature | - | archived | transparent-specimen-frame-no-material-no-environment | [[日志/2026-09-02-创建标本方框无材质无环境版本.md|创建标本方框无材质无环境版本]] |
 | 2026-09-02 | feature | - | archived | transparent-pale-lavender-specimen-frame-merged-object | [[日志/2026-09-02-创建标本方框合并物体版本.md|创建标本方框合并物体版本]] |
+| 2026-09-02 | maintenance | - | archived | specimen-frame-default-material-no-environment | [[日志/2026-09-02-修正标本方框默认材质版本.md|修正标本方框默认材质版本]] |
 | 2026-09-02 | maintenance | - | archived | standalone-blender-workbench-migration | [[日志/2026-09-02-Blender工作台独立迁移至keymemo_3dbench.md|Blender 工作台独立迁移至 keymemo_3dbench]] |
 | 2026-09-01 | discussion | - | archived | butterfly-variant-differences | [[日志/2026-09-01-蝴蝶版本差异说明.md|蝴蝶版本差异说明]] |
 | 2026-09-01 | maintenance | - | archived | butterfly-directory-organization | [[日志/2026-09-01-整理蝴蝶素材目录结构.md|整理蝴蝶素材目录结构]] |

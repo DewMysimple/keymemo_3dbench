@@ -25,3 +25,15 @@
 合并版本构建脚本：`../../tools/build_specimen_frame_merged_scene.py`
 
 合并版本验证报告：`../../reports/specimen-frame-merged-validation.json`
+
+## 默认材质版本
+
+另有一个几何优先版本：`blender/Specimen_Frame_Transparent_Default_Material.blend`。
+该版本保留两个模型对象、父子层级、相机、透明背景和世界空间中的实际几何位置；
+`SPECIMEN_OUTER_FRAME` 的物体原点位于其几何中心。两个模型对象使用 Blender 默认的
+`Material` 材质，不含透明节点、Transmission 或自定义透明参数；World 和图像数据均已移除，
+源文件不受影响。
+
+默认材质版本构建脚本：`../../tools/build_specimen_frame_default_material.py`
+
+默认材质版本验证报告：`../../reports/specimen-frame-default-material-validation.json`
