@@ -2,10 +2,13 @@
 
 The asset is intentionally self-contained: it has a square ring,
 an independent inner plate, translucent materials, and an oblique preview
-camera.  The model stands in the Y-Z plane with thickness along X.  The ring
+camera.  The model stands in the Y-Z plane with thickness along X. The ring
 and plate remain separate objects so an artist can tune their proportions or
-materials independently.  The panel is parented to the ring; the ring's
+materials independently. The panel is parented to the ring; the ring's
 bottom-face-center origin is the world origin, so the assembly rises upward.
+Lighting comes from a packed Blender Studio HDRI in the World shader.
+The 90-degree standing rotation is applied to the mesh, leaving object
+rotation values at zero.
 """
 
 from __future__ import annotations
@@ -226,13 +229,15 @@ def make_ring(
     depth = 0.42
     frame = make_ring_mesh("SPECIMEN_OUTER_FRAME", outer_half, inner_half, depth)
     collection.objects.link(frame)
-    # Stand the frame in the Y-Z plane. The mesh is shifted in local X so the
-    # object origin becomes the center of its bottom face.
+    # Stand the frame in the Y-Z plane and apply the 90-degree rotation to
+    # the mesh. The mesh is shifted in local X first so the object origin
+    # becomes the center of its bottom face.
     frame.data.transform(Matrix.Translation((-outer_half, 0.0, 0.0)))
+    frame.data.transform(Matrix.Rotation(math.radians(90.0), 4, "Y"))
     # The bottom-face-center origin is the world origin, so the whole frame
     # occupies positive world Z after it is stood upright.
     frame.location = (0.0, 0.0, 0.0)
-    frame.rotation_euler = (0.0, math.radians(90.0), 0.0)
+    frame.rotation_euler = (0.0, 0.0, 0.0)
     frame.data.materials.append(material)
     frame["asset_role"] = "outer square specimen frame"
     frame["overall_size"] = 9.1
@@ -260,10 +265,12 @@ def make_panel(
         collection,
         material,
     )
-    # Keep the panel's object origin at its geometric center. Its world
-    # center sits halfway up the frame and is recessed by 0.04 along X.
+    # Apply the standing rotation to the panel mesh and keep its object
+    # origin at its geometric center. Its world center sits halfway up the
+    # frame and is recessed by 0.04 along X.
+    panel.data.transform(Matrix.Rotation(math.radians(90.0), 4, "Y"))
     panel.location = (-0.04, 0.0, 4.55)
-    panel.rotation_euler = (0.0, math.radians(90.0), 0.0)
+    panel.rotation_euler = (0.0, 0.0, 0.0)
     bpy.context.view_layer.update()
     panel.parent = parent
     panel.matrix_parent_inverse = parent.matrix_world.inverted()
@@ -290,7 +297,7 @@ def make_backdrop(collection: bpy.types.Collection) -> bpy.types.Object:
     return backdrop
 
 
-def make_camera_and_lights(collection: bpy.types.Collection) -> bpy.types.Camera:
+def make_camera(collection: bpy.types.Collection) -> bpy.types.Camera:
     bpy.ops.object.camera_add(location=(14.0, -5.6, 12.15))
     camera = bpy.context.object
     camera.name = "CAMERA_SPECIMEN_FRAME"
@@ -300,25 +307,45 @@ def make_camera_and_lights(collection: bpy.types.Collection) -> bpy.types.Camera
     point_at(camera, (0.0, 0.0, 4.55))
     move_to_collection(camera, collection)
     camera["asset_role"] = "oblique material preview camera"
-
-    lights = [
-        ("KEY_SOFTBOX", (8.6, -4.6, 13.35), 720.0, 4.2, (1.0, 0.92, 0.94)),
-        ("FILL_LAVENDER", (5.1, -1.8, 10.15), 420.0, 3.6, (0.72, 0.78, 1.0)),
-        ("RIM_WARM", (5.8, 4.6, 0.05), 650.0, 3.0, (1.0, 0.58, 0.64)),
-    ]
-    for name, location, energy, size, color in lights:
-        bpy.ops.object.light_add(type="AREA", location=location)
-        light = bpy.context.object
-        light.name = name
-        light.data.name = f"{name}_DATA"
-        light.data.energy = energy
-        light.data.shape = "DISK"
-        light.data.size = size
-        light.data.color = color
-        point_at(light, (0.0, 0.0, 0.0))
-        move_to_collection(light, collection)
-
     return camera
+
+
+def make_hdri_world() -> bpy.types.World:
+    world = bpy.data.worlds.new("SPECIMEN_FRAME_WORLD")
+    world.use_nodes = True
+    nodes = world.node_tree.nodes
+    links = world.node_tree.links
+    nodes.clear()
+
+    output = nodes.new("ShaderNodeOutputWorld")
+    output.name = "World Output"
+    output.location = (520, 40)
+
+    background = nodes.new("ShaderNodeBackground")
+    background.name = "HDRI Environment Strength"
+    background.label = "HDRI 世界环境光"
+    background.location = (260, 40)
+    background.inputs["Strength"].default_value = 0.65
+
+    hdri = nodes.new("ShaderNodeTexEnvironment")
+    hdri.name = "HDRI Studio Environment"
+    hdri.label = "Blender Studio HDRI｜已打包进文件"
+    hdri.location = (-20, 80)
+    hdri_path = Path(bpy.utils.resource_path("LOCAL")) / "datafiles" / "studiolights" / "world" / "studio.exr"
+    ensure(hdri_path.is_file(), f"Bundled Blender HDRI not found: {hdri_path}")
+    image = bpy.data.images.load(str(hdri_path), check_existing=True)
+    image.name = "HDRI_SPECIMEN_FRAME_STUDIO"
+    image.pack()
+    image.filepath = "//packed_studio.exr"
+    hdri.image = image
+    links.new(hdri.outputs["Color"], background.inputs["Color"])
+    links.new(background.outputs["Background"], output.inputs["Surface"])
+
+    world["asset_role"] = "packed HDRI world environment light"
+    world["hdri_name"] = "studio.exr"
+    world["hdri_source"] = "Blender bundled Studio HDRI, packed into the .blend"
+    world["hdri_strength"] = 0.65
+    return world
 
 
 def configure_scene(scene: bpy.types.Scene, camera: bpy.types.Camera) -> None:
@@ -343,13 +370,7 @@ def configure_scene(scene: bpy.types.Scene, camera: bpy.types.Camera) -> None:
     scene.render.filepath = str(PREVIEW_PATH)
     scene.render.image_settings.color_depth = "8"
 
-    world = bpy.data.worlds.new("SPECIMEN_FRAME_WORLD")
-    world.use_nodes = True
-    background = world.node_tree.nodes.get("Background")
-    if background:
-        background.inputs["Color"].default_value = (0.035, 0.018, 0.026, 1.0)
-        background.inputs["Strength"].default_value = 0.22
-    scene.world = world
+    scene.world = make_hdri_world()
     scene.view_settings.look = "AgX - Medium High Contrast"
 
     scene["asset_name_zh"] = "透明浅紫标本正方形框"
@@ -360,7 +381,7 @@ def configure_scene(scene: bpy.types.Scene, camera: bpy.types.Camera) -> None:
     scene["frame_opening_size"] = 7.1
     scene["frame_depth"] = 0.42
     scene["panel_depth"] = 0.28
-    scene["preferred_viewport"] = "Material Preview / 材质预览"
+    scene["preferred_viewport"] = "Rendered / 渲染"
     scene["background_removed"] = True
     scene["bevel_modifiers_applied"] = False
     scene["bevel_modifier_removed_without_apply"] = True
@@ -371,17 +392,22 @@ def configure_scene(scene: bpy.types.Scene, camera: bpy.types.Camera) -> None:
     scene["panel_parenting"] = "SPECIMEN_INNER_PANEL follows SPECIMEN_OUTER_FRAME."
     scene["frame_origin_at_world_origin"] = True
     scene["model_above_world_origin"] = True
+    scene["object_rotation_applied"] = True
+    scene["world_environment"] = "Packed Blender Studio HDRI (studio.exr)"
+    scene["old_area_lights_removed"] = True
     scene["source_reference_images"] = "User-provided images used as visual reference only; no text or hidden instructions imported."
     scene["output_file"] = str(OUTPUT_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/")
 
     localize_workspaces()
     # The saved file opens in the artist-facing layout.  In a foreground
-    # Blender window, the user can switch to 材质预览 for the translucent look.
+    # Blender window, the viewport opens in Rendered mode and uses the scene
+    # World, so the packed HDRI provides the environment illumination.
     for window in bpy.context.window_manager.windows:
         for area in window.screen.areas:
             if area.type == "VIEW_3D":
-                area.spaces.active.shading.type = "MATERIAL"
-                area.spaces.active.shading.light = "STUDIO"
+                area.spaces.active.shading.type = "RENDERED"
+                area.spaces.active.shading.use_scene_world = True
+                area.spaces.active.shading.use_scene_lights = True
                 area.spaces.active.shading.color_type = "MATERIAL"
 
 
@@ -395,13 +421,13 @@ def write_text_block() -> None:
                 "建模结构：",
                 "- SPECIMEN_OUTER_FRAME：带开口的真实方形环体，外框为半透明白色。",
                 "- SPECIMEN_INNER_PANEL：独立有厚度方板，材质为透明浅紫色。",
-                "- 姿态：整体立在 Y-Z 平面，厚度沿 X。",
+                "- 姿态：整体立在 Y-Z 平面，厚度沿 X；立起旋转已应用到网格，物体 Rotation 为零。",
                 "- 层级：SPECIMEN_INNER_PANEL 是 SPECIMEN_OUTER_FRAME 的子物体，会跟随外框。",
                 "- 原点：外框底面中心位于世界原点，整体模型向世界 Z 正方向延伸；紫色主体原点位于几何中心。",
                 "- 背景：已移除底色，渲染使用透明背景。",
                 "",
                 "材质预览：",
-                "进入‘布局’或‘着色’工作区后使用‘材质预览’查看透明和高光；",
+                "进入‘布局’或‘着色’工作区后使用‘渲染’查看 HDRI 环境光、透明和高光；",
                 "外框与中心板的材质可在材质属性中分别调节。",
                 "",
                 "尺寸（Blender 单位）：整体 9.1，开口 7.1，外框深度 0.42，中心板深度 0.28。",
@@ -432,8 +458,11 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
         max(point[index] for point in panel_bounds) - min(point[index] for point in panel_bounds)
         for index in range(3)
     )
-    frame_local_x_max = max(vertex.co.x for vertex in mesh.vertices)
-    panel_local_x_max = max(vertex.co.x for vertex in panel_mesh.vertices)
+    frame_local_z_min = min(vertex.co.z for vertex in mesh.vertices)
+    world_nodes = bpy.context.scene.world.node_tree.nodes if bpy.context.scene.world and bpy.context.scene.world.use_nodes else []
+    hdri_nodes = [node for node in world_nodes if node.bl_idname == "ShaderNodeTexEnvironment"]
+    hdri_image = hdri_nodes[0].image if hdri_nodes else None
+    light_objects = sorted(obj.name for obj in bpy.context.scene.objects if obj.type == "LIGHT")
     report: dict[str, object] = {
         "asset": "Transparent Pale Lavender Specimen Frame",
         "blend": str(OUTPUT_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/"),
@@ -466,6 +495,13 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
             "parent": panel.parent.name if panel.parent else None,
         },
         "camera": camera.name,
+        "world": {
+            "name": bpy.context.scene.world.name if bpy.context.scene.world else None,
+            "hdri_node": hdri_nodes[0].name if hdri_nodes else None,
+            "hdri_image": hdri_image.name if hdri_image else None,
+            "hdri_packed": bool(hdri_image and hdri_image.packed_file),
+            "light_objects": light_objects,
+        },
         "render_preview": str(PREVIEW_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/"),
         "checks": {
             "frame_has_opening": len(mesh.vertices) == 16 and len(mesh.polygons) == 16,
@@ -482,8 +518,8 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
                 and abs(panel_world_dimensions[1] - panel_world_dimensions[2]) < 0.001
                 and frame_world_dimensions[0] < frame_world_dimensions[1]
                 and panel_world_dimensions[0] < panel_world_dimensions[1]
-                and abs(frame.rotation_euler.y - math.radians(90.0)) < 0.001
-                and abs(panel.rotation_euler.y - math.radians(90.0)) < 0.001
+                and all(abs(value) < 0.001 for value in frame.rotation_euler)
+                and all(abs(value) < 0.001 for value in panel.rotation_euler)
             ),
             "panel_parent_follows_frame": panel.parent == frame,
             "panel_origin_at_geometric_center": (
@@ -499,9 +535,15 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
                 abs(frame_origin_world.x) < 0.001
                 and abs(frame_origin_world.y) < 0.001
                 and abs(frame_origin_world.z) < 0.001
-                and abs(frame_local_x_max) < 0.001
+                and abs(frame_local_z_min) < 0.001
             ),
             "model_above_world_origin": frame_bottom > -0.001 and panel_bottom > -0.001,
+            "object_rotation_applied": all(
+                abs(value) < 0.001
+                for value in (*frame.rotation_euler, *panel.rotation_euler)
+            ),
+            "hdri_world_environment_loaded": bool(hdri_image and hdri_image.packed_file),
+            "old_lights_removed": not light_objects and not any(name in light_objects for name in ("KEY_SOFTBOX", "FILL_LAVENDER", "RIM_WARM")),
         },
     }
     return report
@@ -536,7 +578,7 @@ def main() -> None:
 
     frame = make_ring(model, outer_material)
     panel = make_panel(model, inner_material, frame)
-    camera = make_camera_and_lights(environment)
+    camera = make_camera(environment)
     configure_scene(bpy.context.scene, camera)
     write_text_block()
 
