@@ -51,13 +51,13 @@
     "polygons": 6,
     "dimensions": [
       0.28,
-      7.02,
-      7.02
+      7.1,
+      7.1
     ],
     "local_dimensions": [
       0.28,
-      7.02,
-      7.02
+      7.1,
+      7.1
     ],
     "modifier_names": [],
     "material": "MAT_InnerPanel_TransparentLavender",
@@ -77,7 +77,13 @@
       0.0,
       4.55
     ],
-    "parent": "SPECIMEN_OUTER_FRAME"
+    "parent": "SPECIMEN_OUTER_FRAME",
+    "opening_fit_deltas": {
+      "y_min": 0.0,
+      "y_max": -0.0,
+      "z_min": 0.0,
+      "z_max": 0.0
+    }
   },
   "camera": "CAMERA_SPECIMEN_FRAME",
   "world": {
@@ -92,6 +98,8 @@
     "frame_has_opening": true,
     "frame_has_depth": true,
     "panel_has_depth": true,
+    "panel_fills_outer_opening": true,
+    "panel_edges_aligned_with_opening": true,
     "frame_and_panel_separate": true,
     "frame_material_is_white_translucent": true,
     "panel_material_is_lavender_translucent": true,
@@ -108,5 +116,5 @@
     "old_lights_removed": true,
     "all_passed": true
   },
-  "preview_bytes": 662643
+  "preview_bytes": 663835
 }

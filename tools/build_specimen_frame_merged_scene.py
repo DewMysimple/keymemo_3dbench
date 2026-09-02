@@ -36,6 +36,43 @@ def world_bounds(obj: bpy.types.Object) -> list[Vector]:
     return [obj.matrix_world @ Vector(corner) for corner in obj.bound_box]
 
 
+def panel_opening_fit(merged: bpy.types.Object) -> tuple[dict[str, float], dict[str, list[float]]]:
+    """Measure the joined inner-panel vertices against the frame opening."""
+    opening_size = float(bpy.context.scene.get("frame_opening_size", 7.1))
+    overall_size = float(bpy.context.scene.get("frame_overall_size", 9.1))
+    panel_slot = merged.data.materials.find("MAT_InnerPanel_TransparentLavender")
+    ensure(panel_slot >= 0, "Joined inner-panel material slot not found.")
+    panel_vertex_indices = {
+        vertex_index
+        for polygon in merged.data.polygons
+        if polygon.material_index == panel_slot
+        for vertex_index in polygon.vertices
+    }
+    panel_points = [
+        merged.matrix_world @ merged.data.vertices[index].co
+        for index in sorted(panel_vertex_indices)
+    ]
+    ensure(panel_points, "Joined inner-panel geometry not found.")
+    expected = {
+        "y_min": -opening_size / 2.0,
+        "y_max": opening_size / 2.0,
+        "z_min": (overall_size - opening_size) / 2.0,
+        "z_max": (overall_size + opening_size) / 2.0,
+    }
+    actual = {
+        "y_min": min(point.y for point in panel_points),
+        "y_max": max(point.y for point in panel_points),
+        "z_min": min(point.z for point in panel_points),
+        "z_max": max(point.z for point in panel_points),
+    }
+    deltas = {key: actual[key] - expected[key] for key in expected}
+    panel_box = {
+        "min": [min(point[index] for point in panel_points) for index in range(3)],
+        "max": [max(point[index] for point in panel_points) for index in range(3)],
+    }
+    return deltas, panel_box
+
+
 def validate_scene(merged: bpy.types.Object, source_frame_name: str, source_panel_name: str) -> dict[str, object]:
     bpy.context.view_layer.update()
     bounds = world_bounds(merged)
@@ -60,12 +97,15 @@ def validate_scene(merged: bpy.types.Object, source_frame_name: str, source_pane
     world_nodes = bpy.context.scene.world.node_tree.nodes if bpy.context.scene.world and bpy.context.scene.world.use_nodes else []
     hdri_nodes = [node for node in world_nodes if node.bl_idname == "ShaderNodeTexEnvironment"]
     hdri_image = hdri_nodes[0].image if hdri_nodes else None
+    panel_fit_deltas, panel_box = panel_opening_fit(merged)
 
     checks = {
         "source_objects_joined": source_frame_name not in bpy.data.objects and source_panel_name not in bpy.data.objects,
         "one_model_object": model_objects == ["SPECIMEN_FRAME_MERGED"],
         "merged_geometry_present": len(merged.data.vertices) == 24 and len(merged.data.polygons) == 22,
         "standing_dimensions_preserved": all(abs(actual - expected) < 0.001 for actual, expected in zip(dimensions, (0.42, 9.1, 9.1))),
+        "inner_panel_fills_outer_opening": all(abs(value) < 0.001 for value in panel_fit_deltas.values()),
+        "inner_panel_edges_aligned_with_opening": all(abs(value) < 0.001 for value in panel_fit_deltas.values()),
         "merged_origin_at_geometric_center": all(
             abs(merged.matrix_world.translation[index] - sum(point[index] for point in bounds) / len(bounds)) < 0.001
             for index in range(3)
@@ -102,6 +142,13 @@ def validate_scene(merged: bpy.types.Object, source_frame_name: str, source_pane
             "material_slots": material_slots,
             "used_materials": used_materials,
             "parent": merged.parent.name if merged.parent else None,
+        },
+        "inner_panel": {
+            "world_bounds": {
+                "min": [round(value, 6) for value in panel_box["min"]],
+                "max": [round(value, 6) for value in panel_box["max"]],
+            },
+            "opening_fit_deltas": {key: round(value, 6) for key, value in panel_fit_deltas.items()},
         },
         "world": {
             "name": bpy.context.scene.world.name if bpy.context.scene.world else None,
@@ -156,7 +203,7 @@ def main() -> None:
     scene.name = "SPECIMEN_FRAME_MERGED_WORKBENCH"
     scene["asset_name_zh"] = "透明浅紫标本正方形框｜合并物体版本"
     scene["asset_name_en"] = "Transparent Pale Lavender Specimen Frame | Merged Object Variant"
-    scene["modeling_notes"] = "The outer frame and inner panel are joined into one mesh object with two material slots."
+    scene["modeling_notes"] = "The outer frame and inner panel are joined into one mesh object with two material slots; the inner panel perimeter is exactly aligned to the outer opening."
     scene["merged_object"] = True
     scene["merged_origin_at_geometric_center"] = True
     scene["source_blend"] = str(SOURCE_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/")

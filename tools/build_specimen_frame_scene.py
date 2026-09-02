@@ -31,6 +31,12 @@ OUTPUT_PATH = BLENDER_ROOT / "Specimen_Frame_Transparent.blend"
 PREVIEW_PATH = GENERATED_ROOT / "Specimen_Frame_Transparent_preview.png"
 REPORT_PATH = REPORT_ROOT / "specimen-frame-validation.json"
 
+FRAME_OVERALL_SIZE = 9.1
+FRAME_OPENING_SIZE = 7.1
+FRAME_DEPTH = 0.42
+PANEL_DEPTH = 0.28
+PANEL_RECESS = 0.04
+
 
 def ensure(condition: bool, message: str) -> None:
     if not condition:
@@ -224,9 +230,9 @@ def make_ring(
     collection: bpy.types.Collection,
     material: bpy.types.Material,
 ) -> bpy.types.Object:
-    outer_half = 4.55
-    inner_half = 3.55
-    depth = 0.42
+    outer_half = FRAME_OVERALL_SIZE / 2.0
+    inner_half = FRAME_OPENING_SIZE / 2.0
+    depth = FRAME_DEPTH
     frame = make_ring_mesh("SPECIMEN_OUTER_FRAME", outer_half, inner_half, depth)
     collection.objects.link(frame)
     # Stand the frame in the Y-Z plane and apply the 90-degree rotation to
@@ -240,8 +246,8 @@ def make_ring(
     frame.rotation_euler = (0.0, 0.0, 0.0)
     frame.data.materials.append(material)
     frame["asset_role"] = "outer square specimen frame"
-    frame["overall_size"] = 9.1
-    frame["opening_size"] = 7.1
+    frame["overall_size"] = FRAME_OVERALL_SIZE
+    frame["opening_size"] = FRAME_OPENING_SIZE
     frame["thickness"] = depth
     frame["border_width"] = outer_half - inner_half
     frame["material_role"] = "translucent white outer frame"
@@ -254,13 +260,14 @@ def make_panel(
     material: bpy.types.Material,
     parent: bpy.types.Object,
 ) -> bpy.types.Object:
-    # Recess the panel by 0.04 along X so the white ring catches a clean
-    # highlight. The object origin is the center of the panel's bottom face.
+    # Keep the panel recessed in depth while matching the opening exactly in
+    # the Y-Z plane. This removes the former 0.04-per-side perimeter gap while
+    # retaining the intended layered highlight at the front of the frame.
     panel = make_beveled_cube(
         "SPECIMEN_INNER_PANEL",
         (0.0, 0.0, 0.0),
-        (7.02, 7.02, 0.28),
-        0.14,
+        (FRAME_OPENING_SIZE, FRAME_OPENING_SIZE, PANEL_DEPTH),
+        PANEL_DEPTH / 2.0,
         6,
         collection,
         material,
@@ -269,14 +276,15 @@ def make_panel(
     # origin at its geometric center. Its world center sits halfway up the
     # frame and is recessed by 0.04 along X.
     panel.data.transform(Matrix.Rotation(math.radians(90.0), 4, "Y"))
-    panel.location = (-0.04, 0.0, 4.55)
+    panel.location = (-PANEL_RECESS, 0.0, FRAME_OVERALL_SIZE / 2.0)
     panel.rotation_euler = (0.0, 0.0, 0.0)
     bpy.context.view_layer.update()
     panel.parent = parent
     panel.matrix_parent_inverse = parent.matrix_world.inverted()
     panel["asset_role"] = "inner square specimen panel"
-    panel["size"] = 7.02
-    panel["thickness"] = 0.28
+    panel["size"] = FRAME_OPENING_SIZE
+    panel["thickness"] = PANEL_DEPTH
+    panel["opening_fit"] = "perimeter coincident with SPECIMEN_OUTER_FRAME opening"
     panel["material_role"] = "transparent pale lavender center"
     panel["origin_role"] = "geometric center"
     panel["parent_role"] = "follows SPECIMEN_OUTER_FRAME"
@@ -304,7 +312,7 @@ def make_camera(collection: bpy.types.Collection) -> bpy.types.Camera:
     camera.data.name = "CAMERA_SPECIMEN_FRAME_DATA"
     camera.data.lens = 53
     camera.data.sensor_width = 36
-    point_at(camera, (0.0, 0.0, 4.55))
+    point_at(camera, (0.0, 0.0, FRAME_OVERALL_SIZE / 2.0))
     move_to_collection(camera, collection)
     camera["asset_role"] = "oblique material preview camera"
     return camera
@@ -377,10 +385,12 @@ def configure_scene(scene: bpy.types.Scene, camera: bpy.types.Camera) -> None:
     scene["asset_name_en"] = "Transparent Pale Lavender Specimen Frame"
     scene["description_zh"] = "外框为有一定透明度的白色，中心为透明浅紫色，环体与内板均有真实厚度。"
     scene["modeling_notes"] = "SPECIMEN_OUTER_FRAME is a closed square ring; SPECIMEN_INNER_PANEL is a parented solid slab. Both stand in Y-Z with thickness along X."
-    scene["frame_overall_size"] = 9.1
-    scene["frame_opening_size"] = 7.1
-    scene["frame_depth"] = 0.42
-    scene["panel_depth"] = 0.28
+    scene["frame_overall_size"] = FRAME_OVERALL_SIZE
+    scene["frame_opening_size"] = FRAME_OPENING_SIZE
+    scene["frame_depth"] = FRAME_DEPTH
+    scene["panel_depth"] = PANEL_DEPTH
+    scene["panel_recess"] = PANEL_RECESS
+    scene["panel_opening_fit"] = "SPECIMEN_INNER_PANEL exactly fills the 7.1 x 7.1 inner opening; perimeter gap is 0.0."
     scene["preferred_viewport"] = "Rendered / 渲染"
     scene["background_removed"] = True
     scene["bevel_modifiers_applied"] = False
@@ -423,6 +433,7 @@ def write_text_block() -> None:
                 "- SPECIMEN_INNER_PANEL：独立有厚度方板，材质为透明浅紫色。",
                 "- 姿态：整体立在 Y-Z 平面，厚度沿 X；立起旋转已应用到网格，物体 Rotation 为零。",
                 "- 层级：SPECIMEN_INNER_PANEL 是 SPECIMEN_OUTER_FRAME 的子物体，会跟随外框。",
+                "- 合缝：中心板外边界与外框 7.1 × 7.1 内开口四边完全对齐，平面缝隙为 0。",
                 "- 原点：外框底面中心位于世界原点，整体模型向世界 Z 正方向延伸；紫色主体原点位于几何中心。",
                 "- 背景：已移除底色，渲染使用透明背景。",
                 "",
@@ -430,7 +441,7 @@ def write_text_block() -> None:
                 "进入‘布局’或‘着色’工作区后使用‘渲染’查看 HDRI 环境光、透明和高光；",
                 "外框与中心板的材质可在材质属性中分别调节。",
                 "",
-                "尺寸（Blender 单位）：整体 9.1，开口 7.1，外框深度 0.42，中心板深度 0.28。",
+                "尺寸（Blender 单位）：整体 9.1，开口与中心板均为 7.1，外框深度 0.42，中心板深度 0.28。",
             ]
         )
         + "\n"
@@ -458,6 +469,20 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
         max(point[index] for point in panel_bounds) - min(point[index] for point in panel_bounds)
         for index in range(3)
     )
+    opening_size = float(frame.get("opening_size", FRAME_OPENING_SIZE))
+    overall_size = float(frame.get("overall_size", FRAME_OVERALL_SIZE))
+    opening_bounds = {
+        "y_min": -opening_size / 2.0,
+        "y_max": opening_size / 2.0,
+        "z_min": (overall_size - opening_size) / 2.0,
+        "z_max": (overall_size + opening_size) / 2.0,
+    }
+    panel_fit_deltas = {
+        "y_min": min(point.y for point in panel_bounds) - opening_bounds["y_min"],
+        "y_max": max(point.y for point in panel_bounds) - opening_bounds["y_max"],
+        "z_min": min(point.z for point in panel_bounds) - opening_bounds["z_min"],
+        "z_max": max(point.z for point in panel_bounds) - opening_bounds["z_max"],
+    }
     frame_local_z_min = min(vertex.co.z for vertex in mesh.vertices)
     world_nodes = bpy.context.scene.world.node_tree.nodes if bpy.context.scene.world and bpy.context.scene.world.use_nodes else []
     hdri_nodes = [node for node in world_nodes if node.bl_idname == "ShaderNodeTexEnvironment"]
@@ -493,6 +518,7 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
             "rotation_degrees": [round(math.degrees(value), 2) for value in panel.rotation_euler],
             "origin": [round(value, 4) for value in panel_origin_world],
             "parent": panel.parent.name if panel.parent else None,
+            "opening_fit_deltas": {key: round(value, 6) for key, value in panel_fit_deltas.items()},
         },
         "camera": camera.name,
         "world": {
@@ -507,6 +533,11 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
             "frame_has_opening": len(mesh.vertices) == 16 and len(mesh.polygons) == 16,
             "frame_has_depth": frame_world_dimensions[0] > 0.4,
             "panel_has_depth": panel_world_dimensions[0] > 0.25,
+            "panel_fills_outer_opening": all(abs(value) < 0.001 for value in panel_fit_deltas.values()),
+            "panel_edges_aligned_with_opening": (
+                abs(panel_world_dimensions[1] - opening_size) < 0.001
+                and abs(panel_world_dimensions[2] - opening_size) < 0.001
+            ),
             "frame_and_panel_separate": frame != panel and frame.data != panel.data,
             "frame_material_is_white_translucent": frame.data.materials[0].name == "MAT_OuterFrame_TranslucentWhite",
             "panel_material_is_lavender_translucent": panel.data.materials[0].name == "MAT_InnerPanel_TransparentLavender",

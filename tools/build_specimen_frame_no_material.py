@@ -55,6 +55,26 @@ def max_vector_delta(left: list[Vector], right: list[Vector]) -> float:
     return max((a - b).length for a, b in zip(left, right)) if left else 0.0
 
 
+def panel_opening_fit(frame: bpy.types.Object, panel: bpy.types.Object) -> dict[str, float]:
+    """Return panel-to-opening edge deltas in the standing Y-Z plane."""
+    opening_size = float(frame.get("opening_size", 7.1))
+    overall_size = float(frame.get("overall_size", 9.1))
+    panel_points = world_vertex_positions(panel)
+    expected = {
+        "y_min": -opening_size / 2.0,
+        "y_max": opening_size / 2.0,
+        "z_min": (overall_size - opening_size) / 2.0,
+        "z_max": (overall_size + opening_size) / 2.0,
+    }
+    actual = {
+        "y_min": min(point.y for point in panel_points),
+        "y_max": max(point.y for point in panel_points),
+        "z_min": min(point.z for point in panel_points),
+        "z_max": max(point.z for point in panel_points),
+    }
+    return {key: actual[key] - expected[key] for key in expected}
+
+
 def center_outer_frame(frame: bpy.types.Object) -> tuple[Vector, Vector]:
     """Move the frame origin to its local bounding-box center in place."""
     before_vertices = world_vertex_positions(frame)
@@ -192,6 +212,7 @@ def update_variant_metadata(scene: bpy.types.Scene, frame: bpy.types.Object) -> 
                     "",
                     "本版本由 Specimen_Frame_Transparent.blend 派生。",
                     "- 保留 SPECIMEN_OUTER_FRAME 与 SPECIMEN_INNER_PANEL 的几何、层级和世界空间位置。",
+                    "- 合缝：中心板外边界与外框内开口四边完全对齐，平面缝隙为 0。",
                     "- SPECIMEN_OUTER_FRAME 的物体原点位于其几何包围盒中心。",
                     "- 模型使用 Blender 默认材质。",
                     "- 相机和透明背景保持不变；World 与图像数据已移除。",
@@ -217,6 +238,7 @@ def validate_scene(
     bpy.context.view_layer.update()
     frame_vertices = world_vertex_positions(frame)
     panel_vertices = world_vertex_positions(panel)
+    panel_fit_deltas = panel_opening_fit(frame, panel)
     frame_points = world_bounds(frame)
     center = bounds_center(frame_points)
     scene_object_names = sorted(obj.name for obj in scene.objects)
@@ -259,6 +281,11 @@ def validate_scene(
         )
         < 0.000001,
         "inner_panel_parent_preserved": panel.parent == frame,
+        "inner_panel_fills_outer_opening": all(abs(value) < 0.001 for value in panel_fit_deltas.values()),
+        "inner_panel_edges_aligned_with_opening": (
+            abs(panel.dimensions.y - float(frame.get("opening_size", 7.1))) < 0.001
+            and abs(panel.dimensions.z - float(frame.get("opening_size", 7.1))) < 0.001
+        ),
         "camera_position_preserved": max(
             abs(before_camera_matrix[index][column] - scene.camera.matrix_world[index][column])
             for index in range(4)
@@ -288,6 +315,11 @@ def validate_scene(
             "origin": [round(value, 6) for value in frame.matrix_world.translation],
             "geometric_center": [round(value, 6) for value in center],
             "world_dimensions": [round(value, 6) for value in frame.dimensions],
+        },
+        "panel": {
+            "name": panel.name,
+            "world_dimensions": [round(value, 6) for value in panel.dimensions],
+            "opening_fit_deltas": {key: round(value, 6) for key, value in panel_fit_deltas.items()},
         },
         "materials_removed": removed_slots,
         "default_material": default_material.name,
@@ -402,6 +434,7 @@ def main() -> None:
     reopened_image_names = persistent_image_names()
     ensure(not reopened_image_names, "Image data reappeared after reopen.")
     reopened_center = bounds_center(world_bounds(reopened_frame))
+    reopened_panel_fit_deltas = panel_opening_fit(reopened_frame, reopened_panel)
     ensure(
         (reopened_frame.matrix_world.translation - reopened_center).length < 0.000001,
         "Outer frame origin is not at geometric center after reopen.",
@@ -427,6 +460,11 @@ def main() -> None:
         ).length
         < 0.000001,
         "inner_panel_parent_preserved": reopened_panel.parent == reopened_frame,
+        "inner_panel_fills_outer_opening": all(abs(value) < 0.001 for value in reopened_panel_fit_deltas.values()),
+        "inner_panel_edges_aligned_with_opening": (
+            abs(reopened_panel.dimensions.y - float(reopened_frame.get("opening_size", 7.1))) < 0.001
+            and abs(reopened_panel.dimensions.z - float(reopened_frame.get("opening_size", 7.1))) < 0.001
+        ),
     }
     report["reopen_checks"]["all_passed"] = all(report["reopen_checks"].values())
     ensure(report["reopen_checks"]["all_passed"], "Default-material specimen frame reopen validation failed.")

@@ -26,6 +26,20 @@
       9.1
     ]
   },
+  "panel": {
+    "name": "SPECIMEN_INNER_PANEL",
+    "world_dimensions": [
+      0.280001,
+      7.1,
+      7.1
+    ],
+    "opening_fit_deltas": {
+      "y_min": 0.0,
+      "y_max": -0.0,
+      "z_min": 0.0,
+      "z_max": 0.0
+    }
+  },
   "materials_removed": [
     "MAT_InnerPanel_TransparentLavender",
     "MAT_OuterFrame_TranslucentWhite"
@@ -55,6 +69,8 @@
     "outer_frame_geometry_position_preserved": true,
     "inner_panel_geometry_position_preserved": true,
     "inner_panel_parent_preserved": true,
+    "inner_panel_fills_outer_opening": true,
+    "inner_panel_edges_aligned_with_opening": true,
     "camera_position_preserved": true,
     "one_default_material_datablock": true,
     "default_material_assigned": true,
@@ -73,7 +89,9 @@
     "image_datablocks_removed": true,
     "outer_frame_origin_at_geometric_center": true,
     "inner_panel_parent_preserved": true,
+    "inner_panel_fills_outer_opening": true,
+    "inner_panel_edges_aligned_with_opening": true,
     "all_passed": true
   },
-  "preview_bytes": 421570
+  "preview_bytes": 419069
 }
