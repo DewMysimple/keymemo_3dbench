@@ -13,9 +13,9 @@ import bpy
 from mathutils import Vector
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-WATER_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "水"
-GENERATED_ROOT = PROJECT_ROOT / "blender_scenebench" / "generated"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+WATER_ROOT = PROJECT_ROOT  / "blender_modelbench" / "水"
+GENERATED_ROOT = PROJECT_ROOT  / "generated"
 OUTPUT_PATH = WATER_ROOT / "水_材质.blend"
 PREVIEW_PATH = GENERATED_ROOT / "水_材质_preview.png"
 

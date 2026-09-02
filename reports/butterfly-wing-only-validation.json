@@ -4,7 +4,7 @@
   "validated_count": 2,
   "validated": [
     {
-      "file": "blender_scenebench/blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
+      "file": "blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
       "default_scene": "ARTIST_EDIT",
       "display_animated_objects": [
         "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_源_FBX_01_05_BUTTERFLY_FAST__FLAP_FOLLOW_PATH__left_wing_",
@@ -104,7 +104,7 @@
       ]
     },
     {
-      "file": "blender_scenebench/blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
+      "file": "blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
       "default_scene": "ARTIST_EDIT",
       "display_animated_objects": [
         "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_源_FBX_01_05_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_left_wing_",

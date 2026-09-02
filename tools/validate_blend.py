@@ -13,7 +13,7 @@ import bpy
 WORKBENCH = Path(__file__).resolve().parents[1]
 DEFAULT_REPORT = WORKBENCH / "reports/blender-validation.json"
 MANIFEST = WORKBENCH / "manifests/scene_manifest.json"
-PUBLIC_ASSETS = WORKBENCH.parent / "public/wp-content/themes/davidwhyte/resources/assets/xp"
+PUBLIC_ASSETS = WORKBENCH / "source_snapshot/assets"
 REQUIRED_SHARED_COLLECTIONS = {
     "EDITABLE_WATERCOLOR",
     "PROCEDURAL_GRASS",

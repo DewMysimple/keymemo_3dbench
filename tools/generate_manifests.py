@@ -15,7 +15,7 @@ from typing import Any
 WORKBENCH = Path(__file__).resolve().parents[1]
 PROJECT = WORKBENCH.parent
 SNAPSHOT = WORKBENCH / "source_snapshot"
-CURRENT_XP = PROJECT / "public/wp-content/themes/davidwhyte/resources/assets/xp"
+CURRENT_XP = SNAPSHOT / "assets"
 
 
 def sha256(path: Path) -> str:
@@ -366,7 +366,7 @@ def main() -> None:
 - Grass source parameters were extracted from the runtime: Poisson-disc spacing 1.8–2.8 with seven tries, 7–24 clustered blades per seed, ten blade-atlas regions, eight gradient groups with three columns each, eight vertical segments, global scale 5, wind displacement 3000, intensity 3 and speed 0.5.
 - The Blender generator uses a fixed local seed for reproducibility while retaining the source algorithm and resources. Browser cursor reveal and an uncaptured `Math.random()` outcome cannot be mirrored exactly without recording a specific browser session.
 
-{reference_note} All extraction and Blender generation use files copied into `blender_scenebench/source_snapshot/`.
+{reference_note} All extraction and Blender generation use files copied into `source_snapshot/`.
 """
     (reports / "source-extraction.md").write_text(report, encoding="utf-8")
     print(f"Wrote {len(records)} asset records ({total_bytes} bytes)")

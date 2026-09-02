@@ -8,11 +8,11 @@ import bpy
 from mathutils import Vector
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-ASSET_ROOT = PROJECT_ROOT / "blender" / "_scenebench" / "blender" / "_modelbench" / "兰花"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ASSET_ROOT = PROJECT_ROOT / "blender_modelbench" / "兰花"
 FORM1_ROOT = ASSET_ROOT / "形态1"
 FORM2_ROOT = ASSET_ROOT / "形态2"
-GENERATED_ROOT = PROJECT_ROOT / "blender_scenebench" / "generated"
+GENERATED_ROOT = PROJECT_ROOT  / "generated"
 
 
 def ensure(condition, message):

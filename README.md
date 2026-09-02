@@ -1,89 +1,49 @@
-# GwayLoo Scene Workbench
+# keymemo_3dbench
 
-This directory is an isolated local art workspace for studying and rebuilding the webpage's watercolor scene in Blender. The application must never import assets from here.
+独立的 Blender 5.0 模型与场景工作台。仓库根目录就是工作台根目录，源自
+`Verminoble/blender_scenebench` 的提取历史；原 `Verminoble` 目录保留为本地
+备份，本仓库不依赖它的路径、运行时或 Git 子模块。
 
-## Delivered structure
+## 目录
 
-- `source_snapshot/`: local-only byte copies of the current runtime assets, fonts, legacy runtime and extracted R3F configuration.
-- `blender/GwayLoo_Scene_5_0.blend`: tracked Blender 5.0 master file. Its runtime media paths point to the tracked `public/.../xp` assets; the generated Ground PNG and converted annotation font are packed into the file so a normal repository checkout does not resolve through the ignored `source_snapshot/` or `generated/` directories. Automatic `.blend1/.blend2` backups remain ignored.
-- `manifests/asset_manifest.json`: size, SHA-256, format, purpose and media metadata.
-- `manifests/scene_manifest.json`: GLB structure, camera timing, watercolor UV/SDF rectangles, layer schedule and hotspots.
-- `manifests/version_registry.json`: the full baseline and planned derivative-version records.
-- `versions/`: version-layout rules; derivative files are created only by the explicit version-preparation tool.
-- `tools/`: reproducible extraction, conversion, Blender build, validation and render scripts.
-- `reports/`: source differences, Blender structure checks and rendering-boundary documentation.
-- `generated/`: ignored KTX/font conversions, tool cache and validation renders.
+- `blender/`：主场景和稳定交付入口。
+- `blender_modelbench/`：Butterfly、SpecimenFrame、兰花、杜鹃花和水等模型
+  基准资产、源素材与交付文件。
+- `source_snapshot/`：纳入仓库的运行资源快照，用于消除对 Verminoble
+  `public/.../xp` 的依赖。
+- `tools/`：资源准备、清单生成、Blender 构建、修复、验证和渲染脚本。
+- `manifests/`：资源、场景、版本和本地大文件清单。
+- `versions/`：独立派生 Blender 版本及其报告。
+- `reports/`：构建、验证、渲染和迁移报告。
+- `wiki_memory/`：本工程的当前状态、决策、知识和历史日志。
 
-The snapshot contains the complete `xp` directory: one GLB, 24 videos, 16 textures, one KTX2, two LUTs, MSDF data, poem texture, five audio files and Basis support files. It also includes 23 source font files and the relevant runtime/configuration snapshot.
+## 主文件与版本
 
-## Blender organization
+`blender/GwayLoo_Scene_5_0.blend` 是 `full` 完整基准文件。
+`versions/no-animation/` 是保留相机动画、移除非相机动画的独立版本。
+SpecimenFrame 同时保留双组件原始版本和合并为单物体的版本；两者均不含修改器，
+其 HDRI 世界环境按文件内设置保存。
 
-The single master file opens in the artist-facing scene and contains:
+## 资源策略
 
-- `ARTIST_EDIT`: the default scene at frame 3586. `EDIT_tree_1` is selected, all 26 watercolor meshes are selectable, and the viewport is saved in Material Preview mode.
-- `WEB_ANIMATION`: the complete 0–3586 source timeline. It shares the exact same editable mesh and material datablocks with `ARTIST_EDIT`.
-- `SOURCE_REFERENCE`: the isolated, selection-locked `SOURCE_GLTF_MIRROR`. It is not linked into either artist-facing scene.
-- Six `LANDSCAPE_01–06_DESKTOP` scenes at 1920×1080.
-- Six `LANDSCAPE_01–06_MOBILE` scenes at 810×1080.
+主 `.blend` 的外部媒体统一指向仓库内的 `source_snapshot/assets/`；生成 Ground
+图集和字体等必要的派生数据可以嵌入 `.blend`。`generated/`、渲染缓存和 Blender
+自动备份不进入 Git。三个超过 GitHub 100 MB 限制的原始文件保留在本地，详见
+`manifests/local_assets_manifest.json`，不会上传远程仓库。
 
-Use `ARTIST_EDIT` for mesh, UV and material work. Use `WEB_ANIMATION` to play the browser-derived motion. Because both scenes link the same collection, editing an `EDIT_*` mesh or `WC_*` material updates the animation scene without creating a second visible layer.
+## 常用命令
 
-`SOURCE_GLTF_MIRROR` remains available only in `SOURCE_REFERENCE`. It is locked to prevent accidental changes and no longer overlaps the editable layers. The imported GLB contained one zero-area triangle in `land_back_5`; the editable copy removes only that invalid face while retaining the remaining source triangles, UVs and silhouette. Automated validation requires zero N-Gons and zero zero-area faces.
-
-`WEB_CAMERA_EDITABLE` is the active camera. Its `WEB_CAMERA_ACTIVE_BAKED` action contains all 3587 source samples. `WEB_CAMERA_INTERACTION_CONTROL` exposes the separately measured browser loader/mouse offsets without baking them into the main scroll path.
-
-Each of the 26 editable watercolor objects has its own `WEB_REVEAL_*` action. These actions reproduce the source schedule and animate opacity, paper curvature, entry rotation, reveal progress and cutout/ground opacity. The extracted source shadow timing remains stored as unused runtime metadata until the WebGL shadow shader is accurately rebuilt. Each landscape scene exposes `OVER_MIX_CONTROL["mix"]`: zero shows the base video, one shows the over video.
-
-Watercolor opacity is carried by object alpha and read through `OBJECT_ALPHA` in each material. The material uses Blender 5.0's Principled BSDF surface with the atlas connected to Emission Color and a black diffuse Base Color, so a flat 2D painting does not change brightness when the camera rotates across its authored single normal. The mask and object alpha drive Principled Alpha directly. Watercolor cards, transparent Ground padding and grass cutouts use the Dithered render method, avoiding the per-object ordering limitation of Blended materials when one transparent card must reveal another surface behind it. Cards remain double-sided; local UVs are clamped before each atlas remap so a small source UV overshoot cannot sample a neighboring atlas region. Visible watercolor crops use the legacy runtime's `atlas/texture` remap table; the separate `atlas/sdf` table remains attached as reference metadata and is not substituted for the visible atlas.
-
-Editable watercolor topology is cleaned conservatively during generation: imported float noise is flattened onto each card's authored local plane, coincident vertices are merged without collapsing UV seams, near-zero triangles are removed and face winding is normalized. The validator rejects duplicate vertices/faces, non-planar cards, inconsistent normals and extreme sliver triangles.
-
-`PROCEDURAL_GRASS` contains the 23 layers for which the legacy runtime explicitly sets `hasGround: true`. The deterministic Blender mirror contains 3141 editable blade ribbons, the ten source atlas regions, 24 source color-gradient columns, source Poisson-disc spacing and wind/reveal animation channels. `land_back_5`, `background_2` and `viaduc_1` intentionally have no grass because their source configuration disables the ground component. Browser cursor-proximity reveal remains documented as an interaction boundary rather than being visually guessed.
-
-`GROUND_AND_PAPER` is an artist-only collection visible by default in `ARTIST_EDIT`; it contains the converted Ground atlas and is excluded from `WEB_ANIMATION`. No standalone Blender shadow layer is generated: the source WebGL shadow is a runtime rendering effect, not a set of upright image cards. Its extracted timing remains available as source metadata, while the actual shader effect is deferred until it can be rebuilt accurately. Watercolor and grass use smooth blended transparency; watercolor masks clip dark atlas padding and the converted Ground atlas hides its black KTX2 padding by luminance.
-
-The build and validation scripts never change or save Blender user preferences. Blender's built-in interface language therefore follows the user's existing installation settings. The generated project explicitly names its saved workspaces in Chinese so they match the Chinese startup UI; asset, object, material and script identifiers remain portable ASCII English. `--factory-startup` in the background commands isolates automated generation only and does not save factory preferences over the user's configuration.
-
-## Version preparation
-
-The current complete file remains the only source of truth. Versions use independent files under `versions/<version-id>/blender/`, with their own reports and generated outputs. The planned future workbench root is `blender/_scenebench/`, but this directory is not created or migrated by the current preparation step.
-
-Preview a registered version without writing anything:
+在仓库根目录执行：
 
 ```powershell
-python blender_scenebench/tools/prepare_blend_version.py --version-id no-animation --dry-run
+python tools/generate_manifests.py
+python wiki_memory/工具/memory_lint.py index
+python wiki_memory/工具/memory_lint.py check
+& 'F:\Blender\blender.exe' --background --factory-startup --python tools/build_blender_scene.py
+& 'F:\Blender\blender.exe' --background --factory-startup blender/GwayLoo_Scene_5_0.blend --python tools/validate_blend.py
+& 'F:\Blender\blender.exe' --background --factory-startup blender/GwayLoo_Scene_5_0.blend --python tools/render_validation.py
 ```
 
-Creating a derivative requires an explicit `--create`; the tool opens the source and saves a separate target while rebasing portable asset paths. The registered `no-animation` change set freezes non-camera animation at frame 3586 and preserves camera actions; it never modifies `full`.
-
-Read [`reports/rendering-boundaries.md`](reports/rendering-boundaries.md) before changing materials. It distinguishes exact source data from renderer-specific approximations.
-
-## Rebuild
-
-Run from the project root:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File blender_scenebench/tools/prepare_support_assets.ps1
-python blender_scenebench/tools/generate_manifests.py
-& 'F:\Blender\blender.exe' --background --factory-startup --python blender_scenebench/tools/build_blender_scene.py
-& 'F:\Blender\blender.exe' --background --factory-startup blender_scenebench/blender/GwayLoo_Scene_5_0.blend --python blender_scenebench/tools/validate_blend.py
-```
-
-If the master file was generated before the portable-asset change, repair its paths without rebuilding the scene:
-
-```powershell
-& 'F:\Blender\blender.exe' --background --factory-startup --python blender_scenebench/tools/repair_blend_assets.py
-```
-
-To regenerate 30 validation renders (seven source animation frames, one artist overview, five artist frames including the reported frame 690, one material preview, four face/oblique/grazing/back material-angle previews, one tree-and-grass preview, one background-card preview, four source-camera frames and six landscape frames):
-
-```powershell
-& 'F:\Blender\blender.exe' --background --factory-startup blender_scenebench/blender/GwayLoo_Scene_5_0.blend --python blender_scenebench/tools/render_validation.py
-```
-
-## Isolation and Git policy
-
-- The workbench is outside `src/` and `public/`, so Vite does not serve it.
-- `.gitignore` excludes the copied source assets, automatic `.blend1/.blend2` backups, generated conversions and render output.
-- Documentation, manifests, scripts, reports and the main `.blend` are tracked.
-- Original assets remain local experimental references and are not cleared for public or commercial redistribution.
+版本准备使用 `python tools/prepare_blend_version.py --version-id <id> --dry-run`；
+确认后才使用 `--create`。修改材质或透明度前请先阅读
+`reports/rendering-boundaries.md`。

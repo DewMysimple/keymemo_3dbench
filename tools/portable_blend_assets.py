@@ -8,9 +8,10 @@ import bpy
 
 
 WORKBENCH = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = WORKBENCH.parent
+PROJECT_ROOT = WORKBENCH
 SOURCE_ASSETS = WORKBENCH / "source_snapshot/assets"
-PUBLIC_ASSETS = PROJECT_ROOT / "public/wp-content/themes/davidwhyte/resources/assets/xp"
+# Kept as a compatibility alias for callers that imported the old constant.
+PUBLIC_ASSETS = SOURCE_ASSETS
 GENERATED_GROUND = WORKBENCH / "generated/converted/ground_atlas.png"
 GENERATED_FONT = WORKBENCH / "generated/converted/CanelaText-Light.ttf"
 
@@ -19,19 +20,26 @@ def _resolved(path: Path) -> Path:
     return path.resolve()
 
 
-def public_asset_for(path: Path) -> Path | None:
-    """Return the tracked public equivalent for a local source snapshot asset."""
+def source_asset_for(path: Path) -> Path | None:
+    """Resolve a source asset from either the snapshot or the former XP path."""
 
     try:
         relative = _resolved(path).relative_to(_resolved(SOURCE_ASSETS))
     except ValueError:
-        return None
-    candidate = PUBLIC_ASSETS / relative
+        normalized = path.as_posix().replace("\\", "/")
+        marker = "/public/wp-content/themes/davidwhyte/resources/assets/xp/"
+        if marker not in normalized:
+            return None
+        relative = Path(normalized.split(marker, 1)[1])
+    candidate = SOURCE_ASSETS / relative
     return candidate if candidate.is_file() else None
 
 
+public_asset_for = source_asset_for
+
+
 def portable_reference_path(path: Path) -> Path:
-    return public_asset_for(path) or path
+    return source_asset_for(path) or path
 
 
 def relative_to_blend(path: Path, blend_parent: Path) -> str:
@@ -57,14 +65,14 @@ def make_blend_assets_portable(blend_parent: Path) -> dict[str, Any]:
         if not image.filepath:
             continue
         absolute = _resolved(Path(bpy.path.abspath(image.filepath)))
-        public_path = public_asset_for(absolute)
-        if public_path is not None:
-            image.filepath = relative_to_blend(public_path, blend_parent)
-            image["portable_asset_path"] = str(public_path.relative_to(PROJECT_ROOT)).replace("\\", "/")
+        source_path = source_asset_for(absolute)
+        if source_path is not None:
+            image.filepath = relative_to_blend(source_path, blend_parent)
+            image["portable_asset_path"] = str(source_path.relative_to(PROJECT_ROOT)).replace("\\", "/")
             mapped_images.append(image.name)
             continue
         try:
-            absolute.relative_to(_resolved(PUBLIC_ASSETS))
+            absolute.relative_to(_resolved(SOURCE_ASSETS))
         except ValueError:
             pass
         else:

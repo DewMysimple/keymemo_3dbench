@@ -4,8 +4,8 @@
   "policy": "保留左右翅膀拍动，移除沿路径的位移和旋转；SOURCE_REFERENCE 保留原始源数据",
   "outputs": [
     {
-      "source": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
-      "output": "blender_scenebench/blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
+      "source": "blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
+      "output": "blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
       "source_path_action": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_1_2|CINEMA_4D_Main|Layer0",
       "display_animated_objects": [
         "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_源_FBX_01_05_BUTTERFLY_FAST__FLAP_FOLLOW_PATH__left_wing_",
@@ -106,8 +106,8 @@
       "output_size": 9932106
     },
     {
-      "source": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
-      "output": "blender_scenebench/blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
+      "source": "blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
+      "output": "blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
       "source_path_action": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_2|CINEMA_4D_Main|Layer0",
       "display_animated_objects": [
         "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_源_FBX_01_05_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_left_wing_",

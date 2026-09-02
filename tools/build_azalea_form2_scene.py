@@ -7,12 +7,12 @@ import bpy
 from mathutils import Vector
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-ASSET_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "杜鹃花"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ASSET_ROOT = PROJECT_ROOT  / "blender_modelbench" / "杜鹃花"
 FORM_ROOT = ASSET_ROOT / "形态2"
 FBX_PATH = FORM_ROOT / "as17-rhododendron-ponticum-common-rhododendron.fbx"
 OUTPUT_PATH = ASSET_ROOT / "杜鹃花_形态2.blend"
-PREVIEW_PATH = PROJECT_ROOT / "blender_scenebench" / "generated" / "杜鹃花_形态2_preview.png"
+PREVIEW_PATH = PROJECT_ROOT  / "generated" / "杜鹃花_形态2_preview.png"
 
 
 def ensure(condition, message):
@@ -316,7 +316,7 @@ def build():
     source_collection.objects.link(source_index)
     source_index.hide_viewport = True
     source_index.hide_render = True
-    source_index["source_directory"] = "blender_scenebench/blender_modelbench/杜鹃花/形态2"
+    source_index["source_directory"] = "blender_modelbench/杜鹃花/形态2"
     source_index["source_fbx"] = str(FBX_PATH.relative_to(ASSET_ROOT)).replace("\\", "/")
     source_index["source_file_count"] = sum(1 for path in FORM_ROOT.rglob("*") if path.is_file())
     source_index["source_files"] = json.dumps(
@@ -335,7 +335,7 @@ def build():
         scene.frame_preview_end = 1
     scene["asset_name"] = "杜鹃花"
     scene["asset_form"] = "形态2"
-    scene["source_asset_dir"] = "blender_scenebench/blender_modelbench/杜鹃花/形态2"
+    scene["source_asset_dir"] = "blender_modelbench/杜鹃花/形态2"
     scene["source_fbx"] = str(FBX_PATH.relative_to(ASSET_ROOT)).replace("\\", "/")
     scene["source_formats"] = "FBX"
     scene["source_mesh_count"] = len(meshes)

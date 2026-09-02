@@ -9,13 +9,13 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_butterfly_scene as base
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-ASSET_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ASSET_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
 SOURCE_ROOT = ASSET_ROOT / "source"
 OUTPUT_DIR = ASSET_ROOT / "blender"
-REPORT_PATH = PROJECT_ROOT / "blender_scenebench" / "reports" / "butterfly-variants-build.json"
-LEGACY_REPORT_PATH = PROJECT_ROOT / "blender_scenebench" / "reports" / "butterfly-build.json"
-PREVIEW_PATH = PROJECT_ROOT / "blender_scenebench" / "generated" / "Butterfly_preview.png"
+REPORT_PATH = PROJECT_ROOT  / "reports" / "butterfly-variants-build.json"
+LEGACY_REPORT_PATH = PROJECT_ROOT  / "reports" / "butterfly-build.json"
+PREVIEW_PATH = PROJECT_ROOT  / "generated" / "Butterfly_preview.png"
 
 # Reuse the audited import/material/metadata helpers, but point every helper at
 # the real, single-root Blender workspace requested by the user.
@@ -248,8 +248,8 @@ def create_document(fbx_paths, output_path, document_label, copied_files, master
     artist_scene["source_fbx_count"] = len(fbx_paths)
     artist_scene["source_obj_imported"] = True
     artist_scene["c4d_source_archived"] = True
-    artist_scene["source_directory"] = "blender_scenebench/blender_modelbench/Butterfly/source"
-    artist_scene["source_manifest"] = "blender_scenebench/blender_modelbench/Butterfly/manifests/source-files.json"
+    artist_scene["source_directory"] = "blender_modelbench/Butterfly/source"
+    artist_scene["source_manifest"] = "blender_modelbench/Butterfly/manifests/source-files.json"
     artist_scene["source_coordinate_policy"] = "原始 FBX 坐标与父子关系不重算；展示根只负责统一可视化尺寸"
     artist_scene["wing_material_policy"] = "保留源材质槽；带贴图材质只追加到展示副本"
     artist_scene["default_showcase_frame"] = showcase_frame
@@ -260,8 +260,8 @@ def create_document(fbx_paths, output_path, document_label, copied_files, master
     base.configure_scene(source_scene, frame_end=max_frame)
     source_scene["asset_name"] = document_label
     source_scene["reference_scene"] = "当前文件对应的 FBX 原始导入对象、OBJ 身体和 Action 数据"
-    source_scene["source_directory"] = "blender_scenebench/blender_modelbench/Butterfly/source"
-    source_scene["source_manifest"] = "blender_scenebench/blender_modelbench/Butterfly/manifests/source-files.json"
+    source_scene["source_directory"] = "blender_modelbench/Butterfly/source"
+    source_scene["source_manifest"] = "blender_modelbench/Butterfly/manifests/source-files.json"
 
     base.set_scene_collection_visibility(
         artist_scene,
@@ -297,8 +297,8 @@ def create_document(fbx_paths, output_path, document_label, copied_files, master
         "asset": "Butterfly",
         "document_label": document_label,
         "document_type": "master" if master else "single_fbx_variant",
-        "source_root": "blender_scenebench/blender_modelbench/Butterfly/source",
-        "source_manifest": "blender_scenebench/blender_modelbench/Butterfly/manifests/source-files.json",
+        "source_root": "blender_modelbench/Butterfly/source",
+        "source_manifest": "blender_modelbench/Butterfly/manifests/source-files.json",
         "active_fbx": [base.source_relative(path) for path in fbx_paths],
         "files": imported_records,
         "fbx_imports": [
@@ -372,7 +372,7 @@ def write_readme(reports):
     lines = [
         "# Butterfly Blender 文件集",
         "",
-        "输出目录：`blender_scenebench/blender_modelbench/Butterfly`",
+        "输出目录：`blender_modelbench/Butterfly`",
         "",
         "此目录现在按每个源 FBX 输出独立 Blender 文件；每个独立文件的 ARTIST_EDIT 只显示一个对应模型，动画可直接播放。",
         "",
@@ -399,8 +399,8 @@ def write_readme(reports):
         "",
         "上一版的问题是把所有 FBX 同时放进一个源场景，并把展示变换叠加到层级中的多个对象上。新版每个文件只显示一个 FBX，展示缩放只施加于单一展示根节点；源对象和 Action 不改名、不合并、不删除。",
         "",
-        "构建报告：`blender_scenebench/reports/butterfly-variants-build.json`",
-        "预览图：`blender_scenebench/generated/Butterfly_preview.png`",
+        "构建报告：`reports/butterfly-variants-build.json`",
+        "预览图：`generated/Butterfly_preview.png`",
     ])
     (ASSET_ROOT / "README.md").write_text(
         "\n".join(lines) + "\n",
@@ -453,8 +453,8 @@ def main():
     master_report = dict(reports[0])
     master_report["output"] = master_report.pop("file")
     master_report["preview"] = str(PREVIEW_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/")
-    master_report["source_directory"] = "blender_scenebench/blender_modelbench/Butterfly/source"
-    master_report["source_manifest"] = "blender_scenebench/blender_modelbench/Butterfly/manifests/source-files.json"
+    master_report["source_directory"] = "blender_modelbench/Butterfly/source"
+    master_report["source_manifest"] = "blender_modelbench/Butterfly/manifests/source-files.json"
     LEGACY_REPORT_PATH.write_text(json.dumps(master_report, ensure_ascii=False, indent=2), encoding="utf-8")
     print("BUTTERFLY_VARIANTS_BUILD=" + json.dumps(payload, ensure_ascii=False, sort_keys=True))
 

@@ -15,8 +15,8 @@ import bpy
 from mathutils import Matrix, Vector
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-WORKBENCH_ROOT = PROJECT_ROOT / "blender_scenebench"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+WORKBENCH_ROOT = PROJECT_ROOT 
 ASSET_ROOT = WORKBENCH_ROOT / "blender_modelbench" / "SpecimenFrame"
 BLENDER_ROOT = ASSET_ROOT / "blender"
 GENERATED_ROOT = WORKBENCH_ROOT / "generated" / "SpecimenFrame"

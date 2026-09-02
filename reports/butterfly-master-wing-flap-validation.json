@@ -4,14 +4,14 @@
   "validated_count": 2,
   "master_sha256_after": "90d8ecc946b50cb5a8106292f23a0e335b0f67f0c6e87c2b75335eed3fb38c63",
   "source_sha256_after": {
-    "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend": "ba25f8d2dc57b84385c8a2f777851cf50653fd0a4917783efcea111d38df0a71",
-    "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend": "050665b051ad69c647247faaa22133e958102e654025f6cacbb6093a60635a3a"
+    "blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend": "ba25f8d2dc57b84385c8a2f777851cf50653fd0a4917783efcea111d38df0a71",
+    "blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend": "050665b051ad69c647247faaa22133e958102e654025f6cacbb6093a60635a3a"
   },
   "master_default_frame": 45,
   "validated": [
     {
-      "file": "blender_scenebench/blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
-      "source": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
+      "file": "blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
+      "source": "blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
       "default_scene": "ARTIST_EDIT",
       "default_frame": 45,
       "display_wings": {
@@ -29,8 +29,8 @@
       "wing_animation_changed": true
     },
     {
-      "file": "blender_scenebench/blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
-      "source": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
+      "file": "blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
+      "source": "blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
       "default_scene": "ARTIST_EDIT",
       "default_frame": 45,
       "display_wings": {

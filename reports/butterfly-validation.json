@@ -1,12 +1,12 @@
 {
-  "output_root": "blender_scenebench/blender_modelbench/Butterfly",
-  "blender_root": "blender_scenebench/blender_modelbench/Butterfly/blender",
-  "source_root": "blender_scenebench/blender_modelbench/Butterfly/source",
+  "output_root": "blender_modelbench/Butterfly",
+  "blender_root": "blender_modelbench/Butterfly/blender",
+  "source_root": "blender_modelbench/Butterfly/source",
   "blend_file_count": 11,
   "head_camera_file_count": 2,
   "validated": [
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/Butterfly_Master.blend",
+      "blend": "blender_modelbench/Butterfly/blender/Butterfly_Master.blend",
       "master": true,
       "active_fbx": [
         "animations/idle/Butterfly_Idle_1.fbx",
@@ -225,7 +225,7 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
+      "blend": "blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
       "master": false,
       "active_fbx": [
         "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.fbx"
@@ -290,7 +290,7 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
+      "blend": "blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
       "master": false,
       "active_fbx": [
         "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.fbx"
@@ -355,7 +355,7 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_1.blend",
+      "blend": "blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_1.blend",
       "master": false,
       "active_fbx": [
         "animations/idle/Butterfly_Idle_1.fbx"
@@ -418,7 +418,7 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_2.blend",
+      "blend": "blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_2.blend",
       "master": false,
       "active_fbx": [
         "animations/idle/Butterfly_Idle_2.fbx"
@@ -477,7 +477,7 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_3.blend",
+      "blend": "blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_3.blend",
       "master": false,
       "active_fbx": [
         "animations/idle/Butterfly_Idle_3.fbx"
@@ -536,7 +536,7 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_4.blend",
+      "blend": "blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_4.blend",
       "master": false,
       "active_fbx": [
         "animations/idle/Butterfly_Idle_4.fbx"
@@ -595,7 +595,7 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_5.blend",
+      "blend": "blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_5.blend",
       "master": false,
       "active_fbx": [
         "animations/idle/Butterfly_Idle_5.fbx"
@@ -654,7 +654,7 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_6.blend",
+      "blend": "blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_6.blend",
       "master": false,
       "active_fbx": [
         "animations/idle/Butterfly_Idle_6.fbx"
@@ -713,7 +713,7 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_7.blend",
+      "blend": "blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_7.blend",
       "master": false,
       "active_fbx": [
         "animations/idle/Butterfly_Idle_7.fbx"
@@ -772,7 +772,7 @@
       ]
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/slow_flap/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.blend",
+      "blend": "blender_modelbench/Butterfly/blender/slow_flap/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.blend",
       "master": false,
       "active_fbx": [
         "animations/slow_flap/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.fbx"
@@ -833,7 +833,7 @@
   ],
   "head_camera_validated": [
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/head_camera/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_HEAD_CAMERA.blend",
+      "blend": "blender_modelbench/Butterfly/blender/follow_path/head_camera/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_HEAD_CAMERA.blend",
       "master": false,
       "active_fbx": [
         "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.fbx"
@@ -989,7 +989,7 @@
       }
     },
     {
-      "blend": "blender_scenebench/blender_modelbench/Butterfly/blender/follow_path/head_camera/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_HEAD_CAMERA.blend",
+      "blend": "blender_modelbench/Butterfly/blender/follow_path/head_camera/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_HEAD_CAMERA.blend",
       "master": false,
       "active_fbx": [
         "animations/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.fbx"

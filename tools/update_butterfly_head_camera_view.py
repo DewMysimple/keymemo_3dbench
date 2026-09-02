@@ -8,8 +8,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_butterfly_head_camera_variant as builder
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-ASSET_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ASSET_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
 HEAD_CAMERA_ROOT = ASSET_ROOT / "blender" / "follow_path" / "head_camera"
 EXPECTED_NAMES = {
     "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_HEAD_CAMERA.blend",

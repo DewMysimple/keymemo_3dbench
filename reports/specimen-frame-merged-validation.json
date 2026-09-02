@@ -1,7 +1,7 @@
 {
   "asset": "Transparent Pale Lavender Specimen Frame - Merged Object Variant",
-  "source": "blender_scenebench/blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent.blend",
-  "blend": "blender_scenebench/blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent_Merged.blend",
+  "source": "blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent.blend",
+  "blend": "blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent_Merged.blend",
   "scene": "SPECIMEN_FRAME_MERGED_WORKBENCH",
   "model_objects": [
     "SPECIMEN_FRAME_MERGED"
@@ -43,7 +43,7 @@
     "hdri_packed": true,
     "light_objects": []
   },
-  "render_preview": "blender_scenebench/generated/SpecimenFrame/Specimen_Frame_Transparent_Merged_preview.png",
+  "render_preview": "generated/SpecimenFrame/Specimen_Frame_Transparent_Merged_preview.png",
   "checks": {
     "source_objects_joined": true,
     "one_model_object": true,
@@ -59,5 +59,5 @@
     "old_lights_removed": true,
     "all_passed": true
   },
-  "preview_bytes": 662390
+  "preview_bytes": 662376
 }

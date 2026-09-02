@@ -7,14 +7,14 @@ import bpy
 from mathutils import Vector
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-OUTPUT_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+OUTPUT_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
 SOURCE_ROOT = OUTPUT_ROOT / "source"
 BLENDER_ROOT = OUTPUT_ROOT / "blender"
 HEAD_CAMERA_ROOT = BLENDER_ROOT / "follow_path" / "head_camera"
 MANIFEST_PATH = OUTPUT_ROOT / "manifests" / "source-files.json"
 LEGACY_ARCHIVE_ROOT = OUTPUT_ROOT / "archive" / "legacy"
-REPORT_PATH = PROJECT_ROOT / "blender_scenebench" / "reports" / "butterfly-validation.json"
+REPORT_PATH = PROJECT_ROOT  / "reports" / "butterfly-validation.json"
 
 
 def ensure(condition, message):

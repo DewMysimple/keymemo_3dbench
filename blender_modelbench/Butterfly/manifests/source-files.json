@@ -1,6 +1,6 @@
 {
   "asset": "Butterfly",
-  "source_root": "blender_scenebench/blender_modelbench/Butterfly/source",
+  "source_root": "blender_modelbench/Butterfly/source",
   "source_file_count": 18,
   "files": [
     {

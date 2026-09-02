@@ -7,8 +7,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_butterfly_scene as base
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-ASSET_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ASSET_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
 BLENDER_ROOT = ASSET_ROOT / "blender"
 
 

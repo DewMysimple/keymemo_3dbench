@@ -1,23 +1,22 @@
-# Local source copies and Blender deliverables are intentionally not published.
-# The reproducible source snapshot and master .blend are tracked in this
-# standalone repository.
-blender/*.blend1
-blender/*.blend2
+# Blender and Python generated state
 generated/*
+!generated/.gitkeep
 reports/rendered/
 versions/*/generated/*
 versions/*/reports/rendered/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Blender automatic backups
+blender/*.blend1
+blender/*.blend2
 versions/*/blender/*.blend1
 versions/*/blender/*.blend2
 blender_modelbench/**/*.blend1
 blender_modelbench/**/*.blend2
 
-# These source files remain local because they exceed GitHub's 100 MB limit.
+# Local-only source files above GitHub's 100 MB single-object limit
 blender_modelbench/兰花/形态1/alembic/alembic/OrchidMeshGrp.abc
 blender_modelbench/杜鹃花/三角梅/fbx/tb-002-三角梅_01.fbx
 blender_modelbench/杜鹃花/三角梅/fbx/tb-002-三角梅_02.fbx
-
-# Keep the reproducible structure visible in Git.
-!source_snapshot/.gitkeep
-!blender/.gitkeep
-!generated/.gitkeep

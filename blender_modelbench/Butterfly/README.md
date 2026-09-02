@@ -1,6 +1,6 @@
 # Butterfly Blender 文件集
 
-输出目录：`blender_scenebench/blender_modelbench/Butterfly`
+输出目录：`blender_modelbench/Butterfly`
 
 此目录现在按每个源 FBX 输出独立 Blender 文件；每个独立文件的 ARTIST_EDIT 只显示一个对应模型，动画可直接播放。
 
@@ -47,17 +47,17 @@
 
 这两个版本的场景、展示根、身体、材质、相机、灯光和整体布局都来自 Master。`ARTIST_EDIT` 只替换左右翅膀的扇动变化：翅膀第 1 帧的位置/旋转保持 Master 原值，Follow Path 的路径位移和路径转向不会应用到 Master。`SOURCE_REFERENCE` 保留 Master 原有的全部源对象和 Action，方便核对源数据；Master 原文件与两个 Follow Path 原文件均不覆盖。
 
-专用构建脚本：`blender_scenebench/tools/build_butterfly_master_wing_flap_variants.py`
-专用验证脚本：`blender_scenebench/tools/validate_butterfly_master_wing_flap_variants.py`
-专用构建报告：`blender_scenebench/reports/butterfly-master-wing-flap-variants.json`
-专用验证报告：`blender_scenebench/reports/butterfly-master-wing-flap-validation.json`
+专用构建脚本：`tools/build_butterfly_master_wing_flap_variants.py`
+专用验证脚本：`tools/validate_butterfly_master_wing_flap_variants.py`
+专用构建报告：`reports/butterfly-master-wing-flap-variants.json`
+专用验证报告：`reports/butterfly-master-wing-flap-validation.json`
 
 ## 打开方式
 
 - 默认场景 `ARTIST_EDIT`：单个已居中的展示模型，展示副本保持左右翅膀的原始父子关系和动作；编辑两个 `follow_path` 文件时切换到中文 `动画` 工作区即可。
 - 场景 `SOURCE_REFERENCE`：对应文件的原始 FBX 导入对象；用于核对源数据，不会与其它动画叠加。
 - 两个 `follow_path` 文件已保存 Blender Motion Path：打开 `ARTIST_EDIT` 后选中名称以 `展示_` 开头的动画空物体，即可看到轨迹；通过该对象的 Action 关键帧可以手动调整运动。`SOURCE_REFERENCE` 同时保留原始 FBX 空物体的轨迹显示。
-- 顶部工作区已固定为中文：`布局`、`建模`、`动画`、`合成` 等；如果手动切换语言或加载旧文件，运行 `blender_scenebench/tools/fix_butterfly_chinese_workspaces.py` 可重新固定。
+- 顶部工作区已固定为中文：`布局`、`建模`、`动画`、`合成` 等；如果手动切换语言或加载旧文件，运行 `tools/fix_butterfly_chinese_workspaces.py` 可重新固定。
 - `source/`：18 个源文件的唯一原样来源；4 张图像已同时打包进每个 `.blend`。
 - `blender/follow_path/head_camera/`：两个不覆盖原文件的头部跟随摄像机副本。
 - `manifests/source-files.json`：记录每个源文件的大小与 SHA-256。
@@ -78,6 +78,6 @@ FBX 里的路径是动画关键帧，不是可直接拖拽的曲线。操作步�
 
 这会调整展示动画的运动轨迹；`SOURCE_REFERENCE` 仍保留原始 FBX 关键帧，作为对照。
 
-构建报告：`blender_scenebench/reports/butterfly-variants-build.json`
-头部摄像机验证结果：`blender_scenebench/reports/butterfly-validation.json`
-预览图：`blender_scenebench/generated/Butterfly_preview.png`
+构建报告：`reports/butterfly-variants-build.json`
+头部摄像机验证结果：`reports/butterfly-validation.json`
+预览图：`generated/Butterfly_preview.png`

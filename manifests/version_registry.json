@@ -1,8 +1,7 @@
 {
   "schema_version": 1,
   "workspace": {
-    "current_root": "blender_scenebench",
-    "planned_root": "blender/_scenebench",
+    "current_root": ".",
     "version_layout": "versions/<version-id>/blender/<blend-file>"
   },
   "versions": [

@@ -9,7 +9,7 @@
 - Camera animation duration: 59.766666666666666 seconds
 - Reference comparison: Not configured; only the repository snapshot was checked
 
-## Current snapshot versus optional reference
+## Current snapshot versus read-only reference
 
 | Path | Difference |
 | --- | --- |
@@ -25,4 +25,4 @@
 - Grass source parameters were extracted from the runtime: Poisson-disc spacing 1.8–2.8 with seven tries, 7–24 clustered blades per seed, ten blade-atlas regions, eight gradient groups with three columns each, eight vertical segments, global scale 5, wind displacement 3000, intensity 3 and speed 0.5.
 - The Blender generator uses a fixed local seed for reproducibility while retaining the source algorithm and resources. Browser cursor reveal and an uncaptured `Math.random()` outcome cannot be mirrored exactly without recording a specific browser session.
 
-No external reference directory was configured. All extraction and Blender generation use files copied into `blender_scenebench/source_snapshot/`.
+No external reference directory was configured. All extraction and Blender generation use files copied into `source_snapshot/`.

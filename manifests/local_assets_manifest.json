@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "policy": "local-only-no-git-lfs",
+  "reason": "These original model files exceed GitHub's 100 MB single-object limit.",
+  "files": [
+    {
+      "path": "blender_modelbench/兰花/形态1/alembic/alembic/OrchidMeshGrp.abc",
+      "bytes": 105966873,
+      "sha256": "FBC8A933D83FADF7E8E9B08537D2023D52E5948E1E1CB7CF16E7E608CDA2361E"
+    },
+    {
+      "path": "blender_modelbench/杜鹃花/三角梅/fbx/tb-002-三角梅_01.fbx",
+      "bytes": 223151152,
+      "sha256": "40E6EFEC3E2A3DA703EB52D4FFD4CB708CED352AA17C17FD2751BD610EFF37C2"
+    },
+    {
+      "path": "blender_modelbench/杜鹃花/三角梅/fbx/tb-002-三角梅_02.fbx",
+      "bytes": 202863568,
+      "sha256": "33E038AC50DDB0B42709349783C676C3D5C4FA213509FB77529D877FC36599CD"
+    }
+  ]
+}

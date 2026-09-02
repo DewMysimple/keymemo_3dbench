@@ -15,14 +15,14 @@ import shutil
 from pathlib import Path
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-BUTTERFLY_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+BUTTERFLY_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
 SOURCE_ASSETS_ROOT = BUTTERFLY_ROOT / "source_assets"
 SOURCE_ROOT = BUTTERFLY_ROOT / "source"
 BLENDER_ROOT = BUTTERFLY_ROOT / "blender"
 MANIFEST_ROOT = BUTTERFLY_ROOT / "manifests"
 MANIFEST_PATH = MANIFEST_ROOT / "source-files.json"
-LEGACY_ROOT = PROJECT_ROOT / "blender" / "_scenebench" / "blender" / "_modelbench" / "Butterfly"
+LEGACY_ROOT = PROJECT_ROOT / "blender_modelbench" / "Butterfly"
 LEGACY_ARCHIVE_ROOT = BUTTERFLY_ROOT / "archive" / "legacy"
 
 
@@ -281,7 +281,7 @@ def write_manifest() -> None:
     ensure(len(records) == 18, f"整理后源文件数量错误: {len(records)}")
     payload = {
         "asset": "Butterfly",
-        "source_root": "blender_scenebench/blender_modelbench/Butterfly/source",
+        "source_root": "blender_modelbench/Butterfly/source",
         "source_file_count": len(records),
         "files": records,
     }

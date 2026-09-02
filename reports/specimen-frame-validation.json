@@ -1,6 +1,6 @@
 {
   "asset": "Transparent Pale Lavender Specimen Frame",
-  "blend": "blender_scenebench/blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent.blend",
+  "blend": "blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent.blend",
   "scene": "SPECIMEN_FRAME_WORKBENCH",
   "objects": [
     "CAMERA_SPECIMEN_FRAME",
@@ -87,7 +87,7 @@
     "hdri_packed": true,
     "light_objects": []
   },
-  "render_preview": "blender_scenebench/generated/SpecimenFrame/Specimen_Frame_Transparent_preview.png",
+  "render_preview": "generated/SpecimenFrame/Specimen_Frame_Transparent_preview.png",
   "checks": {
     "frame_has_opening": true,
     "frame_has_depth": true,
@@ -108,5 +108,5 @@
     "old_lights_removed": true,
     "all_passed": true
   },
-  "preview_bytes": 662657
+  "preview_bytes": 662643
 }

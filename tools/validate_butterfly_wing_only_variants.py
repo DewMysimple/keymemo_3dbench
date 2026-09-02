@@ -4,10 +4,10 @@ from pathlib import Path
 import bpy
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-ASSET_ROOT = PROJECT_ROOT / "blender_scenebench" / "blender_modelbench" / "Butterfly"
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+ASSET_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
 OUTPUT_DIR = ASSET_ROOT / "blender" / "wing_flap_only"
-REPORT_PATH = PROJECT_ROOT / "blender_scenebench" / "reports" / "butterfly-wing-only-validation.json"
+REPORT_PATH = PROJECT_ROOT  / "reports" / "butterfly-wing-only-validation.json"
 
 EXPECTED_NAMES = (
     "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",

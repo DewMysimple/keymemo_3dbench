@@ -6,10 +6,9 @@ from mathutils import Vector
 import bpy
 
 
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 SOURCE_ROOT = os.path.join(
     PROJECT_ROOT,
-    "blender_scenebench",
     "blender_modelbench",
     "杜鹃花",
 )
@@ -17,17 +16,15 @@ FBX_PATH = os.path.join(SOURCE_ROOT, "source", "Western honey bee.fbx")
 TEXTURE_ROOT = os.path.join(SOURCE_ROOT, "textures")
 OUTPUT_DIR = os.path.join(
     PROJECT_ROOT,
-    "blender",
-    "_scenebench",
-    "blender",
-    "_modelbench",
+    "blender_modelbench",
     "杜鹃花",
+    "blender",
 )
 OUTPUT_PATH = os.path.join(OUTPUT_DIR, "杜鹃花.blend")
 EXTERNAL_SOURCE_DIR = os.path.join(OUTPUT_DIR, "source")
 EXTERNAL_TEXTURE_DIR = os.path.join(OUTPUT_DIR, "textures")
 PREVIEW_PATH = os.path.join(
-    PROJECT_ROOT, "blender_scenebench", "generated", "杜鹃花_preview.png"
+    PROJECT_ROOT, "generated", "杜鹃花_preview.png"
 )
 
 
@@ -286,7 +283,7 @@ def create_scene():
     for polygon in model.data.polygons:
         polygon.use_smooth = True
     model["asset_name"] = "杜鹃花"
-    model["source_fbx"] = "blender_scenebench/blender_modelbench/杜鹃花/source/Western honey bee.fbx"
+    model["source_fbx"] = "blender_modelbench/杜鹃花/source/Western honey bee.fbx"
     model["source_mesh"] = "rhododendron"
     model["texture_set"] = "rhododendron_color / normal / rough / subsur"
     model["build_note"] = "FBX 导入后重新绑定贴图，保存前打包图像资源"
@@ -379,12 +376,12 @@ def create_scene():
 
     scene["asset_name"] = "杜鹃花"
     scene["scene_purpose"] = "基于 FBX 与 rhododendron 贴图集的可编辑模型展示文件"
-    scene["source_asset_dir"] = "blender_scenebench/blender_modelbench/杜鹃花"
+    scene["source_asset_dir"] = "blender_modelbench/杜鹃花"
     scene["packed_assets"] = True
     scene["model_object"] = model.name
     scene["render_camera"] = camera.name
     scene["model_dimensions"] = tuple(round(value, 4) for value in model.dimensions)
-    scene["build_script"] = "blender_scenebench/tools/build_azalea_scene.py"
+    scene["build_script"] = "tools/build_azalea_scene.py"
     localize_workspaces()
     scene["workspace_language"] = "中文"
     scene["external_asset_copy"] = "source/ 与 textures/"
