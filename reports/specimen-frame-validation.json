@@ -45,7 +45,7 @@
     "origin": [
       0.0,
       0.0,
-      -4.55
+      0.0
     ]
   },
   "panel": {
@@ -78,8 +78,9 @@
     "origin": [
       -0.04,
       0.0,
-      -3.51
-    ]
+      4.55
+    ],
+    "parent": "SPECIMEN_OUTER_FRAME"
   },
   "camera": "CAMERA_SPECIMEN_FRAME",
   "render_preview": "blender_scenebench/generated/SpecimenFrame/Specimen_Frame_Transparent_preview.png",
@@ -94,9 +95,11 @@
     "no_modifiers": true,
     "background_removed": true,
     "standing_in_yz_plane": true,
-    "frame_origin_at_bottom_center": true,
-    "panel_origin_at_bottom_center": true,
+    "panel_parent_follows_frame": true,
+    "panel_origin_at_geometric_center": true,
+    "frame_origin_at_world_origin": true,
+    "model_above_world_origin": true,
     "all_passed": true
   },
-  "preview_bytes": 659826
+  "preview_bytes": 660404
 }

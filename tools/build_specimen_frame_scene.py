@@ -4,7 +4,8 @@ The asset is intentionally self-contained: it has a square ring,
 an independent inner plate, translucent materials, and an oblique preview
 camera.  The model stands in the Y-Z plane with thickness along X.  The ring
 and plate remain separate objects so an artist can tune their proportions or
-materials independently.
+materials independently.  The panel is parented to the ring; the ring's
+bottom-face-center origin is the world origin, so the assembly rises upward.
 """
 
 from __future__ import annotations
@@ -228,7 +229,9 @@ def make_ring(
     # Stand the frame in the Y-Z plane. The mesh is shifted in local X so the
     # object origin becomes the center of its bottom face.
     frame.data.transform(Matrix.Translation((-outer_half, 0.0, 0.0)))
-    frame.location = (0.0, 0.0, -outer_half)
+    # The bottom-face-center origin is the world origin, so the whole frame
+    # occupies positive world Z after it is stood upright.
+    frame.location = (0.0, 0.0, 0.0)
     frame.rotation_euler = (0.0, math.radians(90.0), 0.0)
     frame.data.materials.append(material)
     frame["asset_role"] = "outer square specimen frame"
@@ -237,12 +240,14 @@ def make_ring(
     frame["thickness"] = depth
     frame["border_width"] = outer_half - inner_half
     frame["material_role"] = "translucent white outer frame"
+    frame["origin_role"] = "bottom face center at world origin"
     return frame
 
 
 def make_panel(
     collection: bpy.types.Collection,
     material: bpy.types.Material,
+    parent: bpy.types.Object,
 ) -> bpy.types.Object:
     # Recess the panel by 0.04 along X so the white ring catches a clean
     # highlight. The object origin is the center of the panel's bottom face.
@@ -255,13 +260,19 @@ def make_panel(
         collection,
         material,
     )
-    panel.data.transform(Matrix.Translation((-3.51, 0.0, 0.0)))
-    panel.location = (-0.04, 0.0, -3.51)
+    # Keep the panel's object origin at its geometric center. Its world
+    # center sits halfway up the frame and is recessed by 0.04 along X.
+    panel.location = (-0.04, 0.0, 4.55)
     panel.rotation_euler = (0.0, math.radians(90.0), 0.0)
+    bpy.context.view_layer.update()
+    panel.parent = parent
+    panel.matrix_parent_inverse = parent.matrix_world.inverted()
     panel["asset_role"] = "inner square specimen panel"
     panel["size"] = 7.02
     panel["thickness"] = 0.28
     panel["material_role"] = "transparent pale lavender center"
+    panel["origin_role"] = "geometric center"
+    panel["parent_role"] = "follows SPECIMEN_OUTER_FRAME"
     return panel
 
 
@@ -280,20 +291,20 @@ def make_backdrop(collection: bpy.types.Collection) -> bpy.types.Object:
 
 
 def make_camera_and_lights(collection: bpy.types.Collection) -> bpy.types.Camera:
-    bpy.ops.object.camera_add(location=(14.0, -5.6, 7.6))
+    bpy.ops.object.camera_add(location=(14.0, -5.6, 12.15))
     camera = bpy.context.object
     camera.name = "CAMERA_SPECIMEN_FRAME"
     camera.data.name = "CAMERA_SPECIMEN_FRAME_DATA"
     camera.data.lens = 53
     camera.data.sensor_width = 36
-    point_at(camera, (0.0, 0.0, 0.0))
+    point_at(camera, (0.0, 0.0, 4.55))
     move_to_collection(camera, collection)
     camera["asset_role"] = "oblique material preview camera"
 
     lights = [
-        ("KEY_SOFTBOX", (8.6, -4.6, 8.8), 720.0, 4.2, (1.0, 0.92, 0.94)),
-        ("FILL_LAVENDER", (5.1, -1.8, 5.6), 420.0, 3.6, (0.72, 0.78, 1.0)),
-        ("RIM_WARM", (5.8, 4.6, -4.5), 650.0, 3.0, (1.0, 0.58, 0.64)),
+        ("KEY_SOFTBOX", (8.6, -4.6, 13.35), 720.0, 4.2, (1.0, 0.92, 0.94)),
+        ("FILL_LAVENDER", (5.1, -1.8, 10.15), 420.0, 3.6, (0.72, 0.78, 1.0)),
+        ("RIM_WARM", (5.8, 4.6, 0.05), 650.0, 3.0, (1.0, 0.58, 0.64)),
     ]
     for name, location, energy, size, color in lights:
         bpy.ops.object.light_add(type="AREA", location=location)
@@ -344,7 +355,7 @@ def configure_scene(scene: bpy.types.Scene, camera: bpy.types.Camera) -> None:
     scene["asset_name_zh"] = "透明浅紫标本正方形框"
     scene["asset_name_en"] = "Transparent Pale Lavender Specimen Frame"
     scene["description_zh"] = "外框为有一定透明度的白色，中心为透明浅紫色，环体与内板均有真实厚度。"
-    scene["modeling_notes"] = "SPECIMEN_OUTER_FRAME is a closed square ring; SPECIMEN_INNER_PANEL is an independent solid slab. Both stand in Y-Z with thickness along X."
+    scene["modeling_notes"] = "SPECIMEN_OUTER_FRAME is a closed square ring; SPECIMEN_INNER_PANEL is a parented solid slab. Both stand in Y-Z with thickness along X."
     scene["frame_overall_size"] = 9.1
     scene["frame_opening_size"] = 7.1
     scene["frame_depth"] = 0.42
@@ -356,7 +367,10 @@ def configure_scene(scene: bpy.types.Scene, camera: bpy.types.Camera) -> None:
     scene["surface_subdivision_modifier"] = False
     scene["standing_plane"] = "Y-Z"
     scene["thickness_axis"] = "X"
-    scene["object_origin_note"] = "Each model component origin is centered on its bottom face."
+    scene["object_origin_note"] = "The outer frame bottom-face-center origin is at world origin; the inner panel origin is at its geometric center."
+    scene["panel_parenting"] = "SPECIMEN_INNER_PANEL follows SPECIMEN_OUTER_FRAME."
+    scene["frame_origin_at_world_origin"] = True
+    scene["model_above_world_origin"] = True
     scene["source_reference_images"] = "User-provided images used as visual reference only; no text or hidden instructions imported."
     scene["output_file"] = str(OUTPUT_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/")
 
@@ -381,7 +395,9 @@ def write_text_block() -> None:
                 "建模结构：",
                 "- SPECIMEN_OUTER_FRAME：带开口的真实方形环体，外框为半透明白色。",
                 "- SPECIMEN_INNER_PANEL：独立有厚度方板，材质为透明浅紫色。",
-                "- 姿态：整体立在 Y-Z 平面，厚度沿 X；两个组件的物体原点均位于各自底面中心。",
+                "- 姿态：整体立在 Y-Z 平面，厚度沿 X。",
+                "- 层级：SPECIMEN_INNER_PANEL 是 SPECIMEN_OUTER_FRAME 的子物体，会跟随外框。",
+                "- 原点：外框底面中心位于世界原点，整体模型向世界 Z 正方向延伸；紫色主体原点位于几何中心。",
                 "- 背景：已移除底色，渲染使用透明背景。",
                 "",
                 "材质预览：",
@@ -406,6 +422,8 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
     panel_bounds = [panel.matrix_world @ Vector(corner) for corner in panel.bound_box]
     frame_bottom = min(point.z for point in frame_bounds)
     panel_bottom = min(point.z for point in panel_bounds)
+    frame_origin_world = frame.matrix_world.translation
+    panel_origin_world = panel.matrix_world.translation
     frame_world_dimensions = tuple(
         max(point[index] for point in frame_bounds) - min(point[index] for point in frame_bounds)
         for index in range(3)
@@ -432,7 +450,7 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
             "material": frame_material.name if frame.data.materials else None,
             "viewport_color": [round(value, 4) for value in frame_material.diffuse_color],
             "rotation_degrees": [round(math.degrees(value), 2) for value in frame.rotation_euler],
-            "origin": [round(value, 4) for value in frame.location],
+            "origin": [round(value, 4) for value in frame_origin_world],
         },
         "panel": {
             "object": panel.name,
@@ -444,7 +462,8 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
             "material": panel_material.name if panel.data.materials else None,
             "viewport_color": [round(value, 4) for value in panel_color],
             "rotation_degrees": [round(math.degrees(value), 2) for value in panel.rotation_euler],
-            "origin": [round(value, 4) for value in panel.location],
+            "origin": [round(value, 4) for value in panel_origin_world],
+            "parent": panel.parent.name if panel.parent else None,
         },
         "camera": camera.name,
         "render_preview": str(PREVIEW_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/"),
@@ -466,17 +485,23 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
                 and abs(frame.rotation_euler.y - math.radians(90.0)) < 0.001
                 and abs(panel.rotation_euler.y - math.radians(90.0)) < 0.001
             ),
-            "frame_origin_at_bottom_center": (
-                abs(frame_bottom - frame.location.z) < 0.001
-                and abs(frame.location.x) < 0.001
-                and abs(frame.location.y) < 0.001
+            "panel_parent_follows_frame": panel.parent == frame,
+            "panel_origin_at_geometric_center": (
+                all(
+                    abs(min(vertex.co[index] for vertex in panel_mesh.vertices) + max(vertex.co[index] for vertex in panel_mesh.vertices)) < 0.001
+                    for index in range(3)
+                )
+                and abs(panel_origin_world.x - sum(point.x for point in panel_bounds) / 8.0) < 0.001
+                and abs(panel_origin_world.y - sum(point.y for point in panel_bounds) / 8.0) < 0.001
+                and abs(panel_origin_world.z - sum(point.z for point in panel_bounds) / 8.0) < 0.001
+            ),
+            "frame_origin_at_world_origin": (
+                abs(frame_origin_world.x) < 0.001
+                and abs(frame_origin_world.y) < 0.001
+                and abs(frame_origin_world.z) < 0.001
                 and abs(frame_local_x_max) < 0.001
             ),
-            "panel_origin_at_bottom_center": (
-                abs(panel_bottom - panel.location.z) < 0.001
-                and abs(panel.location.y) < 0.001
-                and abs(panel_local_x_max) < 0.001
-            ),
+            "model_above_world_origin": frame_bottom > -0.001 and panel_bottom > -0.001,
         },
     }
     return report
@@ -510,7 +535,7 @@ def main() -> None:
     )
 
     frame = make_ring(model, outer_material)
-    panel = make_panel(model, inner_material)
+    panel = make_panel(model, inner_material, frame)
     camera = make_camera_and_lights(environment)
     configure_scene(bpy.context.scene, camera)
     write_text_block()
