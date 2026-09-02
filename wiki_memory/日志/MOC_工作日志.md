@@ -18,6 +18,7 @@ supersedes: null
 | 2026-09-02 | bug | - | archived | transparent-pale-lavender-specimen-frame-color-fix | [[日志/2026-09-02-透明浅紫标本方框颜色修正.md|透明浅紫标本方框颜色修正]] |
 | 2026-09-02 | feature | - | archived | transparent-pale-lavender-specimen-frame-no-modifiers | [[日志/2026-09-02-移除Bevel与底色并调浅紫色.md|移除 Bevel 与底色并调浅紫色]] |
 | 2026-09-02 | feature | - | archived | butterfly-master-wing-flap-replacement | [[日志/2026-09-02-用Master替换蝴蝶扇翅动画.md|用 Master 替换蝴蝶扇翅动画]] |
+| 2026-09-02 | feature | - | archived | transparent-pale-lavender-specimen-frame-yz-standing-origin | [[日志/2026-09-02-标本方框立起到YZ平面并调整物体原点.md|标本方框立起到 Y-Z 平面并调整物体原点]] |
 | 2026-09-02 | feature | - | archived | transparent-pale-lavender-specimen-frame | [[日志/2026-09-02-创建透明浅紫标本方框.md|创建透明浅紫标本方框]] |
 | 2026-09-02 | feature | - | archived | butterfly-wing-flap-only-variants | [[日志/2026-09-02-创建蝴蝶仅翅膀扇动版本.md|创建蝴蝶仅翅膀扇动版本]] |
 | 2026-09-01 | discussion | - | archived | butterfly-variant-differences | [[日志/2026-09-01-蝴蝶版本差异说明.md|蝴蝶版本差异说明]] |

@@ -20,6 +20,11 @@
     "vertices": 16,
     "polygons": 16,
     "dimensions": [
+      0.42,
+      9.1,
+      9.1
+    ],
+    "local_dimensions": [
       9.1,
       9.1,
       0.42
@@ -31,6 +36,16 @@
       0.96,
       1.0,
       0.7
+    ],
+    "rotation_degrees": [
+      0.0,
+      90.0,
+      0.0
+    ],
+    "origin": [
+      0.0,
+      0.0,
+      -4.55
     ]
   },
   "panel": {
@@ -38,6 +53,11 @@
     "vertices": 8,
     "polygons": 6,
     "dimensions": [
+      0.28,
+      7.02,
+      7.02
+    ],
+    "local_dimensions": [
       7.02,
       7.02,
       0.28
@@ -49,6 +69,16 @@
       0.52,
       1.0,
       0.74
+    ],
+    "rotation_degrees": [
+      0.0,
+      90.0,
+      0.0
+    ],
+    "origin": [
+      -0.04,
+      0.0,
+      -3.51
     ]
   },
   "camera": "CAMERA_SPECIMEN_FRAME",
@@ -63,7 +93,10 @@
     "panel_hue_is_lavender_not_pink": true,
     "no_modifiers": true,
     "background_removed": true,
+    "standing_in_yz_plane": true,
+    "frame_origin_at_bottom_center": true,
+    "panel_origin_at_bottom_center": true,
     "all_passed": true
   },
-  "preview_bytes": 684758
+  "preview_bytes": 659826
 }
