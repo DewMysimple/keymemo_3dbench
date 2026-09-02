@@ -50,12 +50,12 @@
     "vertices": 8,
     "polygons": 6,
     "dimensions": [
-      0.28,
+      0.42,
       7.1,
       7.1
     ],
     "local_dimensions": [
-      0.28,
+      0.42,
       7.1,
       7.1
     ],
@@ -73,12 +73,14 @@
       0.0
     ],
     "origin": [
-      -0.04,
+      0.0,
       0.0,
       4.55
     ],
     "parent": "SPECIMEN_OUTER_FRAME",
     "opening_fit_deltas": {
+      "x_min": -0.0,
+      "x_max": 0.0,
       "y_min": 0.0,
       "y_max": -0.0,
       "z_min": 0.0,
@@ -100,6 +102,7 @@
     "panel_has_depth": true,
     "panel_fills_outer_opening": true,
     "panel_edges_aligned_with_opening": true,
+    "panel_front_back_faces_aligned_with_frame": true,
     "frame_and_panel_separate": true,
     "frame_material_is_white_translucent": true,
     "panel_material_is_lavender_translucent": true,
@@ -116,5 +119,5 @@
     "old_lights_removed": true,
     "all_passed": true
   },
-  "preview_bytes": 663835
+  "preview_bytes": 664263
 }

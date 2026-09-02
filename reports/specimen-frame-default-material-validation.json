@@ -29,11 +29,13 @@
   "panel": {
     "name": "SPECIMEN_INNER_PANEL",
     "world_dimensions": [
-      0.280001,
+      0.420001,
       7.1,
       7.1
     ],
     "opening_fit_deltas": {
+      "x_min": -0.0,
+      "x_max": 0.0,
       "y_min": 0.0,
       "y_max": -0.0,
       "z_min": 0.0,
@@ -71,6 +73,7 @@
     "inner_panel_parent_preserved": true,
     "inner_panel_fills_outer_opening": true,
     "inner_panel_edges_aligned_with_opening": true,
+    "inner_panel_front_back_faces_aligned_with_frame": true,
     "camera_position_preserved": true,
     "one_default_material_datablock": true,
     "default_material_assigned": true,
@@ -91,7 +94,8 @@
     "inner_panel_parent_preserved": true,
     "inner_panel_fills_outer_opening": true,
     "inner_panel_edges_aligned_with_opening": true,
+    "inner_panel_front_back_faces_aligned_with_frame": true,
     "all_passed": true
   },
-  "preview_bytes": 419069
+  "preview_bytes": 415129
 }

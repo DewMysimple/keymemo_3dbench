@@ -40,6 +40,7 @@ def panel_opening_fit(merged: bpy.types.Object) -> tuple[dict[str, float], dict[
     """Measure the joined inner-panel vertices against the frame opening."""
     opening_size = float(bpy.context.scene.get("frame_opening_size", 7.1))
     overall_size = float(bpy.context.scene.get("frame_overall_size", 9.1))
+    frame_depth = float(bpy.context.scene.get("frame_depth", 0.42))
     panel_slot = merged.data.materials.find("MAT_InnerPanel_TransparentLavender")
     ensure(panel_slot >= 0, "Joined inner-panel material slot not found.")
     panel_vertex_indices = {
@@ -54,12 +55,16 @@ def panel_opening_fit(merged: bpy.types.Object) -> tuple[dict[str, float], dict[
     ]
     ensure(panel_points, "Joined inner-panel geometry not found.")
     expected = {
+        "x_min": -frame_depth / 2.0,
+        "x_max": frame_depth / 2.0,
         "y_min": -opening_size / 2.0,
         "y_max": opening_size / 2.0,
         "z_min": (overall_size - opening_size) / 2.0,
         "z_max": (overall_size + opening_size) / 2.0,
     }
     actual = {
+        "x_min": min(point.x for point in panel_points),
+        "x_max": max(point.x for point in panel_points),
         "y_min": min(point.y for point in panel_points),
         "y_max": max(point.y for point in panel_points),
         "z_min": min(point.z for point in panel_points),
@@ -106,6 +111,10 @@ def validate_scene(merged: bpy.types.Object, source_frame_name: str, source_pane
         "standing_dimensions_preserved": all(abs(actual - expected) < 0.001 for actual, expected in zip(dimensions, (0.42, 9.1, 9.1))),
         "inner_panel_fills_outer_opening": all(abs(value) < 0.001 for value in panel_fit_deltas.values()),
         "inner_panel_edges_aligned_with_opening": all(abs(value) < 0.001 for value in panel_fit_deltas.values()),
+        "inner_panel_front_back_faces_aligned_with_frame": (
+            abs(panel_fit_deltas["x_min"]) < 0.001
+            and abs(panel_fit_deltas["x_max"]) < 0.001
+        ),
         "merged_origin_at_geometric_center": all(
             abs(merged.matrix_world.translation[index] - sum(point[index] for point in bounds) / len(bounds)) < 0.001
             for index in range(3)
@@ -203,7 +212,7 @@ def main() -> None:
     scene.name = "SPECIMEN_FRAME_MERGED_WORKBENCH"
     scene["asset_name_zh"] = "透明浅紫标本正方形框｜合并物体版本"
     scene["asset_name_en"] = "Transparent Pale Lavender Specimen Frame | Merged Object Variant"
-    scene["modeling_notes"] = "The outer frame and inner panel are joined into one mesh object with two material slots; the inner panel perimeter is exactly aligned to the outer opening."
+    scene["modeling_notes"] = "The outer frame and inner panel are joined into one mesh object with two material slots; the inner panel perimeter and both X-facing surfaces are exactly aligned to the outer frame."
     scene["merged_object"] = True
     scene["merged_origin_at_geometric_center"] = True
     scene["source_blend"] = str(SOURCE_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/")

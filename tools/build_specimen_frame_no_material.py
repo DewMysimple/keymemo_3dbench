@@ -56,17 +56,22 @@ def max_vector_delta(left: list[Vector], right: list[Vector]) -> float:
 
 
 def panel_opening_fit(frame: bpy.types.Object, panel: bpy.types.Object) -> dict[str, float]:
-    """Return panel-to-opening edge deltas in the standing Y-Z plane."""
+    """Return panel-to-opening edge deltas across X, Y and Z."""
     opening_size = float(frame.get("opening_size", 7.1))
     overall_size = float(frame.get("overall_size", 9.1))
+    frame_depth = float(frame.get("thickness", 0.42))
     panel_points = world_vertex_positions(panel)
     expected = {
+        "x_min": -frame_depth / 2.0,
+        "x_max": frame_depth / 2.0,
         "y_min": -opening_size / 2.0,
         "y_max": opening_size / 2.0,
         "z_min": (overall_size - opening_size) / 2.0,
         "z_max": (overall_size + opening_size) / 2.0,
     }
     actual = {
+        "x_min": min(point.x for point in panel_points),
+        "x_max": max(point.x for point in panel_points),
         "y_min": min(point.y for point in panel_points),
         "y_max": max(point.y for point in panel_points),
         "z_min": min(point.z for point in panel_points),
@@ -213,6 +218,7 @@ def update_variant_metadata(scene: bpy.types.Scene, frame: bpy.types.Object) -> 
                     "本版本由 Specimen_Frame_Transparent.blend 派生。",
                     "- 保留 SPECIMEN_OUTER_FRAME 与 SPECIMEN_INNER_PANEL 的几何、层级和世界空间位置。",
                     "- 合缝：中心板外边界与外框内开口四边完全对齐，平面缝隙为 0。",
+                    "- X 轴对齐：中心板正面和背面与外框齐平，前后缝隙均为 0。",
                     "- SPECIMEN_OUTER_FRAME 的物体原点位于其几何包围盒中心。",
                     "- 模型使用 Blender 默认材质。",
                     "- 相机和透明背景保持不变；World 与图像数据已移除。",
@@ -285,6 +291,11 @@ def validate_scene(
         "inner_panel_edges_aligned_with_opening": (
             abs(panel.dimensions.y - float(frame.get("opening_size", 7.1))) < 0.001
             and abs(panel.dimensions.z - float(frame.get("opening_size", 7.1))) < 0.001
+        ),
+        "inner_panel_front_back_faces_aligned_with_frame": (
+            abs(panel.dimensions.x - float(frame.get("thickness", 0.42))) < 0.001
+            and abs(panel_fit_deltas["x_min"]) < 0.001
+            and abs(panel_fit_deltas["x_max"]) < 0.001
         ),
         "camera_position_preserved": max(
             abs(before_camera_matrix[index][column] - scene.camera.matrix_world[index][column])
@@ -464,6 +475,11 @@ def main() -> None:
         "inner_panel_edges_aligned_with_opening": (
             abs(reopened_panel.dimensions.y - float(reopened_frame.get("opening_size", 7.1))) < 0.001
             and abs(reopened_panel.dimensions.z - float(reopened_frame.get("opening_size", 7.1))) < 0.001
+        ),
+        "inner_panel_front_back_faces_aligned_with_frame": (
+            abs(reopened_panel.dimensions.x - float(reopened_frame.get("thickness", 0.42))) < 0.001
+            and abs(reopened_panel_fit_deltas["x_min"]) < 0.001
+            and abs(reopened_panel_fit_deltas["x_max"]) < 0.001
         ),
     }
     report["reopen_checks"]["all_passed"] = all(report["reopen_checks"].values())

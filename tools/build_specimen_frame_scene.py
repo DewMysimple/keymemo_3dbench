@@ -34,8 +34,8 @@ REPORT_PATH = REPORT_ROOT / "specimen-frame-validation.json"
 FRAME_OVERALL_SIZE = 9.1
 FRAME_OPENING_SIZE = 7.1
 FRAME_DEPTH = 0.42
-PANEL_DEPTH = 0.28
-PANEL_RECESS = 0.04
+PANEL_DEPTH = FRAME_DEPTH
+PANEL_RECESS = 0.0
 
 
 def ensure(condition: bool, message: str) -> None:
@@ -260,9 +260,8 @@ def make_panel(
     material: bpy.types.Material,
     parent: bpy.types.Object,
 ) -> bpy.types.Object:
-    # Keep the panel recessed in depth while matching the opening exactly in
-    # the Y-Z plane. This removes the former 0.04-per-side perimeter gap while
-    # retaining the intended layered highlight at the front of the frame.
+    # Match the opening in Y-Z and the frame thickness in X. The inner panel
+    # therefore fills the opening and meets both front and back frame faces.
     panel = make_beveled_cube(
         "SPECIMEN_INNER_PANEL",
         (0.0, 0.0, 0.0),
@@ -274,7 +273,7 @@ def make_panel(
     )
     # Apply the standing rotation to the panel mesh and keep its object
     # origin at its geometric center. Its world center sits halfway up the
-    # frame and is recessed by 0.04 along X.
+    # frame and shares the frame's X center.
     panel.data.transform(Matrix.Rotation(math.radians(90.0), 4, "Y"))
     panel.location = (-PANEL_RECESS, 0.0, FRAME_OVERALL_SIZE / 2.0)
     panel.rotation_euler = (0.0, 0.0, 0.0)
@@ -284,7 +283,7 @@ def make_panel(
     panel["asset_role"] = "inner square specimen panel"
     panel["size"] = FRAME_OPENING_SIZE
     panel["thickness"] = PANEL_DEPTH
-    panel["opening_fit"] = "perimeter coincident with SPECIMEN_OUTER_FRAME opening"
+    panel["opening_fit"] = "perimeter and front/back faces coincident with SPECIMEN_OUTER_FRAME opening"
     panel["material_role"] = "transparent pale lavender center"
     panel["origin_role"] = "geometric center"
     panel["parent_role"] = "follows SPECIMEN_OUTER_FRAME"
@@ -391,6 +390,7 @@ def configure_scene(scene: bpy.types.Scene, camera: bpy.types.Camera) -> None:
     scene["panel_depth"] = PANEL_DEPTH
     scene["panel_recess"] = PANEL_RECESS
     scene["panel_opening_fit"] = "SPECIMEN_INNER_PANEL exactly fills the 7.1 x 7.1 inner opening; perimeter gap is 0.0."
+    scene["panel_x_alignment"] = "SPECIMEN_INNER_PANEL front and back faces align with SPECIMEN_OUTER_FRAME; X gap is 0.0."
     scene["preferred_viewport"] = "Rendered / 渲染"
     scene["background_removed"] = True
     scene["bevel_modifiers_applied"] = False
@@ -434,6 +434,7 @@ def write_text_block() -> None:
                 "- 姿态：整体立在 Y-Z 平面，厚度沿 X；立起旋转已应用到网格，物体 Rotation 为零。",
                 "- 层级：SPECIMEN_INNER_PANEL 是 SPECIMEN_OUTER_FRAME 的子物体，会跟随外框。",
                 "- 合缝：中心板外边界与外框 7.1 × 7.1 内开口四边完全对齐，平面缝隙为 0。",
+                "- X 轴对齐：中心板厚度与外框均为 0.42，正面和背面与外框齐平。",
                 "- 原点：外框底面中心位于世界原点，整体模型向世界 Z 正方向延伸；紫色主体原点位于几何中心。",
                 "- 背景：已移除底色，渲染使用透明背景。",
                 "",
@@ -441,7 +442,7 @@ def write_text_block() -> None:
                 "进入‘布局’或‘着色’工作区后使用‘渲染’查看 HDRI 环境光、透明和高光；",
                 "外框与中心板的材质可在材质属性中分别调节。",
                 "",
-                "尺寸（Blender 单位）：整体 9.1，开口与中心板均为 7.1，外框深度 0.42，中心板深度 0.28。",
+                "尺寸（Blender 单位）：整体 9.1，开口与中心板均为 7.1，外框与中心板深度均为 0.42。",
             ]
         )
         + "\n"
@@ -478,6 +479,8 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
         "z_max": (overall_size + opening_size) / 2.0,
     }
     panel_fit_deltas = {
+        "x_min": min(point.x for point in panel_bounds) - (-FRAME_DEPTH / 2.0),
+        "x_max": max(point.x for point in panel_bounds) - (FRAME_DEPTH / 2.0),
         "y_min": min(point.y for point in panel_bounds) - opening_bounds["y_min"],
         "y_max": max(point.y for point in panel_bounds) - opening_bounds["y_max"],
         "z_min": min(point.z for point in panel_bounds) - opening_bounds["z_min"],
@@ -537,6 +540,11 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
             "panel_edges_aligned_with_opening": (
                 abs(panel_world_dimensions[1] - opening_size) < 0.001
                 and abs(panel_world_dimensions[2] - opening_size) < 0.001
+            ),
+            "panel_front_back_faces_aligned_with_frame": (
+                abs(panel_world_dimensions[0] - FRAME_DEPTH) < 0.001
+                and abs(panel_fit_deltas["x_min"]) < 0.001
+                and abs(panel_fit_deltas["x_max"]) < 0.001
             ),
             "frame_and_panel_separate": frame != panel and frame.data != panel.data,
             "frame_material_is_white_translucent": frame.data.materials[0].name == "MAT_OuterFrame_TranslucentWhite",

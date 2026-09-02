@@ -49,13 +49,18 @@ def main() -> None:
         }
         opening_size = float(frame.get("opening_size", 7.1))
         overall_size = float(frame.get("overall_size", 9.1))
+        frame_depth = float(frame.get("thickness", 0.42))
         expected = {
+            "x_min": -frame_depth / 2.0,
+            "x_max": frame_depth / 2.0,
             "y_min": -opening_size / 2.0,
             "y_max": opening_size / 2.0,
             "z_min": (overall_size - opening_size) / 2.0,
             "z_max": (overall_size + opening_size) / 2.0,
         }
         actual = {
+            "x_min": min(point.x for point in panel_points),
+            "x_max": max(point.x for point in panel_points),
             "y_min": min(point.y for point in panel_points),
             "y_max": max(point.y for point in panel_points),
             "z_min": min(point.z for point in panel_points),
