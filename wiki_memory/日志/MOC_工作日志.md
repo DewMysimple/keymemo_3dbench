@@ -3,7 +3,7 @@ type: moc
 status: active
 kind: process
 importance: high
-updated: 2026-09-01
+updated: 2026-09-02
 topic: work-log-index
 source_logs: []
 supersedes: null
@@ -15,6 +15,7 @@ supersedes: null
 
 | 时间 | 类型 | 目标 | 状态 | 主题 | 日志 |
 | --- | --- | --- | --- | --- | --- |
+| 2026-09-02 | feature | - | archived | butterfly-wing-flap-only-variants | [[日志/2026-09-02-创建蝴蝶仅翅膀扇动版本.md|创建蝴蝶仅翅膀扇动版本]] |
 | 2026-09-01 | discussion | - | archived | butterfly-variant-differences | [[日志/2026-09-01-蝴蝶版本差异说明.md|蝴蝶版本差异说明]] |
 | 2026-09-01 | maintenance | - | archived | butterfly-directory-organization | [[日志/2026-09-01-整理蝴蝶素材目录结构.md|整理蝴蝶素材目录结构]] |
 | 2026-09-01 | feature | - | archived | butterfly-head-follow-camera | [[日志/2026-09-01-制作蝴蝶头部跟随摄像机版本.md|制作蝴蝶头部跟随摄像机版本]] |

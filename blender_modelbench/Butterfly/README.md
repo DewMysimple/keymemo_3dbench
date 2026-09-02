@@ -38,6 +38,18 @@
 3. 保留 `CAMERA_HEAD_FOLLOW` 的父级 `CAMERA_HEAD_ANCHOR` 和 `CAMERA_HEAD_TRACK_TO` 约束，这样摄像机才会跟随并持续对准蝴蝶。
 4. 播放第 1 帧到最后一帧检查正面构图；运动路径仍可在原有 Follow Path 动画空物体上编辑。
 
+## 仅翅膀扇动版本
+
+以下两个文件分别由对应的 Follow Path 文件独立生成：
+
+- `blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend`
+- `blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend`
+
+这两个版本的 `ARTIST_EDIT` 只保留左右翅膀的拍动 Action；路径控制器的位置和旋转固定为第 1 帧，因此蝴蝶不会沿路径产生位移，也不会随路径改变朝向。`SOURCE_REFERENCE` 仍保留对应原始 Follow Path 对象和 Action，方便核对源数据。
+
+专用构建报告：`blender_scenebench/reports/butterfly-wing-only-variants.json`
+专用验证报告：`blender_scenebench/reports/butterfly-wing-only-validation.json`
+
 ## 打开方式
 
 - 默认场景 `ARTIST_EDIT`：单个已居中的展示模型，展示副本保持左右翅膀的原始父子关系和动作；编辑两个 `follow_path` 文件时切换到中文 `动画` 工作区即可。

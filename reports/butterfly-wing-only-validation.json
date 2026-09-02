@@ -1,0 +1,207 @@
+{
+  "asset": "Butterfly",
+  "variant": "wing_flap_only",
+  "validated_count": 2,
+  "validated": [
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
+      "default_scene": "ARTIST_EDIT",
+      "display_animated_objects": [
+        "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_源_FBX_01_05_BUTTERFLY_FAST__FLAP_FOLLOW_PATH__left_wing_",
+        "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_源_FBX_01_06_BUTTERFLY_FAST__FLAP_FOLLOW_PATH__right_wing__Copy_"
+      ],
+      "source_path_action": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_1_2|CINEMA_4D_Main|Layer0",
+      "path_and_body_static": true,
+      "wing_animation_changed": true,
+      "frame_samples": [
+        {
+          "frame": 1,
+          "path_controller": [
+            [
+              0.649426,
+              -0.170733,
+              -1.00665
+            ],
+            [
+              0.328624,
+              0.511491,
+              -0.667982,
+              -0.429166
+            ]
+          ],
+          "body": [
+            [
+              0.281288,
+              -0.590023,
+              -0.244529
+            ],
+            [
+              0.328624,
+              0.511491,
+              -0.667982,
+              -0.429166
+            ]
+          ]
+        },
+        {
+          "frame": 45,
+          "path_controller": [
+            [
+              0.649426,
+              -0.170733,
+              -1.00665
+            ],
+            [
+              0.328624,
+              0.511491,
+              -0.667982,
+              -0.429166
+            ]
+          ],
+          "body": [
+            [
+              0.281288,
+              -0.590023,
+              -0.244529
+            ],
+            [
+              0.328624,
+              0.511491,
+              -0.667982,
+              -0.429166
+            ]
+          ]
+        },
+        {
+          "frame": 91,
+          "path_controller": [
+            [
+              0.649426,
+              -0.170733,
+              -1.00665
+            ],
+            [
+              0.328624,
+              0.511491,
+              -0.667982,
+              -0.429166
+            ]
+          ],
+          "body": [
+            [
+              0.281288,
+              -0.590023,
+              -0.244529
+            ],
+            [
+              0.328624,
+              0.511491,
+              -0.667982,
+              -0.429166
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "file": "blender_scenebench/blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
+      "default_scene": "ARTIST_EDIT",
+      "display_animated_objects": [
+        "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_源_FBX_01_05_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_left_wing_",
+        "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_源_FBX_01_06_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_right_wing_"
+      ],
+      "source_path_action": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_2|CINEMA_4D_Main|Layer0",
+      "path_and_body_static": true,
+      "wing_animation_changed": true,
+      "frame_samples": [
+        {
+          "frame": 1,
+          "path_controller": [
+            [
+              -0.911646,
+              -0.459478,
+              -0.843759
+            ],
+            [
+              0.77171,
+              0.362571,
+              -0.222184,
+              -0.472906
+            ]
+          ],
+          "body": [
+            [
+              -0.175491,
+              -0.640846,
+              -0.296314
+            ],
+            [
+              0.77171,
+              0.362571,
+              -0.222184,
+              -0.472906
+            ]
+          ]
+        },
+        {
+          "frame": 45,
+          "path_controller": [
+            [
+              -0.911646,
+              -0.459478,
+              -0.843759
+            ],
+            [
+              0.77171,
+              0.362571,
+              -0.222184,
+              -0.472906
+            ]
+          ],
+          "body": [
+            [
+              -0.175491,
+              -0.640846,
+              -0.296314
+            ],
+            [
+              0.77171,
+              0.362571,
+              -0.222184,
+              -0.472906
+            ]
+          ]
+        },
+        {
+          "frame": 91,
+          "path_controller": [
+            [
+              -0.911646,
+              -0.459478,
+              -0.843759
+            ],
+            [
+              0.77171,
+              0.362571,
+              -0.222184,
+              -0.472906
+            ]
+          ],
+          "body": [
+            [
+              -0.175491,
+              -0.640846,
+              -0.296314
+            ],
+            [
+              0.77171,
+              0.362571,
+              -0.222184,
+              -0.472906
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
