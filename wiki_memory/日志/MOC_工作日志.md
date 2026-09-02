@@ -16,6 +16,7 @@ supersedes: null
 | 时间 | 类型 | 目标 | 状态 | 主题 | 日志 |
 | --- | --- | --- | --- | --- | --- |
 | 2026-09-02 | feature | - | archived | butterfly-master-wing-flap-replacement | [[日志/2026-09-02-用Master替换蝴蝶扇翅动画.md|用 Master 替换蝴蝶扇翅动画]] |
+| 2026-09-02 | feature | - | archived | transparent-pale-lavender-specimen-frame | [[日志/2026-09-02-创建透明浅紫标本方框.md|创建透明浅紫标本方框]] |
 | 2026-09-02 | feature | - | archived | butterfly-wing-flap-only-variants | [[日志/2026-09-02-创建蝴蝶仅翅膀扇动版本.md|创建蝴蝶仅翅膀扇动版本]] |
 | 2026-09-01 | discussion | - | archived | butterfly-variant-differences | [[日志/2026-09-01-蝴蝶版本差异说明.md|蝴蝶版本差异说明]] |
 | 2026-09-01 | maintenance | - | archived | butterfly-directory-organization | [[日志/2026-09-01-整理蝴蝶素材目录结构.md|整理蝴蝶素材目录结构]] |

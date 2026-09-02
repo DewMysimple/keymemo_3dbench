@@ -1,0 +1,59 @@
+{
+  "asset": "Transparent Pale Lavender Specimen Frame",
+  "blend": "blender_scenebench/blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent.blend",
+  "scene": "SPECIMEN_FRAME_WORKBENCH",
+  "objects": [
+    "CAMERA_SPECIMEN_FRAME",
+    "FILL_LAVENDER",
+    "KEY_SOFTBOX",
+    "PREVIEW_BACKDROP",
+    "RIM_WARM",
+    "SPECIMEN_INNER_PANEL",
+    "SPECIMEN_OUTER_FRAME"
+  ],
+  "collections": [
+    "ENVIRONMENT_SPECIMEN_FRAME",
+    "HELPERS_SPECIMEN_FRAME",
+    "MODEL_SPECIMEN_FRAME"
+  ],
+  "frame": {
+    "object": "SPECIMEN_OUTER_FRAME",
+    "vertices": 16,
+    "polygons": 16,
+    "dimensions": [
+      9.1,
+      9.1,
+      0.42
+    ],
+    "modifier_names": [
+      "Rounded Frame Edges"
+    ],
+    "material": "MAT_OuterFrame_TranslucentWhite"
+  },
+  "panel": {
+    "object": "SPECIMEN_INNER_PANEL",
+    "vertices": 8,
+    "polygons": 6,
+    "dimensions": [
+      7.02,
+      7.02,
+      0.28
+    ],
+    "modifier_names": [
+      "Soft Edge Bevel"
+    ],
+    "material": "MAT_InnerPanel_TransparentLavender"
+  },
+  "camera": "CAMERA_SPECIMEN_FRAME",
+  "render_preview": "blender_scenebench/generated/SpecimenFrame/Specimen_Frame_Transparent_preview.png",
+  "checks": {
+    "frame_has_opening": true,
+    "frame_has_depth": true,
+    "panel_has_depth": true,
+    "frame_and_panel_separate": true,
+    "frame_material_is_white_translucent": true,
+    "panel_material_is_lavender_translucent": true,
+    "all_passed": true
+  },
+  "preview_bytes": 799036
+}
