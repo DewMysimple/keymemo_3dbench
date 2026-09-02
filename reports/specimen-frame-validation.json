@@ -6,7 +6,6 @@
     "CAMERA_SPECIMEN_FRAME",
     "FILL_LAVENDER",
     "KEY_SOFTBOX",
-    "PREVIEW_BACKDROP",
     "RIM_WARM",
     "SPECIMEN_INNER_PANEL",
     "SPECIMEN_OUTER_FRAME"
@@ -25,9 +24,7 @@
       9.1,
       0.42
     ],
-    "modifier_names": [
-      "Rounded Frame Edges"
-    ],
+    "modifier_names": [],
     "material": "MAT_OuterFrame_TranslucentWhite",
     "viewport_color": [
       0.9,
@@ -45,15 +42,13 @@
       7.02,
       0.28
     ],
-    "modifier_names": [
-      "Soft Edge Bevel"
-    ],
+    "modifier_names": [],
     "material": "MAT_InnerPanel_TransparentLavender",
     "viewport_color": [
-      0.32,
-      0.14,
-      0.82,
-      0.76
+      0.64,
+      0.52,
+      1.0,
+      0.74
     ]
   },
   "camera": "CAMERA_SPECIMEN_FRAME",
@@ -66,7 +61,9 @@
     "frame_material_is_white_translucent": true,
     "panel_material_is_lavender_translucent": true,
     "panel_hue_is_lavender_not_pink": true,
+    "no_modifiers": true,
+    "background_removed": true,
     "all_passed": true
   },
-  "preview_bytes": 788001
+  "preview_bytes": 684758
 }

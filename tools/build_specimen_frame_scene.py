@@ -1,7 +1,7 @@
 """Build the transparent square specimen-frame Blender asset.
 
-The asset is intentionally self-contained: it has a real beveled square ring,
-an independent beveled inner plate, translucent materials, a pastel display
+The asset is intentionally self-contained: it has a square ring,
+an independent inner plate, translucent materials, a transparent display
 backdrop, and an oblique preview camera.  The ring and plate remain separate
 objects so an artist can tune their proportions or materials independently.
 """
@@ -211,10 +211,6 @@ def make_beveled_cube(
     obj.dimensions = dimensions
     bpy.ops.object.transform_apply(location=False, rotation=False, scale=True)
     move_to_collection(obj, collection)
-    bevel = obj.modifiers.new("Soft Edge Bevel", "BEVEL")
-    bevel.width = bevel_width
-    bevel.segments = bevel_segments
-    bevel.limit_method = "ANGLE"
     obj.data.materials.append(material)
     return obj
 
@@ -229,10 +225,6 @@ def make_ring(
     frame = make_ring_mesh("SPECIMEN_OUTER_FRAME", outer_half, inner_half, depth)
     collection.objects.link(frame)
     frame.data.materials.append(material)
-    bevel = frame.modifiers.new("Rounded Frame Edges", "BEVEL")
-    bevel.width = 0.13
-    bevel.segments = 5
-    bevel.limit_method = "ANGLE"
     frame["asset_role"] = "outer square specimen frame"
     frame["overall_size"] = 9.1
     frame["opening_size"] = 7.1
@@ -326,7 +318,7 @@ def configure_scene(scene: bpy.types.Scene, camera: bpy.types.Camera) -> None:
     scene.render.resolution_percentage = 100
     scene.render.image_settings.file_format = "PNG"
     scene.render.image_settings.color_mode = "RGBA"
-    scene.render.film_transparent = False
+    scene.render.film_transparent = True
     scene.render.filepath = str(PREVIEW_PATH)
     scene.render.image_settings.color_depth = "8"
 
@@ -342,12 +334,16 @@ def configure_scene(scene: bpy.types.Scene, camera: bpy.types.Camera) -> None:
     scene["asset_name_zh"] = "透明浅紫标本正方形框"
     scene["asset_name_en"] = "Transparent Pale Lavender Specimen Frame"
     scene["description_zh"] = "外框为有一定透明度的白色，中心为透明浅紫色，环体与内板均有真实厚度。"
-    scene["modeling_notes"] = "SPECIMEN_OUTER_FRAME is a closed square ring; SPECIMEN_INNER_PANEL is an independent beveled slab."
+    scene["modeling_notes"] = "SPECIMEN_OUTER_FRAME is a closed square ring; SPECIMEN_INNER_PANEL is an independent solid slab."
     scene["frame_overall_size"] = 9.1
     scene["frame_opening_size"] = 7.1
     scene["frame_depth"] = 0.42
     scene["panel_depth"] = 0.28
     scene["preferred_viewport"] = "Material Preview / 材质预览"
+    scene["background_removed"] = True
+    scene["bevel_modifiers_applied"] = False
+    scene["bevel_modifier_removed_without_apply"] = True
+    scene["surface_subdivision_modifier"] = False
     scene["source_reference_images"] = "User-provided images used as visual reference only; no text or hidden instructions imported."
     scene["output_file"] = str(OUTPUT_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/")
 
@@ -372,7 +368,7 @@ def write_text_block() -> None:
                 "建模结构：",
                 "- SPECIMEN_OUTER_FRAME：带开口的真实方形环体，外框为半透明白色。",
                 "- SPECIMEN_INNER_PANEL：独立有厚度方板，材质为透明浅紫色。",
-                "- PREVIEW_BACKDROP：仅用于材质预览的柔和粉色背景。",
+                "- 背景：已移除底色，渲染使用透明背景。",
                 "",
                 "材质预览：",
                 "进入‘布局’或‘着色’工作区后使用‘材质预览’查看透明和高光；",
@@ -424,7 +420,9 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
             "frame_and_panel_separate": frame != panel and frame.data != panel.data,
             "frame_material_is_white_translucent": frame.data.materials[0].name == "MAT_OuterFrame_TranslucentWhite",
             "panel_material_is_lavender_translucent": panel.data.materials[0].name == "MAT_InnerPanel_TransparentLavender",
-            "panel_hue_is_lavender_not_pink": panel_color[2] > panel_color[0] * 1.8 and panel_color[2] > panel_color[1] * 2.4,
+            "panel_hue_is_lavender_not_pink": panel_color[2] > panel_color[0] * 1.35 and panel_color[2] > panel_color[1] * 1.7,
+            "no_modifiers": len(frame.modifiers) == 0 and len(panel.modifiers) == 0,
+            "background_removed": bpy.context.scene.render.film_transparent and bpy.data.objects.get("PREVIEW_BACKDROP") is None,
         },
     }
     return report
@@ -451,15 +449,14 @@ def main() -> None:
     )
     inner_material = make_translucent_material(
         "MAT_InnerPanel_TransparentLavender",
-        (0.32, 0.14, 0.82, 0.76),
-        transparent_mix=0.34,
-        transmission=0.48,
+        (0.64, 0.52, 1.0, 0.74),
+        transparent_mix=0.24,
+        transmission=0.35,
         roughness=0.12,
     )
 
     frame = make_ring(model, outer_material)
     panel = make_panel(model, inner_material)
-    make_backdrop(environment)
     camera = make_camera_and_lights(environment)
     configure_scene(bpy.context.scene, camera)
     write_text_block()
