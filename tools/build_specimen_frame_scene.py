@@ -149,13 +149,13 @@ def make_translucent_material(
 
 
 def make_backdrop_material() -> bpy.types.Material:
-    material = bpy.data.materials.new("Backdrop_Soft_Peach")
+    material = bpy.data.materials.new("Backdrop_NeutralBlueGray")
     material.use_nodes = True
-    material.diffuse_color = (0.86, 0.70, 0.73, 1.0)
-    material["asset_role"] = "preview-only pastel backdrop"
+    material.diffuse_color = (0.60, 0.64, 0.74, 1.0)
+    material["asset_role"] = "preview-only neutral cool backdrop"
     shader = material.node_tree.nodes.get("Principled BSDF")
     if shader:
-        set_input(shader, "Base Color", (0.54, 0.28, 0.34, 1.0))
+        set_input(shader, "Base Color", (0.32, 0.36, 0.46, 1.0))
         set_input(shader, "Roughness", 0.52)
         set_input(shader, ("Specular IOR Level", "Specular"), 0.12)
     return material
@@ -388,6 +388,9 @@ def write_text_block() -> None:
 def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy.types.Object) -> dict[str, object]:
     mesh = frame.data
     panel_mesh = panel.data
+    frame_material = frame.data.materials[0]
+    panel_material = panel.data.materials[0]
+    panel_color = tuple(float(value) for value in panel_material.diffuse_color)
     report: dict[str, object] = {
         "asset": "Transparent Pale Lavender Specimen Frame",
         "blend": str(OUTPUT_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/"),
@@ -400,7 +403,8 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
             "polygons": len(mesh.polygons),
             "dimensions": [round(value, 4) for value in frame.dimensions],
             "modifier_names": [modifier.name for modifier in frame.modifiers],
-            "material": frame.data.materials[0].name if frame.data.materials else None,
+            "material": frame_material.name if frame.data.materials else None,
+            "viewport_color": [round(value, 4) for value in frame_material.diffuse_color],
         },
         "panel": {
             "object": panel.name,
@@ -408,7 +412,8 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
             "polygons": len(panel_mesh.polygons),
             "dimensions": [round(value, 4) for value in panel.dimensions],
             "modifier_names": [modifier.name for modifier in panel.modifiers],
-            "material": panel.data.materials[0].name if panel.data.materials else None,
+            "material": panel_material.name if panel.data.materials else None,
+            "viewport_color": [round(value, 4) for value in panel_color],
         },
         "camera": camera.name,
         "render_preview": str(PREVIEW_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/"),
@@ -419,6 +424,7 @@ def validate_scene(frame: bpy.types.Object, panel: bpy.types.Object, camera: bpy
             "frame_and_panel_separate": frame != panel and frame.data != panel.data,
             "frame_material_is_white_translucent": frame.data.materials[0].name == "MAT_OuterFrame_TranslucentWhite",
             "panel_material_is_lavender_translucent": panel.data.materials[0].name == "MAT_InnerPanel_TransparentLavender",
+            "panel_hue_is_lavender_not_pink": panel_color[2] > panel_color[0] * 1.8 and panel_color[2] > panel_color[1] * 2.4,
         },
     }
     return report
@@ -445,10 +451,10 @@ def main() -> None:
     )
     inner_material = make_translucent_material(
         "MAT_InnerPanel_TransparentLavender",
-        (0.58, 0.38, 0.92, 0.62),
-        transparent_mix=0.38,
-        transmission=0.70,
-        roughness=0.10,
+        (0.32, 0.14, 0.82, 0.76),
+        transparent_mix=0.34,
+        transmission=0.48,
+        roughness=0.12,
     )
 
     frame = make_ring(model, outer_material)

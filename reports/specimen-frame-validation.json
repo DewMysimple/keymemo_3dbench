@@ -28,7 +28,13 @@
     "modifier_names": [
       "Rounded Frame Edges"
     ],
-    "material": "MAT_OuterFrame_TranslucentWhite"
+    "material": "MAT_OuterFrame_TranslucentWhite",
+    "viewport_color": [
+      0.9,
+      0.96,
+      1.0,
+      0.7
+    ]
   },
   "panel": {
     "object": "SPECIMEN_INNER_PANEL",
@@ -42,7 +48,13 @@
     "modifier_names": [
       "Soft Edge Bevel"
     ],
-    "material": "MAT_InnerPanel_TransparentLavender"
+    "material": "MAT_InnerPanel_TransparentLavender",
+    "viewport_color": [
+      0.32,
+      0.14,
+      0.82,
+      0.76
+    ]
   },
   "camera": "CAMERA_SPECIMEN_FRAME",
   "render_preview": "blender_scenebench/generated/SpecimenFrame/Specimen_Frame_Transparent_preview.png",
@@ -53,7 +65,8 @@
     "frame_and_panel_separate": true,
     "frame_material_is_white_translucent": true,
     "panel_material_is_lavender_translucent": true,
+    "panel_hue_is_lavender_not_pink": true,
     "all_passed": true
   },
-  "preview_bytes": 799036
+  "preview_bytes": 788001
 }
