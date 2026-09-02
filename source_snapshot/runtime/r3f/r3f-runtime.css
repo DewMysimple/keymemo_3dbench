@@ -1,0 +1,275 @@
+@font-face {
+  font-family: 'Verminoble Canela';
+  font-style: normal;
+  font-weight: 100;
+  src: url('/wp-content/themes/davidwhyte/resources/assets/fonts/CanelaText-Thin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Verminoble Roobert';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/wp-content/themes/davidwhyte/resources/assets/fonts/Roobert-Regular.woff2') format('woff2');
+}
+
+.r3f-experience-shell {
+  background: #e7e7e2;
+  color: #413a39;
+}
+
+.r3f-experience {
+  height: 227.333vh;
+  min-height: 2046px;
+  position: relative;
+}
+
+.r3f-stage {
+  height: 100dvh;
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+}
+
+.r3f-stage > canvas {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.r3f-poems {
+  left: 10vw;
+  pointer-events: none;
+  position: absolute;
+  top: calc(50% - 168px);
+  z-index: 2;
+}
+
+.r3f-poem {
+  color: #413a39;
+  font-family: 'Verminoble Canela', serif;
+  font-size: 30px;
+  font-weight: 100;
+  line-height: 48px;
+  max-width: 13em;
+  opacity: 0;
+  position: absolute;
+  transition: filter 600ms ease, opacity 600ms ease;
+  width: max-content;
+}
+
+.r3f-poem.is-active {
+  filter: blur(0);
+  opacity: 1;
+}
+
+.r3f-poem:not(.is-active) {
+  filter: blur(5px);
+}
+
+.r3f-poem p {
+  line-height: 48px;
+  margin: 0 0 48px;
+}
+
+.r3f-scroll-hint {
+  background: transparent;
+  border: 0;
+  bottom: 20vh;
+  color: #111;
+  font-family: 'Verminoble Roobert', sans-serif;
+  font-size: 14px;
+  left: 10vw;
+  overflow: hidden;
+  padding: 0 0 0.4em;
+  position: absolute;
+  z-index: 3;
+}
+
+.r3f-scroll-hint::after {
+  background: currentColor;
+  bottom: 0;
+  content: '';
+  height: 1px;
+  left: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.r3f-scene-cta {
+  background: transparent;
+  border: 0;
+  color: #5f5a59;
+  cursor: pointer;
+  font-family: 'Verminoble Canela', serif;
+  font-size: 18px;
+  font-weight: 100;
+  position: absolute;
+  right: 10vw;
+  top: 72%;
+  z-index: 3;
+}
+
+.r3f-scene-title {
+  font-family: 'Verminoble Canela', serif;
+  font-size: 18px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+}
+
+.r3f-sound {
+  z-index: 4;
+}
+
+.r3f-experience-shell > .sound {
+  bottom: 50px;
+  cursor: pointer;
+  height: 21.5px;
+  margin: -20px;
+  opacity: 0.5;
+  overflow: hidden;
+  padding: 20px;
+  pointer-events: auto;
+  position: fixed;
+  right: 50px;
+  transition: opacity 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  width: 21.5px;
+  z-index: 40;
+}
+
+.r3f-experience-shell > .sound .sound__container {
+  align-items: center;
+  display: flex;
+  height: 21.5px;
+  left: 10px;
+  overflow: hidden;
+  position: absolute;
+  top: 10px;
+  width: 21.5px;
+  z-index: 1;
+}
+
+.r3f-experience-shell > .sound .sound__container svg {
+  fill: none;
+  height: 21.7px;
+  position: absolute;
+  stroke: #000;
+  stroke-width: 8;
+  transform: translateX(0);
+  transition: transform 3s cubic-bezier(0.19, 1, 0.22, 1);
+  width: 177px;
+}
+
+.r3f-experience-shell > .sound .sound__container svg path:first-child,
+.r3f-experience-shell > .sound .sound__container svg path:nth-child(2) {
+  stroke-dasharray: 176.6;
+  transition: stroke-dashoffset 0.7s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.r3f-experience-shell > .sound .sound__container svg path:first-child {
+  stroke-dashoffset: -176.6;
+  transition-delay: 0s;
+}
+
+.r3f-experience-shell > .sound .sound__container svg path:nth-child(2) {
+  stroke-dashoffset: 0;
+  transition-delay: 0.2s;
+}
+
+html.notouch .r3f-experience-shell > .sound:hover {
+  opacity: 1;
+}
+
+html.notouch .r3f-experience-shell > .sound:hover .sound__container svg path:first-child {
+  stroke-dashoffset: 0;
+  transition-delay: 0.2s;
+}
+
+html.notouch .r3f-experience-shell > .sound:hover .sound__container svg path:nth-child(2) {
+  stroke-dashoffset: 176.6;
+  transition-delay: 0s;
+}
+
+.r3f-experience-shell > .sound.is-off .sound__container svg {
+  transform: translateX(-70%) translateX(23px);
+  transition: transform 3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.r3f-experience-shell > .sound.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.r3f-experience-shell .internal-module.faq .content-wrapper {
+  transition: height 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+  will-change: height;
+}
+
+.r3f-asset-loader .enter-description.is-visible {
+  opacity: 1;
+}
+
+.r3f-asset-loader .loader-circle {
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.r3f-asset-loader .animated-circle {
+  stroke-dasharray: 515;
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.r3f-landscape {
+  background: #e7e7e2;
+  inset: 0;
+  position: fixed;
+  z-index: 30;
+}
+
+.r3f-landscape canvas {
+  display: block;
+  height: 100%;
+  width: 100%;
+}
+
+.r3f-back {
+  background: transparent;
+  border: 0;
+  color: #111;
+  cursor: pointer;
+  font-family: 'Verminoble Roobert', sans-serif;
+  font-size: 14px;
+  left: 50px;
+  position: absolute;
+  top: 50px;
+  z-index: 2;
+}
+
+@media (max-width: 767px) {
+  .r3f-experience {
+    min-height: 1800px;
+  }
+
+  .r3f-poems {
+    left: 10vw;
+    top: calc(50% - 140px);
+  }
+
+  .r3f-poem {
+    font-size: 25px;
+    line-height: 40px;
+    max-width: 12em;
+  }
+
+  .r3f-poem p {
+    line-height: 40px;
+    margin-bottom: 40px;
+  }
+
+  .r3f-scene-cta {
+    font-size: 16px;
+    right: 7vw;
+  }
+}
