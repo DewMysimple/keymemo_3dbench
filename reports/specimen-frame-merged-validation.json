@@ -1,0 +1,63 @@
+{
+  "asset": "Transparent Pale Lavender Specimen Frame - Merged Object Variant",
+  "source": "blender_scenebench/blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent.blend",
+  "blend": "blender_scenebench/blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent_Merged.blend",
+  "scene": "SPECIMEN_FRAME_MERGED_WORKBENCH",
+  "model_objects": [
+    "SPECIMEN_FRAME_MERGED"
+  ],
+  "object": {
+    "name": "SPECIMEN_FRAME_MERGED",
+    "vertices": 24,
+    "polygons": 22,
+    "dimensions": [
+      0.42,
+      9.1,
+      9.1
+    ],
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "rotation_degrees": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "modifier_names": [],
+    "material_slots": [
+      "MAT_OuterFrame_TranslucentWhite",
+      "MAT_InnerPanel_TransparentLavender"
+    ],
+    "used_materials": [
+      "MAT_InnerPanel_TransparentLavender",
+      "MAT_OuterFrame_TranslucentWhite"
+    ],
+    "parent": null
+  },
+  "world": {
+    "name": "SPECIMEN_FRAME_WORLD",
+    "hdri_node": "HDRI Studio Environment",
+    "hdri_image": "HDRI_SPECIMEN_FRAME_STUDIO",
+    "hdri_packed": true,
+    "light_objects": []
+  },
+  "render_preview": "blender_scenebench/generated/SpecimenFrame/Specimen_Frame_Transparent_Merged_preview.png",
+  "checks": {
+    "source_objects_joined": true,
+    "one_model_object": true,
+    "merged_geometry_present": true,
+    "standing_dimensions_preserved": true,
+    "merged_origin_at_world_origin": true,
+    "object_rotation_applied": true,
+    "no_modifiers": true,
+    "materials_preserved": true,
+    "parent_removed_by_join": true,
+    "background_removed": true,
+    "hdri_world_preserved": true,
+    "old_lights_removed": true,
+    "all_passed": true
+  },
+  "preview_bytes": 662755
+}
