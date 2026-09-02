@@ -17,7 +17,7 @@
       "animation_policy": "preserve",
       "editable": true,
       "source_of_truth": true,
-      "source_sha256": "D4E8088EE1B38A7C084F6B57CDE37328A37950FFED37FCE8FAECB9F053D62C9D",
+      "source_sha256": "A6DBE5D385101162E6D464E7782C70003C36A08928794D5D982E921B31BB4468",
       "prepared_sha256": null
     },
     {
@@ -35,8 +35,8 @@
       "static_frame": 3586,
       "editable": true,
       "source_of_truth": false,
-      "source_sha256": "D4E8088EE1B38A7C084F6B57CDE37328A37950FFED37FCE8FAECB9F053D62C9D",
-      "prepared_sha256": "0582D5BB1584A3F0E6ABBD2BFC9EAA7349F54C3620E219D730FD98119CCA4DCD",
+      "source_sha256": "A6DBE5D385101162E6D464E7782C70003C36A08928794D5D982E921B31BB4468",
+      "prepared_sha256": "2B37886E3F20954622BAFEED964E90364437A59087EFB6AD018BE2063458AC1C",
       "available": true,
       "validation_report": "versions/no-animation/reports/blender-validation.json"
     }

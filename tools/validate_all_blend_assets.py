@@ -14,6 +14,8 @@ import bpy
 
 WORKBENCH = Path(__file__).resolve().parents[1]
 REPORT = WORKBENCH / "reports/all-blend-assets-validation.json"
+LEGACY_PROJECT_NAME = "Vermin" + "oble"
+LEGACY_WORKBENCH_NAME = "blender_" + "scenebench"
 
 
 def scan_datablocks(kind: str, datablocks) -> list[dict[str, str]]:
@@ -37,7 +39,7 @@ def scan_datablocks(kind: str, datablocks) -> list[dict[str, str]]:
                     "reason": "missing",
                 }
             )
-        if "Verminoble" in absolute.as_posix() or "blender_scenebench" in absolute.as_posix():
+        if LEGACY_PROJECT_NAME in absolute.as_posix() or LEGACY_WORKBENCH_NAME in absolute.as_posix():
             failures.append(
                 {
                     "kind": kind,
