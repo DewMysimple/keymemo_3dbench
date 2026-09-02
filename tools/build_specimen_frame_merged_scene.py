@@ -12,7 +12,7 @@ import json
 from pathlib import Path
 
 import bpy
-from mathutils import Vector
+from mathutils import Matrix, Vector
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -66,7 +66,10 @@ def validate_scene(merged: bpy.types.Object, source_frame_name: str, source_pane
         "one_model_object": model_objects == ["SPECIMEN_FRAME_MERGED"],
         "merged_geometry_present": len(merged.data.vertices) == 24 and len(merged.data.polygons) == 22,
         "standing_dimensions_preserved": all(abs(actual - expected) < 0.001 for actual, expected in zip(dimensions, (0.42, 9.1, 9.1))),
-        "merged_origin_at_world_origin": all(abs(value) < 0.001 for value in merged.matrix_world.translation),
+        "merged_origin_at_geometric_center": all(
+            abs(merged.matrix_world.translation[index] - sum(point[index] for point in bounds) / len(bounds)) < 0.001
+            for index in range(3)
+        ),
         "object_rotation_applied": all(abs(value) < 0.001 for value in merged.rotation_euler),
         "no_modifiers": len(merged.modifiers) == 0,
         "materials_preserved": {
@@ -135,10 +138,18 @@ def main() -> None:
     merged = bpy.context.object
     merged.name = "SPECIMEN_FRAME_MERGED"
     merged.data.name = "SPECIMEN_FRAME_MERGED_Mesh"
+    # Move the merged object's origin to the center of its combined geometry
+    # while preserving the model's world-space position.
+    bpy.context.view_layer.update()
+    local_bounds = [Vector(corner) for corner in merged.bound_box]
+    local_center = sum(local_bounds, Vector()) / len(local_bounds)
+    world_center = merged.matrix_world @ local_center
+    merged.data.transform(Matrix.Translation(-local_center))
+    merged.matrix_world.translation = world_center
     merged["asset_role"] = "merged outer frame and inner specimen panel"
     merged["source_objects"] = "SPECIMEN_OUTER_FRAME + SPECIMEN_INNER_PANEL"
     merged["material_roles"] = "outer translucent white + inner transparent pale lavender"
-    merged["origin_role"] = "outer frame bottom face center at world origin"
+    merged["origin_role"] = "combined geometry center"
     merged["object_rotation_applied"] = True
     merged["parenting"] = "components merged into one object"
 
@@ -147,6 +158,7 @@ def main() -> None:
     scene["asset_name_en"] = "Transparent Pale Lavender Specimen Frame | Merged Object Variant"
     scene["modeling_notes"] = "The outer frame and inner panel are joined into one mesh object with two material slots."
     scene["merged_object"] = True
+    scene["merged_origin_at_geometric_center"] = True
     scene["source_blend"] = str(SOURCE_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/")
     scene["output_file"] = str(OUTPUT_PATH.relative_to(PROJECT_ROOT)).replace("\\", "/")
     scene.render.filepath = str(PREVIEW_PATH)

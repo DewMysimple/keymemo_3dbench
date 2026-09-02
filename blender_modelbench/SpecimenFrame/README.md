@@ -20,7 +20,7 @@
 ## 合并物体版本
 
 另有一个基于上述文件生成的合并版本：`blender/Specimen_Frame_Transparent_Merged.blend`。
-该版本将外框与紫色主体合并为单个 `SPECIMEN_FRAME_MERGED` 物体，同时保留两个材质槽；HDRI、相机、透明背景、世界原点和无修改器状态保持不变。
+该版本将外框与紫色主体合并为单个 `SPECIMEN_FRAME_MERGED` 物体，同时保留两个材质槽；合并物体的物体原点位于合并后整体几何中心。模型实际位置、HDRI、相机、透明背景和无修改器状态保持不变。
 
 合并版本构建脚本：`../../tools/build_specimen_frame_merged_scene.py`
 
