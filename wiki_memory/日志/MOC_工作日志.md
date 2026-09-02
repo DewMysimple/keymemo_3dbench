@@ -15,6 +15,7 @@ supersedes: null
 
 | 时间 | 类型 | 目标 | 状态 | 主题 | 日志 |
 | --- | --- | --- | --- | --- | --- |
+| 2026-09-03 | feature | - | archived | specimen-frame-shared-topology-material-slots | [[日志/2026-09-03-创建标本方框共享拓扑双材质槽版本.md|创建标本方框共享拓扑双材质槽版本]] |
 | 2026-09-03 | bug | - | archived | specimen-frame-inner-panel-opening-fit | [[日志/2026-09-03-修正标本方框内板合缝对齐.md|修正标本方框内板合缝对齐]] |
 | 2026-09-03 | bug | - | archived | specimen-frame-inner-panel-depth-face-alignment | [[日志/2026-09-03-修正标本方框X轴正反面对齐.md|修正标本方框 X 轴正反面对齐]] |
 | 2026-09-02 | bug | - | archived | transparent-pale-lavender-specimen-frame-color-fix | [[日志/2026-09-02-透明浅紫标本方框颜色修正.md|透明浅紫标本方框颜色修正]] |
