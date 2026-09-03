@@ -15,7 +15,7 @@ scenes/   基于 source 构建的 Blender 场景与可验证交付文件
 | 模型 | source | scenes | 备注 |
 | --- | --- | --- | --- |
 | Butterfly | `Butterfly/source/` | `Butterfly/scenes/` | `metadata/` 保存源清单，`archive/legacy/` 保留历史文件 |
-| SpecimenFrame | 无外部源目录；场景本身为基准 | `SpecimenFrame/scenes/` | 多个透明/合并/默认材质版本 |
+| SpecimenFrame | 无外部源目录；场景本身为基准 | `SpecimenFrame/scenes/` | `Specimen_Frame_Transparent.blend` 单一正式版本 |
 | 兰花 | `兰花/source/形态1/`、`兰花/source/形态2/` | `兰花/scenes/` | 保留原始 Alembic、FBX、OBJ、C4D、贴图 |
 | 杜鹃花 | `杜鹃花/source/` | `杜鹃花/scenes/` | 含形态1与三角梅源素材 |
 | 水 | `水/source/` | `水/scenes/` | 保留 Unreal `.uasset` 源文件 |

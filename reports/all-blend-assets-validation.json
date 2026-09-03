@@ -1,6 +1,6 @@
 {
   "blender_version": "5.0.0",
-  "blend_count": 26,
+  "blend_count": 23,
   "records": [
     {
       "blend": "models/Butterfly/archive/legacy/Butterfly_legacy_master.blend",
@@ -99,25 +99,7 @@
       "passed": true
     },
     {
-      "blend": "models/SpecimenFrame/scenes/Specimen_Frame_Shared_Topology_Material_Slots.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
       "blend": "models/SpecimenFrame/scenes/Specimen_Frame_Transparent.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "models/SpecimenFrame/scenes/Specimen_Frame_Transparent_Default_Material.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "models/SpecimenFrame/scenes/Specimen_Frame_Transparent_Merged.blend",
       "external_images": 0,
       "external_fonts": 0,
       "passed": true

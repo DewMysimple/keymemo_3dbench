@@ -26,11 +26,9 @@ from mathutils import Matrix, Vector
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from workbench_paths import GENERATED_ROOT, REPORTS_ROOT, WORKBENCH_ROOT, model_scenes
-from build_specimen_frame_scene import make_hdri_world
-
-TARGET = model_scenes("SpecimenFrame") / "Specimen_Frame_Transparent_Default_Material.blend"
-RUN_ROOT = GENERATED_ROOT / "SpecimenFrame" / "crystal_core"
-REPORT = REPORTS_ROOT / "specimen-frame-default-material-validation.json"
+TARGET = model_scenes("SpecimenFrame") / "Specimen_Frame_Transparent.blend"
+RUN_ROOT = GENERATED_ROOT / "SpecimenFrame" / "transparent"
+REPORT = REPORTS_ROOT / "specimen-frame-validation.json"
 OUTER = "SPECIMEN_OUTER_FRAME"
 PANEL = "SPECIMEN_INNER_PANEL"
 MATERIALS = ("MAT_OuterFrame_TranslucentWhite", "MAT_InnerPanel_TransparentLavender")
@@ -54,6 +52,44 @@ def relative(path):
 
 def write_report(path, data):
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def make_hdri_world() -> bpy.types.World:
+    world = bpy.data.worlds.new("SPECIMEN_FRAME_WORLD")
+    world.use_nodes = True
+    nodes = world.node_tree.nodes
+    links = world.node_tree.links
+    nodes.clear()
+
+    output = nodes.new("ShaderNodeOutputWorld")
+    output.name = "World Output"
+    output.location = (520, 40)
+
+    background = nodes.new("ShaderNodeBackground")
+    background.name = "HDRI Environment Strength"
+    background.label = "HDRI 世界环境光"
+    background.location = (260, 40)
+    background.inputs["Strength"].default_value = 0.65
+
+    hdri = nodes.new("ShaderNodeTexEnvironment")
+    hdri.name = "HDRI Studio Environment"
+    hdri.label = "Blender Studio HDRI｜已打包进文件"
+    hdri.location = (-20, 80)
+    hdri_path = Path(bpy.utils.resource_path("LOCAL")) / "datafiles" / "studiolights" / "world" / "studio.exr"
+    ensure(hdri_path.is_file(), f"Bundled Blender HDRI not found: {hdri_path}")
+    image = bpy.data.images.load(str(hdri_path), check_existing=True)
+    image.name = "HDRI_SPECIMEN_FRAME_STUDIO"
+    image.pack()
+    image.filepath = "//packed_studio.exr"
+    hdri.image = image
+    links.new(hdri.outputs["Color"], background.inputs["Color"])
+    links.new(background.outputs["Background"], output.inputs["Surface"])
+
+    world["asset_role"] = "packed HDRI world environment light"
+    world["hdri_name"] = "studio.exr"
+    world["hdri_source"] = "Blender bundled Studio HDRI, packed into the .blend"
+    world["hdri_strength"] = 0.65
+    return world
 
 
 def camera_signature(camera):
@@ -189,7 +225,7 @@ def configure_scene(run):
     readme = bpy.data.texts.get("SPECIMEN_FRAME_README") or bpy.data.texts.new("SPECIMEN_FRAME_README")
     readme.clear()
     readme.write("透明外框＋紫晶内芯（Eevee 渲染展示版）\n"
-                 "文件名 Default_Material 因路径契约保留；本文件现在已配置晶体材质。\n"
+                 "正式文件名为 Specimen_Frame_Transparent.blend。\n"
                  "SPECIMEN_OUTER_FRAME 单对象；材质槽1白框12面，槽2紫晶六个完整表面。\n"
                  "16点/32边/18面；8条三面交汇边为有意保留的内部界面，不用于3D打印。\n"
                  "内芯0.42×7.1×7.1，外形0.42×9.1×9.1，前后齐平。\n"
@@ -317,6 +353,16 @@ def render_qa(run):
     return {"images": paths, "side_controls": metrics, "all_passed": passed}
 
 
+def prune_old_runs(keep: Path) -> None:
+    """Keep the latest published validation run and remove stale local runs."""
+    root = RUN_ROOT.resolve()
+    keep = keep.resolve()
+    ensure(keep.is_relative_to(root), "Retained run must be inside the dedicated staging directory.")
+    for path in root.iterdir():
+        if path.is_dir() and path.resolve() != keep:
+            shutil.rmtree(path)
+
+
 def stage():
     ensure(TARGET.is_file(), f"Target does not exist: {TARGET}")
     RUN_ROOT.mkdir(parents=True, exist_ok=True)
@@ -359,8 +405,11 @@ def publish(directory):
     report["original_backup"] = report["backup"]
     if REPORT.exists():
         previous = json.loads(REPORT.read_text(encoding="utf-8"))
-        if previous.get("published_sha256") == report["target_before_sha256"]:
-            report["original_backup"] = previous.get("original_backup", previous["backup"])
+        previous_backup = previous.get("original_backup", previous.get("backup"))
+        if (previous.get("published_sha256") == report["target_before_sha256"]
+                and previous_backup
+                and (WORKBENCH_ROOT / previous_backup).is_file()):
+            report["original_backup"] = previous_backup
     candidate = run / TARGET.name
     ensure(report["checks"]["all_passed"] and report["render_qa"]["all_passed"], "Unvalidated candidate.")
     ensure(digest(candidate) == report["candidate_sha256"], "Candidate changed after QA.")
@@ -381,6 +430,7 @@ def publish(directory):
     report.update({"status": "published", "published_sha256": digest(TARGET), "published_checks": final["checks"]})
     write_report(REPORT, report)
     write_report(run / "validation.json", report)
+    prune_old_runs(run)
     print("PUBLISHED=" + str(TARGET))
     print("BACKUP=" + str(run / "before.blend"))
 

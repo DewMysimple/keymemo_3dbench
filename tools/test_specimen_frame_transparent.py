@@ -6,7 +6,7 @@ import bmesh
 import bpy
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build_specimen_frame_crystal_core import TARGET, OUTER, MATERIALS, validate, digest
+from build_specimen_frame_transparent import TARGET, OUTER, MATERIALS, validate, digest
 
 
 def alter_face(obj, operation):
@@ -48,7 +48,7 @@ def main():
         assert not checks["all_passed"] and not checks[expected_failure], (case, checks)
         print("REJECTED_AS_EXPECTED=" + case)
     assert digest(TARGET) == before, "Regression test modified the delivered file."
-    print("CRYSTAL_REGRESSION_TESTS=7 passed; delivered bytes unchanged")
+    print("SPECIMEN_TRANSPARENT_REGRESSION_TESTS=7 passed; delivered bytes unchanged")
 
 
 if __name__ == "__main__":

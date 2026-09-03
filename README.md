@@ -24,14 +24,14 @@
 
 `scenes/GwayLoo/full/GwayLoo_Scene_5_0.blend` 是 `full` 完整基准文件。
 `scenes/GwayLoo/versions/no-animation/` 是保留相机动画、移除非相机动画的独立版本。
-SpecimenFrame 同时保留双组件原始版本和合并为单物体的版本；两者均不含修改器，
+SpecimenFrame 只保留一个正式的透明外框与紫晶内芯展示文件；模型为单对象双材质槽，
 其 HDRI 世界环境按文件内设置保存。
 
 ## 资源策略
 
 主 `.blend` 的外部媒体统一指向仓库内的 `runtime/source_snapshot/assets/`；生成 Ground
 图集和字体等必要的派生数据可以嵌入 `.blend`。`generated/`、渲染缓存和 Blender
-自动备份不进入 Git。三个超过 GitHub 100 MB 限制的原始文件保留在本地，详见
+自动备份不进入 Git。SpecimenFrame 的生成目录只保留最近一次验证结果。三个超过 GitHub 100 MB 限制的原始文件保留在本地，详见
 `manifests/local_assets_manifest.json`，不会上传远程仓库。
 
 ## 常用命令

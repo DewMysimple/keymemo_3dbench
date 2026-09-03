@@ -1,123 +1,210 @@
 {
-  "asset": "Transparent Pale Lavender Specimen Frame",
-  "blend": "models/SpecimenFrame/scenes/Specimen_Frame_Transparent.blend",
-  "scene": "SPECIMEN_FRAME_WORKBENCH",
-  "objects": [
-    "CAMERA_SPECIMEN_FRAME",
-    "SPECIMEN_INNER_PANEL",
-    "SPECIMEN_OUTER_FRAME"
-  ],
-  "collections": [
-    "ENVIRONMENT_SPECIMEN_FRAME",
-    "HELPERS_SPECIMEN_FRAME",
-    "MODEL_SPECIMEN_FRAME"
-  ],
-  "frame": {
-    "object": "SPECIMEN_OUTER_FRAME",
-    "vertices": 16,
-    "polygons": 16,
-    "dimensions": [
-      0.42,
-      9.1,
-      9.1
-    ],
-    "local_dimensions": [
-      0.42,
-      9.1,
-      9.1
-    ],
-    "modifier_names": [],
-    "material": "MAT_OuterFrame_TranslucentWhite",
-    "viewport_color": [
-      0.9,
-      0.96,
-      1.0,
-      0.7
-    ],
-    "rotation_degrees": [
-      0.0,
-      0.0,
-      0.0
-    ],
-    "origin": [
-      0.0,
-      0.0,
-      0.0
-    ]
-  },
-  "panel": {
-    "object": "SPECIMEN_INNER_PANEL",
-    "vertices": 8,
-    "polygons": 6,
-    "dimensions": [
-      0.42,
-      7.1,
-      7.1
-    ],
-    "local_dimensions": [
-      0.42,
-      7.1,
-      7.1
-    ],
-    "modifier_names": [],
-    "material": "MAT_InnerPanel_TransparentLavender",
-    "viewport_color": [
-      0.64,
-      0.52,
-      1.0,
-      0.74
-    ],
-    "rotation_degrees": [
-      0.0,
-      0.0,
-      0.0
-    ],
-    "origin": [
-      0.0,
-      0.0,
-      4.55
-    ],
-    "parent": "SPECIMEN_OUTER_FRAME",
-    "opening_fit_deltas": {
-      "x_min": -0.0,
-      "x_max": 0.0,
-      "y_min": 0.0,
-      "y_max": -0.0,
-      "z_min": 0.0,
-      "z_max": 0.0
-    }
-  },
-  "camera": "CAMERA_SPECIMEN_FRAME",
-  "world": {
-    "name": "SPECIMEN_FRAME_WORLD",
-    "hdri_node": "HDRI Studio Environment",
-    "hdri_image": "HDRI_SPECIMEN_FRAME_STUDIO",
-    "hdri_packed": true,
-    "light_objects": []
-  },
-  "render_preview": "generated/SpecimenFrame/Specimen_Frame_Transparent_preview.png",
   "checks": {
-    "frame_has_opening": true,
-    "frame_has_depth": true,
-    "panel_has_depth": true,
-    "panel_fills_outer_opening": true,
-    "panel_edges_aligned_with_opening": true,
-    "panel_front_back_faces_aligned_with_frame": true,
-    "frame_and_panel_separate": true,
-    "frame_material_is_white_translucent": true,
-    "panel_material_is_lavender_translucent": true,
-    "panel_hue_is_lavender_not_pink": true,
-    "no_modifiers": true,
-    "background_removed": true,
-    "standing_in_yz_plane": true,
-    "panel_parent_follows_frame": true,
-    "panel_origin_at_geometric_center": true,
-    "frame_origin_at_world_origin": true,
-    "model_above_world_origin": true,
-    "object_rotation_applied": true,
-    "hdri_world_environment_loaded": true,
-    "old_lights_removed": true,
+    "one_model_object": true,
+    "no_independent_panel": true,
+    "topology_16_32_18": true,
+    "intentional_junctions_only": true,
+    "no_open_or_loose_edges": true,
+    "no_duplicate_faces": true,
+    "two_material_slots": true,
+    "face_assignments": true,
+    "core_closed_six_faces": true,
+    "core_normals_outward": true,
+    "outer_normals_outward": true,
+    "unique_four_core_interface_faces": true,
+    "exterior_walls_remain_white": true,
+    "bounds_preserved": true,
+    "core_bounds_flush": true,
+    "origin_at_geometric_center": true,
+    "no_modifiers_or_parent": true,
+    "uvs_nonzero_on_all_faces": true,
+    "eevee_and_samples": true,
+    "material_settings": true,
+    "packed_hdri": true,
+    "no_external_images": true,
+    "transparent_background": true,
+    "camera_preserved": true,
     "all_passed": true
   },
-  "preview_bytes": 664263
+  "bounds": [
+    -0.20999999344348907,
+    -4.550000190734863,
+    0.0,
+    0.20999999344348907,
+    4.550000190734863,
+    9.100000381469727
+  ],
+  "core_bounds": [
+    -0.20999999344348907,
+    -3.549999952316284,
+    1.000000238418579,
+    0.20999999344348907,
+    3.549999952316284,
+    8.100000381469727
+  ],
+  "topology": {
+    "vertices": 16,
+    "edges": 32,
+    "faces": 18,
+    "outer_faces": 12,
+    "core_faces": 6,
+    "internal_interfaces": 4,
+    "note": "eight intentional three-face junction edges; render-only partition mesh"
+  },
+  "edge_face_incidence": {
+    "2": 24,
+    "3": 8
+  },
+  "materials": [
+    {
+      "name": "MAT_OuterFrame_TranslucentWhite",
+      "method": "DITHERED",
+      "alpha": 0.20000000298023224,
+      "roughness": 0.11999999731779099,
+      "transmission": 0.0,
+      "direct_principled": true
+    },
+    {
+      "name": "MAT_InnerPanel_TransparentLavender",
+      "method": "DITHERED",
+      "alpha": 0.550000011920929,
+      "roughness": 0.10000000149011612,
+      "transmission": 0.0,
+      "direct_principled": true
+    }
+  ],
+  "camera": {
+    "name": "CAMERA_SPECIMEN_FRAME",
+    "matrix": [
+      [
+        0.3713906407356262,
+        -0.4178984463214874,
+        0.8291139006614685,
+        14.0
+      ],
+      [
+        0.9284766912460327,
+        0.16715937852859497,
+        -0.33164554834365845,
+        -5.599999904632568
+      ],
+      [
+        -1.1497895968659577e-08,
+        0.8929830193519592,
+        0.4500904083251953,
+        12.149999618530273
+      ],
+      [
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ]
+    ],
+    "type": "PERSP",
+    "lens": 53.0,
+    "sensor_width": 36.0
+  },
+  "asset": "SpecimenFrame Eevee crystal core",
+  "blend": "models/SpecimenFrame/scenes/Specimen_Frame_Transparent.blend",
+  "candidate": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/Specimen_Frame_Transparent.blend",
+  "backup": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/before.blend",
+  "target_before_sha256": "5269996a26c45ff89f0f08dd96e631777a9f9f91a8d13b4815305981b028108a",
+  "candidate_sha256": "256129f6cd485f069a989870bcbdb15c2d653f6412a888725e2180045eaea624",
+  "protected_blends": {},
+  "reopen_checks": {
+    "one_model_object": true,
+    "no_independent_panel": true,
+    "topology_16_32_18": true,
+    "intentional_junctions_only": true,
+    "no_open_or_loose_edges": true,
+    "no_duplicate_faces": true,
+    "two_material_slots": true,
+    "face_assignments": true,
+    "core_closed_six_faces": true,
+    "core_normals_outward": true,
+    "outer_normals_outward": true,
+    "unique_four_core_interface_faces": true,
+    "exterior_walls_remain_white": true,
+    "bounds_preserved": true,
+    "core_bounds_flush": true,
+    "origin_at_geometric_center": true,
+    "no_modifiers_or_parent": true,
+    "uvs_nonzero_on_all_faces": true,
+    "eevee_and_samples": true,
+    "material_settings": true,
+    "packed_hdri": true,
+    "no_external_images": true,
+    "transparent_background": true,
+    "camera_preserved": true,
+    "all_passed": true
+  },
+  "render_qa": {
+    "images": {
+      "oblique": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/oblique.png",
+      "front": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/front.png",
+      "back": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/back.png",
+      "left": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/left.png",
+      "left_core_hidden": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/left_core_hidden.png",
+      "right": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/right.png",
+      "right_core_hidden": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/right_core_hidden.png",
+      "top": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/top.png",
+      "top_core_hidden": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/top_core_hidden.png",
+      "bottom": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/bottom.png",
+      "bottom_core_hidden": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/bottom_core_hidden.png",
+      "grazing_front_left": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/grazing_front_left.png",
+      "grazing_back_left": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/grazing_back_left.png",
+      "grazing_front_right": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/grazing_front_right.png",
+      "grazing_back_right": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/grazing_back_right.png"
+    },
+    "side_controls": {
+      "left": {
+        "core_rgba_delta": 0.165082648396492,
+        "frame_only_rgba_delta": 0.0
+      },
+      "right": {
+        "core_rgba_delta": 0.16538657248020172,
+        "frame_only_rgba_delta": 0.0
+      },
+      "top": {
+        "core_rgba_delta": 0.16814041137695312,
+        "frame_only_rgba_delta": 0.0
+      },
+      "bottom": {
+        "core_rgba_delta": 0.16236907243728638,
+        "frame_only_rgba_delta": 0.0
+      }
+    },
+    "all_passed": true
+  },
+  "status": "published",
+  "original_backup": "generated/SpecimenFrame/transparent/20260903T075241Z_5re6n7vn/before.blend",
+  "published_sha256": "256129f6cd485f069a989870bcbdb15c2d653f6412a888725e2180045eaea624",
+  "published_checks": {
+    "one_model_object": true,
+    "no_independent_panel": true,
+    "topology_16_32_18": true,
+    "intentional_junctions_only": true,
+    "no_open_or_loose_edges": true,
+    "no_duplicate_faces": true,
+    "two_material_slots": true,
+    "face_assignments": true,
+    "core_closed_six_faces": true,
+    "core_normals_outward": true,
+    "outer_normals_outward": true,
+    "unique_four_core_interface_faces": true,
+    "exterior_walls_remain_white": true,
+    "bounds_preserved": true,
+    "core_bounds_flush": true,
+    "origin_at_geometric_center": true,
+    "no_modifiers_or_parent": true,
+    "uvs_nonzero_on_all_faces": true,
+    "eevee_and_samples": true,
+    "material_settings": true,
+    "packed_hdri": true,
+    "no_external_images": true,
+    "transparent_background": true,
+    "camera_preserved": true,
+    "all_passed": true
+  }
 }

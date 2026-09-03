@@ -15,6 +15,7 @@ supersedes: null
 
 | 时间 | 类型 | 目标 | 状态 | 主题 | 日志 |
 | --- | --- | --- | --- | --- | --- |
+| 2026-09-03 | maintenance | - | archived | specimen-frame-final-file-cleanup-and-blender-backups | [[日志/2026-09-03-统一标本方框最终文件与清理自动备份.md|统一标本方框最终文件与清理自动备份]] |
 | 2026-09-03 | bug | - | archived | specimen-frame-eevee-crystal-core-side-visibility | [[日志/2026-09-03-恢复标本方框侧面紫晶内芯.md|恢复标本方框侧面紫晶内芯]] |
 | 2026-09-03 | feature | - | archived | specimen-frame-shared-topology-material-slots | [[日志/2026-09-03-创建标本方框共享拓扑双材质槽版本.md|创建标本方框共享拓扑双材质槽版本]] |
 | 2026-09-03 | bug | - | archived | specimen-frame-inner-panel-opening-fit | [[日志/2026-09-03-修正标本方框内板合缝对齐.md|修正标本方框内板合缝对齐]] |
