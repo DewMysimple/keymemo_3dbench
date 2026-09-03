@@ -14,15 +14,18 @@ import json
 import shutil
 from pathlib import Path
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from workbench_paths import WORKBENCH_ROOT, model_metadata, model_root, model_scenes, model_source
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-BUTTERFLY_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
+PROJECT_ROOT = WORKBENCH_ROOT
+BUTTERFLY_ROOT = model_root("Butterfly")
 SOURCE_ASSETS_ROOT = BUTTERFLY_ROOT / "source_assets"
-SOURCE_ROOT = BUTTERFLY_ROOT / "source"
-BLENDER_ROOT = BUTTERFLY_ROOT / "blender"
-MANIFEST_ROOT = BUTTERFLY_ROOT / "manifests"
+SOURCE_ROOT = model_source("Butterfly")
+BLENDER_ROOT = model_scenes("Butterfly")
+MANIFEST_ROOT = model_metadata("Butterfly")
 MANIFEST_PATH = MANIFEST_ROOT / "source-files.json"
-LEGACY_ROOT = PROJECT_ROOT / "blender_modelbench" / "Butterfly"
+LEGACY_ROOT = BUTTERFLY_ROOT
 LEGACY_ARCHIVE_ROOT = BUTTERFLY_ROOT / "archive" / "legacy"
 
 
@@ -117,25 +120,25 @@ SOURCE_MIGRATIONS = (
 
 
 BLEND_MIGRATIONS = (
-    ("Butterfly_Master.blend", "blender/Butterfly_Master.blend"),
-    ("Butterfly_Idle_1.blend", "blender/idle/Butterfly_Idle_1.blend"),
-    ("Butterfly_Idle_2.blend", "blender/idle/Butterfly_Idle_2.blend"),
-    ("Butterfly_Idle_3.blend", "blender/idle/Butterfly_Idle_3.blend"),
-    ("Butterfly_Idle_4.blend", "blender/idle/Butterfly_Idle_4.blend"),
-    ("Butterfly_Idle_5.blend", "blender/idle/Butterfly_Idle_5.blend"),
-    ("Butterfly_Idle_6.blend", "blender/idle/Butterfly_Idle_6.blend"),
-    ("Butterfly_Idle_7.blend", "blender/idle/Butterfly_Idle_7.blend"),
+    ("Butterfly_Master.blend", "scenes/master/Butterfly_Master.blend"),
+    ("Butterfly_Idle_1.blend", "scenes/idle/Butterfly_Idle_1.blend"),
+    ("Butterfly_Idle_2.blend", "scenes/idle/Butterfly_Idle_2.blend"),
+    ("Butterfly_Idle_3.blend", "scenes/idle/Butterfly_Idle_3.blend"),
+    ("Butterfly_Idle_4.blend", "scenes/idle/Butterfly_Idle_4.blend"),
+    ("Butterfly_Idle_5.blend", "scenes/idle/Butterfly_Idle_5.blend"),
+    ("Butterfly_Idle_6.blend", "scenes/idle/Butterfly_Idle_6.blend"),
+    ("Butterfly_Idle_7.blend", "scenes/idle/Butterfly_Idle_7.blend"),
     (
         "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
-        "blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
+        "scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
     ),
     (
         "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
-        "blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
+        "scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
     ),
     (
         "BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.blend",
-        "blender/slow_flap/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.blend",
+        "scenes/slow_flap/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.blend",
     ),
 )
 
@@ -281,7 +284,7 @@ def write_manifest() -> None:
     ensure(len(records) == 18, f"整理后源文件数量错误: {len(records)}")
     payload = {
         "asset": "Butterfly",
-        "source_root": "blender_modelbench/Butterfly/source",
+        "source_root": "models/Butterfly/source",
         "source_file_count": len(records),
         "files": records,
     }
@@ -373,7 +376,7 @@ def apply_migration() -> dict:
     ):
         remove_empty_ancestors(path, BUTTERFLY_ROOT)
 
-    remove_empty_ancestors(LEGACY_ROOT, PROJECT_ROOT / "blender")
+    remove_empty_ancestors(LEGACY_ROOT, PROJECT_ROOT / "models")
     write_manifest()
     return {
         "preflight": preflight,

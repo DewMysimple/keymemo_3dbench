@@ -1,19 +1,21 @@
 from __future__ import annotations
 
 import os
+import sys
 from pathlib import Path
 from typing import Any
 
 import bpy
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-WORKBENCH = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = WORKBENCH
-SOURCE_ASSETS = WORKBENCH / "source_snapshot/assets"
-# Kept as a compatibility alias for callers that imported the old constant.
-PUBLIC_ASSETS = SOURCE_ASSETS
-GENERATED_GROUND = WORKBENCH / "generated/converted/ground_atlas.png"
-GENERATED_FONT = WORKBENCH / "generated/converted/CanelaText-Light.ttf"
+from workbench_paths import GENERATED_ROOT, PUBLIC_ASSETS, WORKBENCH_ROOT
+
+WORKBENCH = WORKBENCH_ROOT
+PROJECT_ROOT = WORKBENCH_ROOT
+SOURCE_ASSETS = PUBLIC_ASSETS
+GENERATED_GROUND = GENERATED_ROOT / "converted/ground_atlas.png"
+GENERATED_FONT = GENERATED_ROOT / "converted/CanelaText-Light.ttf"
 
 
 def _resolved(path: Path) -> Path:

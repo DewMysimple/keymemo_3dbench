@@ -4,11 +4,11 @@
   "validated_count": 2,
   "validated": [
     {
-      "file": "blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
+      "file": "models/Butterfly/scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
       "default_scene": "ARTIST_EDIT",
       "display_animated_objects": [
-        "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_源_FBX_01_05_BUTTERFLY_FAST__FLAP_FOLLOW_PATH__left_wing_",
-        "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_源_FBX_01_06_BUTTERFLY_FAST__FLAP_FOLLOW_PATH__right_wing__Copy_"
+        "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+        "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
       ],
       "source_path_action": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_1_2|CINEMA_4D_Main|Layer0",
       "path_and_body_static": true,
@@ -18,28 +18,28 @@
           "frame": 1,
           "path_controller": [
             [
-              0.649426,
-              -0.170733,
-              -1.00665
+              -0.26588,
+              0.000533,
+              -2.528412
             ],
             [
-              0.328624,
-              0.511491,
-              -0.667982,
-              -0.429166
+              0.707107,
+              0.707107,
+              0.0,
+              0.0
             ]
           ],
           "body": [
             [
-              0.281288,
-              -0.590023,
-              -0.244529
+              0.486625,
+              0.140238,
+              -1.333125
             ],
             [
-              0.328624,
-              0.511491,
-              -0.667982,
-              -0.429166
+              0.707107,
+              0.707107,
+              0.0,
+              0.0
             ]
           ]
         },
@@ -47,28 +47,28 @@
           "frame": 45,
           "path_controller": [
             [
-              0.649426,
-              -0.170733,
-              -1.00665
+              -0.26588,
+              0.000533,
+              -2.528412
             ],
             [
-              0.328624,
-              0.511491,
-              -0.667982,
-              -0.429166
+              0.707107,
+              0.707107,
+              0.0,
+              0.0
             ]
           ],
           "body": [
             [
-              0.281288,
-              -0.590023,
-              -0.244529
+              0.486625,
+              0.140238,
+              -1.333125
             ],
             [
-              0.328624,
-              0.511491,
-              -0.667982,
-              -0.429166
+              0.707107,
+              0.707107,
+              0.0,
+              0.0
             ]
           ]
         },
@@ -76,41 +76,41 @@
           "frame": 91,
           "path_controller": [
             [
-              0.649426,
-              -0.170733,
-              -1.00665
+              -0.26588,
+              0.000533,
+              -2.528412
             ],
             [
-              0.328624,
-              0.511491,
-              -0.667982,
-              -0.429166
+              0.707107,
+              0.707107,
+              0.0,
+              0.0
             ]
           ],
           "body": [
             [
-              0.281288,
-              -0.590023,
-              -0.244529
+              0.486625,
+              0.140238,
+              -1.333125
             ],
             [
-              0.328624,
-              0.511491,
-              -0.667982,
-              -0.429166
+              0.707107,
+              0.707107,
+              0.0,
+              0.0
             ]
           ]
         }
       ]
     },
     {
-      "file": "blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
+      "file": "models/Butterfly/scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
       "default_scene": "ARTIST_EDIT",
       "display_animated_objects": [
-        "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_源_FBX_01_05_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_left_wing_",
-        "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_源_FBX_01_06_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_right_wing_"
+        "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+        "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
       ],
-      "source_path_action": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_2|CINEMA_4D_Main|Layer0",
+      "source_path_action": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_1_2|CINEMA_4D_Main|Layer0",
       "path_and_body_static": true,
       "wing_animation_changed": true,
       "frame_samples": [
@@ -118,28 +118,28 @@
           "frame": 1,
           "path_controller": [
             [
-              -0.911646,
-              -0.459478,
-              -0.843759
+              -0.26588,
+              0.000533,
+              -2.528412
             ],
             [
-              0.77171,
-              0.362571,
-              -0.222184,
-              -0.472906
+              0.707107,
+              0.707107,
+              0.0,
+              0.0
             ]
           ],
           "body": [
             [
-              -0.175491,
-              -0.640846,
-              -0.296314
+              0.486625,
+              0.140238,
+              -1.333125
             ],
             [
-              0.77171,
-              0.362571,
-              -0.222184,
-              -0.472906
+              0.707107,
+              0.707107,
+              0.0,
+              0.0
             ]
           ]
         },
@@ -147,28 +147,28 @@
           "frame": 45,
           "path_controller": [
             [
-              -0.911646,
-              -0.459478,
-              -0.843759
+              -0.26588,
+              0.000533,
+              -2.528412
             ],
             [
-              0.77171,
-              0.362571,
-              -0.222184,
-              -0.472906
+              0.707107,
+              0.707107,
+              0.0,
+              0.0
             ]
           ],
           "body": [
             [
-              -0.175491,
-              -0.640846,
-              -0.296314
+              0.486625,
+              0.140238,
+              -1.333125
             ],
             [
-              0.77171,
-              0.362571,
-              -0.222184,
-              -0.472906
+              0.707107,
+              0.707107,
+              0.0,
+              0.0
             ]
           ]
         },
@@ -176,28 +176,28 @@
           "frame": 91,
           "path_controller": [
             [
-              -0.911646,
-              -0.459478,
-              -0.843759
+              -0.26588,
+              0.000533,
+              -2.528412
             ],
             [
-              0.77171,
-              0.362571,
-              -0.222184,
-              -0.472906
+              0.707107,
+              0.707107,
+              0.0,
+              0.0
             ]
           ],
           "body": [
             [
-              -0.175491,
-              -0.640846,
-              -0.296314
+              0.486625,
+              0.140238,
+              -1.333125
             ],
             [
-              0.77171,
-              0.362571,
-              -0.222184,
-              -0.472906
+              0.707107,
+              0.707107,
+              0.0,
+              0.0
             ]
           ]
         }

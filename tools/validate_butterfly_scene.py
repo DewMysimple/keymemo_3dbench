@@ -6,15 +6,18 @@ from pathlib import Path
 import bpy
 from mathutils import Vector
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from workbench_paths import REPORTS_ROOT, WORKBENCH_ROOT, model_metadata, model_root, model_scenes, model_source
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-OUTPUT_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
-SOURCE_ROOT = OUTPUT_ROOT / "source"
-BLENDER_ROOT = OUTPUT_ROOT / "blender"
+PROJECT_ROOT = WORKBENCH_ROOT
+OUTPUT_ROOT = model_root("Butterfly")
+SOURCE_ROOT = model_source("Butterfly")
+BLENDER_ROOT = model_scenes("Butterfly")
 HEAD_CAMERA_ROOT = BLENDER_ROOT / "follow_path" / "head_camera"
-MANIFEST_PATH = OUTPUT_ROOT / "manifests" / "source-files.json"
+MANIFEST_PATH = model_metadata("Butterfly") / "source-files.json"
 LEGACY_ARCHIVE_ROOT = OUTPUT_ROOT / "archive" / "legacy"
-REPORT_PATH = PROJECT_ROOT  / "reports" / "butterfly-validation.json"
+REPORT_PATH = REPORTS_ROOT / "butterfly-validation.json"
 
 
 def ensure(condition, message):
@@ -313,7 +316,7 @@ def validate():
     source_paths = source_fbx_paths()
     ensure(len(source_paths) == 10, f"源 FBX 数量错误: {len(source_paths)}")
     expected_rel_paths = [str(path.relative_to(SOURCE_ROOT)).replace("\\", "/") for path in source_paths]
-    master_path = BLENDER_ROOT / "Butterfly_Master.blend"
+    master_path = BLENDER_ROOT / "master" / "Butterfly_Master.blend"
     variant_paths = sorted(
         (
             path for path in BLENDER_ROOT.glob("**/*.blend")

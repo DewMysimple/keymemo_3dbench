@@ -1,0 +1,215 @@
+{
+  "blender_version": "5.0.0",
+  "renders": [
+    {
+      "scene": "WEB_ANIMATION",
+      "frame": 0,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/web-animation-0000.png",
+      "bytes": 514346,
+      "sha256": "73F61E39E97DDA9B77977E64922246362A68D24ED5CACDF7B6F35A035E6350F0"
+    },
+    {
+      "scene": "WEB_ANIMATION",
+      "frame": 60,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/web-animation-0060.png",
+      "bytes": 522806,
+      "sha256": "E164C420013C925F5E680A637C703518CCE64EE3F3EA4DADC4412D6B5028292F"
+    },
+    {
+      "scene": "WEB_ANIMATION",
+      "frame": 210,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/web-animation-0210.png",
+      "bytes": 549640,
+      "sha256": "7475376DA32A0593DEADC0B036CCD40B6396F5047B19965738B046260CEF2514"
+    },
+    {
+      "scene": "WEB_ANIMATION",
+      "frame": 420,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/web-animation-0420.png",
+      "bytes": 651662,
+      "sha256": "6E49F2986A4EFF9DDE523E5887FAE87A02490BB2E18A03EDF4055D134737FA43"
+    },
+    {
+      "scene": "WEB_ANIMATION",
+      "frame": 900,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/web-animation-0900.png",
+      "bytes": 442481,
+      "sha256": "EE01C0CB7FE7024D668782EFF40F6E37669B602F8EC5545FAEF62CC71CD273F1"
+    },
+    {
+      "scene": "WEB_ANIMATION",
+      "frame": 1793,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/web-animation-1793.png",
+      "bytes": 539947,
+      "sha256": "0DA223D588374485401C9B1CD3423C285BDEB4298C3C8B6D179F9E2331FE88B8"
+    },
+    {
+      "scene": "WEB_ANIMATION",
+      "frame": 3586,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/web-animation-3586.png",
+      "bytes": 714220,
+      "sha256": "C62EEE43043833E4CDAB79830DF9D14DEA7BC1CB1DA3FA1BE465B97747DCE389"
+    },
+    {
+      "scene": "ARTIST_EDIT",
+      "frame": 3586,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/artist-edit-materials.png",
+      "bytes": 807459,
+      "sha256": "ED5D030691F571CDF41686C89493983FC939C35A07AFCBE15CA5B0EC99AB4579"
+    },
+    {
+      "scene": "ARTIST_EDIT",
+      "frame": 71,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/artist-edit-frame-0071.png",
+      "bytes": 752727,
+      "sha256": "88CF84BFCC6C3374DF3F8F5D4853627D988F7E016A0FE850D5464D33C229FB73"
+    },
+    {
+      "scene": "ARTIST_EDIT",
+      "frame": 73,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/artist-edit-frame-0073.png",
+      "bytes": 753520,
+      "sha256": "95E0CD62562C878F50B1B0F415ADBACB6E17107EA53F9FC574300A4E31AB3A7E"
+    },
+    {
+      "scene": "ARTIST_EDIT",
+      "frame": 181,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/artist-edit-frame-0181.png",
+      "bytes": 776392,
+      "sha256": "9DB3FB105F19450DF2D692368B9225FA4EA0E169E97C779C04E677ED3CD43ABC"
+    },
+    {
+      "scene": "ARTIST_EDIT",
+      "frame": 424,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/artist-edit-frame-0424.png",
+      "bytes": 801769,
+      "sha256": "4A64149F2B4FC1FBC95B74D4E6C3425A9A774771605BA4C0589C215F419121EA"
+    },
+    {
+      "scene": "ARTIST_EDIT",
+      "frame": 690,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/artist-edit-frame-0690.png",
+      "bytes": 589580,
+      "sha256": "C5E44D9B0BA8837B9FF7981D2663EDDD0A86DF7F41580C3AADE8D620B03933E7"
+    },
+    {
+      "scene": "VALIDATION_MATERIAL_PREVIEW",
+      "frame": 0,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/material-preview-tree.png",
+      "bytes": 389363,
+      "sha256": "6EAF7F1EFEDD8635D91239D37E708089BD939C4D5A433536F4FD025C10F4D7CE"
+    },
+    {
+      "scene": "VALIDATION_MATERIAL_ANGLE_FRONT",
+      "frame": 0,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/material-angle-front.png",
+      "bytes": 395859,
+      "sha256": "1CCCB127336B1ACF0C808D5A6215E48F5A63436D9A333025C9D3972FC5C4437D"
+    },
+    {
+      "scene": "VALIDATION_MATERIAL_ANGLE_OBLIQUE",
+      "frame": 0,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/material-angle-oblique.png",
+      "bytes": 377982,
+      "sha256": "17464B3681FB1B54B24784E7C9E62A9FE6A4A510E67ED31390BB49178FB46794"
+    },
+    {
+      "scene": "VALIDATION_MATERIAL_ANGLE_GRAZING",
+      "frame": 0,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/material-angle-grazing.png",
+      "bytes": 288991,
+      "sha256": "7D097C060A1718BDFD28032EDAC837881B98267D3E11B34A4E41B9AEB032885F"
+    },
+    {
+      "scene": "VALIDATION_MATERIAL_ANGLE_BACK",
+      "frame": 0,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/material-angle-back.png",
+      "bytes": 395139,
+      "sha256": "B58A63C0EA7AE215CDB1B1705ADD70A744522E653C37E4D97722FEB50B61313E"
+    },
+    {
+      "scene": "VALIDATION_GRASS_PREVIEW",
+      "frame": 3586,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/grass-preview-tree.png",
+      "bytes": 566444,
+      "sha256": "55239BE33F3B607C31FD7E2A91EF3F2C3D8B1367005A801414A2291A17FB4B5C"
+    },
+    {
+      "scene": "VALIDATION_BACKGROUND_PREVIEW",
+      "frame": 3586,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/background-preview-card.png",
+      "bytes": 551795,
+      "sha256": "CEDD542F71BFA5A64032A7CD63689EB5F4A47FA44FC1F807D1FBB9A4F9124EAC"
+    },
+    {
+      "scene": "SOURCE_REFERENCE",
+      "frame": 0,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/source-camera-0000.png",
+      "bytes": 119501,
+      "sha256": "A24D55D3FB56B2B04FBF542C55D80C4E04D1C9041C04F448785DB979C2BB756D"
+    },
+    {
+      "scene": "SOURCE_REFERENCE",
+      "frame": 900,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/source-camera-0900.png",
+      "bytes": 119501,
+      "sha256": "E975CD2B4F6F7F743544D00E4221704EC8A9A6E77A7DAF767172D26BCEA7DCC0"
+    },
+    {
+      "scene": "SOURCE_REFERENCE",
+      "frame": 1793,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/source-camera-1793.png",
+      "bytes": 119501,
+      "sha256": "FA4A761635143C4C3E4CA8A3028C266756A2C803F1C39A5D07881854C5ADFEAA"
+    },
+    {
+      "scene": "SOURCE_REFERENCE",
+      "frame": 3586,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/source-camera-3586.png",
+      "bytes": 119501,
+      "sha256": "C1432414A9B04389140E77F1FC1AFDA1D3A85AC4D95FF01DB780321C03415E5F"
+    },
+    {
+      "scene": "LANDSCAPE_01_DESKTOP",
+      "frame": 0,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/landscape-01-desktop-base.png",
+      "bytes": 234789,
+      "sha256": "6779FC90170418445243B1F80BE9DF3AD2205EC4DFF4C823E7204413CACB3C86"
+    },
+    {
+      "scene": "LANDSCAPE_02_DESKTOP",
+      "frame": 0,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/landscape-02-desktop-base.png",
+      "bytes": 227030,
+      "sha256": "9797ADAD42D9DE57D546B36337CB1A2CD50A215EB2116CA4BB04426184DEF624"
+    },
+    {
+      "scene": "LANDSCAPE_03_DESKTOP",
+      "frame": 0,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/landscape-03-desktop-base.png",
+      "bytes": 242488,
+      "sha256": "46FCCD6F8DA6621B82E9C0CD11AD747DB57F85AC3A9F2F38720ED599F630BC0E"
+    },
+    {
+      "scene": "LANDSCAPE_04_DESKTOP",
+      "frame": 0,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/landscape-04-desktop-base.png",
+      "bytes": 238249,
+      "sha256": "93B7989BCF2F394FF5A7E0A0069876631F9E169E730894D7ECB9067739186FC5"
+    },
+    {
+      "scene": "LANDSCAPE_05_DESKTOP",
+      "frame": 0,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/landscape-05-desktop-base.png",
+      "bytes": 210459,
+      "sha256": "41AE6D30B552EFE3B275380BD2D849788F9D82FC66C88FFAF4A4A451C637B6C4"
+    },
+    {
+      "scene": "LANDSCAPE_06_DESKTOP",
+      "frame": 0,
+      "path": "scenes/GwayLoo/versions/no-animation/generated/renders/landscape-06-desktop-base.png",
+      "bytes": 229543,
+      "sha256": "06EFC333D989C7E5811753744383E55360C1F7C6DEC68DC6C822796A8C0C23DA"
+    }
+  ]
+}

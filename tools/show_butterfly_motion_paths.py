@@ -6,12 +6,12 @@ import bpy
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_butterfly_scene as base
+from workbench_paths import REPORTS_ROOT, WORKBENCH_ROOT, model_scenes
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-ASSET_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
-BLENDER_ROOT = ASSET_ROOT / "blender"
-REPORT_PATH = PROJECT_ROOT  / "reports" / "butterfly-motion-paths.json"
+PROJECT_ROOT = WORKBENCH_ROOT
+BLENDER_ROOT = model_scenes("Butterfly")
+REPORT_PATH = REPORTS_ROOT / "butterfly-motion-paths.json"
 
 TARGETS = [
     BLENDER_ROOT / "follow_path" / "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",

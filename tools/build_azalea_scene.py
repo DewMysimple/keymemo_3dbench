@@ -1,31 +1,23 @@
 import os
 import shutil
 import sys
+from pathlib import Path
 from mathutils import Vector
 
 import bpy
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from workbench_paths import GENERATED_ROOT, WORKBENCH_ROOT, model_root, model_scenes, model_source, relative_path
 
-PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-SOURCE_ROOT = os.path.join(
-    PROJECT_ROOT,
-    "blender_modelbench",
-    "杜鹃花",
-)
+PROJECT_ROOT = str(WORKBENCH_ROOT)
+SOURCE_ROOT = str(model_source("杜鹃花") / "形态1")
 FBX_PATH = os.path.join(SOURCE_ROOT, "source", "Western honey bee.fbx")
 TEXTURE_ROOT = os.path.join(SOURCE_ROOT, "textures")
-OUTPUT_DIR = os.path.join(
-    PROJECT_ROOT,
-    "blender_modelbench",
-    "杜鹃花",
-    "blender",
-)
-OUTPUT_PATH = os.path.join(OUTPUT_DIR, "杜鹃花.blend")
-EXTERNAL_SOURCE_DIR = os.path.join(OUTPUT_DIR, "source")
-EXTERNAL_TEXTURE_DIR = os.path.join(OUTPUT_DIR, "textures")
-PREVIEW_PATH = os.path.join(
-    PROJECT_ROOT, "generated", "杜鹃花_preview.png"
-)
+OUTPUT_DIR = str(model_scenes("杜鹃花"))
+OUTPUT_PATH = os.path.join(OUTPUT_DIR, "杜鹃花_形态1.blend")
+EXTERNAL_SOURCE_DIR = os.path.join(SOURCE_ROOT, "source")
+EXTERNAL_TEXTURE_DIR = os.path.join(SOURCE_ROOT, "textures")
+PREVIEW_PATH = str(GENERATED_ROOT / "杜鹃花_preview.png")
 
 
 def ensure(condition, message):
@@ -56,12 +48,9 @@ def localize_workspaces():
 
 
 def preserve_external_assets():
-    os.makedirs(EXTERNAL_SOURCE_DIR, exist_ok=True)
-    os.makedirs(EXTERNAL_TEXTURE_DIR, exist_ok=True)
     for filename in ("Western honey bee.fbx", "Western honey bee.max"):
         source = os.path.join(SOURCE_ROOT, "source", filename)
-        if os.path.isfile(source):
-            shutil.copy2(source, os.path.join(EXTERNAL_SOURCE_DIR, filename))
+        ensure(os.path.isfile(source), f"缺少模型源文件: {source}")
     for filename in (
         "rhododendron_color.png",
         "rhododendron_normal.png",
@@ -70,7 +59,7 @@ def preserve_external_assets():
     ):
         source = os.path.join(TEXTURE_ROOT, filename)
         ensure(os.path.isfile(source), f"缺少贴图: {source}")
-        shutil.copy2(source, os.path.join(EXTERNAL_TEXTURE_DIR, filename))
+        ensure(os.path.isfile(source), f"缺少贴图: {source}")
 
 
 def make_material(name, base_color, metallic=0.0, roughness=0.5):
@@ -283,7 +272,7 @@ def create_scene():
     for polygon in model.data.polygons:
         polygon.use_smooth = True
     model["asset_name"] = "杜鹃花"
-    model["source_fbx"] = "blender_modelbench/杜鹃花/source/Western honey bee.fbx"
+    model["source_fbx"] = relative_path(Path(FBX_PATH))
     model["source_mesh"] = "rhododendron"
     model["texture_set"] = "rhododendron_color / normal / rough / subsur"
     model["build_note"] = "FBX 导入后重新绑定贴图，保存前打包图像资源"
@@ -376,7 +365,7 @@ def create_scene():
 
     scene["asset_name"] = "杜鹃花"
     scene["scene_purpose"] = "基于 FBX 与 rhododendron 贴图集的可编辑模型展示文件"
-    scene["source_asset_dir"] = "blender_modelbench/杜鹃花"
+    scene["source_asset_dir"] = relative_path(Path(SOURCE_ROOT))
     scene["packed_assets"] = True
     scene["model_object"] = model.name
     scene["render_camera"] = camera.name

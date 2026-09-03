@@ -11,10 +11,14 @@ from pathlib import Path
 import bpy
 from mathutils import Matrix, Vector
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-WORKBENCH = Path(__file__).resolve().parents[1]
-DEFAULT_OUTPUT = WORKBENCH / "generated/renders"
-DEFAULT_REPORT = WORKBENCH / "reports/render-validation.json"
+from workbench_paths import GENERATED_ROOT, REPORTS_ROOT, WORKBENCH_ROOT
+
+
+WORKBENCH = WORKBENCH_ROOT
+DEFAULT_OUTPUT = GENERATED_ROOT / "renders"
+DEFAULT_REPORT = REPORTS_ROOT / "render-validation.json"
 
 
 def parse_script_args() -> argparse.Namespace:

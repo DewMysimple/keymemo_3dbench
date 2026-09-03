@@ -27,14 +27,13 @@ from portable_blend_assets import (
     make_blend_assets_portable,
     public_asset_for,
 )
+from workbench_paths import GWAYLOO_FULL_BLEND, GWAYLOO_VERSIONS_ROOT, WORKBENCH_ROOT
 
 
-WORKBENCH = Path(__file__).resolve().parents[1]
-DEFAULT_SOURCE = WORKBENCH / "blender/GwayLoo_Scene_5_0.blend"
-DEFAULT_OUTPUT = WORKBENCH / (
-    "versions/no-animation/blender/GwayLoo_Scene_5_0_no_animation.blend"
-)
-DEFAULT_REPORT = WORKBENCH / "versions/no-animation/reports/version-preparation.json"
+WORKBENCH = WORKBENCH_ROOT
+DEFAULT_SOURCE = GWAYLOO_FULL_BLEND
+DEFAULT_OUTPUT = GWAYLOO_VERSIONS_ROOT / "no-animation/GwayLoo_Scene_5_0_no_animation.blend"
+DEFAULT_REPORT = GWAYLOO_VERSIONS_ROOT / "no-animation/reports/version-preparation.json"
 STATIC_FRAME = 3586
 CAMERA_RIG_NAMES = {"WEB_CAMERA_PATH_RIG"}
 

@@ -1,7 +1,7 @@
 {
   "asset": "Transparent Pale Lavender Specimen Frame - Merged Object Variant",
-  "source": "blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent.blend",
-  "blend": "blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent_Merged.blend",
+  "source": "models/SpecimenFrame/scenes/Specimen_Frame_Transparent.blend",
+  "blend": "models/SpecimenFrame/scenes/Specimen_Frame_Transparent_Merged.blend",
   "scene": "SPECIMEN_FRAME_MERGED_WORKBENCH",
   "model_objects": [
     "SPECIMEN_FRAME_MERGED"

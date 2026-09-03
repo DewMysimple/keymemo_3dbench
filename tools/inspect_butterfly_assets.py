@@ -4,10 +4,13 @@ from pathlib import Path
 
 import bpy
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from workbench_paths import WORKBENCH_ROOT, model_root, model_source
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-ASSET_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
-SOURCE_ROOT = ASSET_ROOT / "source"
+PROJECT_ROOT = WORKBENCH_ROOT
+ASSET_ROOT = model_root("Butterfly")
+SOURCE_ROOT = model_source("Butterfly")
 
 
 def object_snapshot(objects):

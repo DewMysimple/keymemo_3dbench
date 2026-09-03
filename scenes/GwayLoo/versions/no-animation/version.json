@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "version_id": "no-animation",
+  "source_version": "full",
+  "source": "scenes/GwayLoo/full/GwayLoo_Scene_5_0.blend",
+  "target": "scenes/GwayLoo/versions/no-animation/GwayLoo_Scene_5_0_no_animation.blend",
+  "source_sha256": "03344698C5427F397255E46B5AB7B67EDDA38FDE312E475F8D2B32993E61482E",
+  "target_sha256": "10B7891DD305B948903D24A7E2391DF4EBB4CC9618102060B851F070C027F9D5",
+  "source_unchanged": true,
+  "status": "available",
+  "available": true,
+  "requires_validation": false,
+  "change_set": [
+    "remove-all-non-camera-animation"
+  ],
+  "animation_policy": "preserve-camera-freeze-non-camera-at-frame-3586",
+  "change_exit_code": 0,
+  "change_report_passed": true,
+  "validation_report": "scenes/GwayLoo/versions/no-animation/reports/blender-validation.json",
+  "validation_passed": true
+}

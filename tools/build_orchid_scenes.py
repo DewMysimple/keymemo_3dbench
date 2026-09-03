@@ -3,16 +3,19 @@ import json
 import math
 import os
 from pathlib import Path
+import sys
 
 import bpy
 from mathutils import Vector
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from workbench_paths import GENERATED_ROOT, WORKBENCH_ROOT, model_root, model_scenes, model_source
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-ASSET_ROOT = PROJECT_ROOT / "blender_modelbench" / "兰花"
-FORM1_ROOT = ASSET_ROOT / "形态1"
-FORM2_ROOT = ASSET_ROOT / "形态2"
-GENERATED_ROOT = PROJECT_ROOT  / "generated"
+PROJECT_ROOT = WORKBENCH_ROOT
+ASSET_ROOT = model_root("兰花")
+FORM1_ROOT = model_source("兰花") / "形态1"
+FORM2_ROOT = model_source("兰花") / "形态2"
+OUTPUT_ROOT = model_scenes("兰花")
 
 
 def ensure(condition, message):
@@ -473,7 +476,7 @@ def build_form1():
     scene.frame_end = 166
     preview_path = GENERATED_ROOT / "兰花_形态1_preview.png"
     add_presentation_environment(scene, model_collection, environment_collection, light_collection, preview_path, "兰花_形态1", [abc_mesh])
-    configure_scene(scene, "形态1", FORM1_ROOT, ["FBX", "Alembic", "OBJ", "C4D", ".mc/.xml"], ASSET_ROOT / "兰花_形态1.blend")
+    configure_scene(scene, "形态1", FORM1_ROOT, ["FBX", "Alembic", "OBJ", "C4D", ".mc/.xml"], OUTPUT_ROOT / "兰花_形态1.blend")
     scene["animation_preserved"] = True
     scene["animation_type"] = "MeshSequenceCache"
     scene["animation_cache_file"] = "形态1/alembic/alembic/OrchidMeshGrp.abc"
@@ -490,7 +493,7 @@ def build_form1():
     set_source_paths_and_pack()
     scene.render.filepath = str(preview_path)
     select_object(abc_mesh)
-    output_path = ASSET_ROOT / "兰花_形态1.blend"
+    output_path = OUTPUT_ROOT / "兰花_形态1.blend"
     bpy.ops.wm.save_as_mainfile(filepath=str(output_path))
     texture_images_in_data()
     for cache_file in bpy.data.cache_files:
@@ -572,7 +575,7 @@ def build_form2():
     scene = bpy.context.scene
     preview_path = GENERATED_ROOT / "兰花_形态2_preview.png"
     add_presentation_environment(scene, model_collection, environment_collection, light_collection, preview_path, "兰花_形态2", meshes)
-    configure_scene(scene, "形态2", FORM2_ROOT, ["FBX", "OBJ", "C4D", ".max"], ASSET_ROOT / "兰花_形态2.blend")
+    configure_scene(scene, "形态2", FORM2_ROOT, ["FBX", "OBJ", "C4D", ".max"], OUTPUT_ROOT / "兰花_形态2.blend")
     scene["animation_preserved"] = False
     scene["source_has_animation"] = False
     scene["main_model_parts"] = ", ".join(sorted(obj.name for obj in meshes))
@@ -589,7 +592,7 @@ def build_form2():
     scene.render.filepath = str(preview_path)
     main_object = max(meshes, key=lambda obj: len(obj.data.vertices))
     select_object(main_object)
-    output_path = ASSET_ROOT / "兰花_形态2.blend"
+    output_path = OUTPUT_ROOT / "兰花_形态2.blend"
     bpy.ops.wm.save_as_mainfile(filepath=str(output_path))
     texture_images_in_data()
     bpy.ops.wm.save_as_mainfile(filepath=str(output_path))
@@ -601,7 +604,7 @@ def build_form2():
 
 
 def main():
-    ASSET_ROOT.mkdir(parents=True, exist_ok=True)
+    OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
     GENERATED_ROOT.mkdir(parents=True, exist_ok=True)
     build_form1()
     build_form2()

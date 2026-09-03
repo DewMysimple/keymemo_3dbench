@@ -1,7 +1,7 @@
 {
   "asset": "Specimen Frame - Shared Topology Material Slots",
-  "source": "blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent.blend",
-  "blend": "blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Shared_Topology_Material_Slots.blend",
+  "source": "models/SpecimenFrame/scenes/Specimen_Frame_Transparent.blend",
+  "blend": "models/SpecimenFrame/scenes/Specimen_Frame_Shared_Topology_Material_Slots.blend",
   "scene": "SPECIMEN_FRAME_MATERIAL_SLOTS_WORKBENCH",
   "object": {
     "name": "SPECIMEN_FRAME_MATERIAL_SLOTS",

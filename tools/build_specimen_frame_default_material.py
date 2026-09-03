@@ -1,7 +1,6 @@
-"""Run the default-material specimen-frame variant builder.
+"""Stage the crystal-core asset at the stable Default_Material filename.
 
-The implementation is kept in the existing builder module so the revised
-variant remains reproducible from one source script.
+Publish a visually inspected run with --create --candidate <run-directory>.
 """
 
 from __future__ import annotations
@@ -12,6 +11,6 @@ import runpy
 
 if __name__ == "__main__":
     runpy.run_path(
-        str(Path(__file__).with_name("build_specimen_frame_no_material.py")),
+        str(Path(__file__).with_name("build_specimen_frame_crystal_core.py")),
         run_name="__main__",
     )

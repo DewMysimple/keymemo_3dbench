@@ -3,11 +3,14 @@ from pathlib import Path
 
 import bpy
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from workbench_paths import REPORTS_ROOT, WORKBENCH_ROOT, model_root, model_scenes
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-ASSET_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
-OUTPUT_DIR = ASSET_ROOT / "blender" / "wing_flap_only"
-REPORT_PATH = PROJECT_ROOT  / "reports" / "butterfly-wing-only-validation.json"
+PROJECT_ROOT = WORKBENCH_ROOT
+ASSET_ROOT = model_root("Butterfly")
+OUTPUT_DIR = model_scenes("Butterfly") / "wing_flap_only"
+REPORT_PATH = REPORTS_ROOT / "butterfly-wing-only-validation.json"
 
 EXPECTED_NAMES = (
     "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
@@ -52,7 +55,7 @@ def validate_one(path):
             for obj in artist.objects
             if obj.name.startswith("展示_")
             and obj.type == "EMPTY"
-            and "03_" in obj.name
+            and obj.animation_data is None
         ),
         None,
     )

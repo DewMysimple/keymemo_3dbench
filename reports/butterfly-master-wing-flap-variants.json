@@ -4,11 +4,11 @@
   "policy": "以 Butterfly_Master.blend 为基准，仅替换 ARTIST_EDIT 左右翅膀扇动；Master 位置/旋转等信息保持不变",
   "outputs": [
     {
-      "master_base": "blender_modelbench/Butterfly/blender/Butterfly_Master.blend",
-      "master_sha256_before": "90d8ecc946b50cb5a8106292f23a0e335b0f67f0c6e87c2b75335eed3fb38c63",
-      "source": "blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
-      "source_sha256_before": "ba25f8d2dc57b84385c8a2f777851cf50653fd0a4917783efcea111d38df0a71",
-      "output": "blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
+      "master_base": "models/Butterfly/scenes/master/Butterfly_Master.blend",
+      "master_sha256_before": "e10e97dd9d840b7b0dd32b66de0de38c61641270a47e4cff9c16fcc9ffb1571e",
+      "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
+      "source_sha256_before": "3a17b9ac29d09acf147b3ee3b7a9fd9282c94c59db75286da53b7b7a611f9876",
+      "output": "models/Butterfly/scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
       "output_sha256": "8ae5402e78c1c7f9390fec6522642ee80ef9f484aee219e085047c126154bec2",
       "display_wings": {
         "left": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
@@ -31,11 +31,11 @@
       "output_size": 10188754
     },
     {
-      "master_base": "blender_modelbench/Butterfly/blender/Butterfly_Master.blend",
-      "master_sha256_before": "90d8ecc946b50cb5a8106292f23a0e335b0f67f0c6e87c2b75335eed3fb38c63",
-      "source": "blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
-      "source_sha256_before": "050665b051ad69c647247faaa22133e958102e654025f6cacbb6093a60635a3a",
-      "output": "blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
+      "master_base": "models/Butterfly/scenes/master/Butterfly_Master.blend",
+      "master_sha256_before": "e10e97dd9d840b7b0dd32b66de0de38c61641270a47e4cff9c16fcc9ffb1571e",
+      "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
+      "source_sha256_before": "01c87a17b7311d12778f7625dd13c5f1166530234e702c4d7c74bdf2149853e7",
+      "output": "models/Butterfly/scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
       "output_sha256": "6b48f2000f8900e6f0fb13fb234a47afc31cf94468c4b914368bcc23e8f744f7",
       "display_wings": {
         "left": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",

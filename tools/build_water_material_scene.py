@@ -8,19 +8,22 @@ the missing T_Water_N dependency instead of pretending that it was converted.
 
 from pathlib import Path
 import math
+import sys
 
 import bpy
 from mathutils import Vector
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from workbench_paths import GENERATED_ROOT, WORKBENCH_ROOT, model_root, model_scenes, model_source
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-WATER_ROOT = PROJECT_ROOT  / "blender_modelbench" / "水"
-GENERATED_ROOT = PROJECT_ROOT  / "generated"
-OUTPUT_PATH = WATER_ROOT / "水_材质.blend"
+PROJECT_ROOT = WORKBENCH_ROOT
+WATER_ROOT = model_root("水")
+SOURCE_ROOT = model_source("水")
+OUTPUT_PATH = model_scenes("水") / "水_材质.blend"
 PREVIEW_PATH = GENERATED_ROOT / "水_材质_preview.png"
 
-M_SOURCE = WATER_ROOT / "M_Water.uasset"
-MI_SOURCE = WATER_ROOT / "MI_Water.uasset"
+M_SOURCE = SOURCE_ROOT / "M_Water.uasset"
+MI_SOURCE = SOURCE_ROOT / "MI_Water.uasset"
 
 M_VALUES = {
     "ior": 0.75,

@@ -16,10 +16,14 @@ import sys
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-WORKBENCH = Path(__file__).resolve().parents[1]
-REGISTRY = WORKBENCH / "manifests/version_registry.json"
-VARIANT_SCRIPT = WORKBENCH / "tools/apply_blend_version_changes.py"
+from workbench_paths import MANIFESTS_ROOT, TOOLS_ROOT, WORKBENCH_ROOT
+
+
+WORKBENCH = WORKBENCH_ROOT
+REGISTRY = MANIFESTS_ROOT / "version_registry.json"
+VARIANT_SCRIPT = TOOLS_ROOT / "apply_blend_version_changes.py"
 DEFAULT_BLENDER = Path(os.environ.get("BLENDER_EXECUTABLE", r"F:\Blender\blender.exe"))
 
 

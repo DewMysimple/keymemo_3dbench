@@ -12,17 +12,20 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import sys
 
 import bmesh
 import bpy
 from mathutils import Vector
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from workbench_paths import GENERATED_ROOT as GENERATED_BASE, REPORTS_ROOT, WORKBENCH_ROOT as WORKBENCH_BASE, model_root, model_scenes
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-ASSET_ROOT = PROJECT_ROOT / "blender_modelbench" / "SpecimenFrame"
-BLENDER_ROOT = ASSET_ROOT / "blender"
-GENERATED_ROOT = PROJECT_ROOT / "generated" / "SpecimenFrame"
-REPORT_ROOT = PROJECT_ROOT / "reports"
+PROJECT_ROOT = WORKBENCH_BASE
+ASSET_ROOT = model_root("SpecimenFrame")
+BLENDER_ROOT = model_scenes("SpecimenFrame")
+GENERATED_ROOT = GENERATED_BASE / "SpecimenFrame"
+REPORT_ROOT = REPORTS_ROOT
 
 SOURCE_PATH = BLENDER_ROOT / "Specimen_Frame_Transparent.blend"
 OUTPUT_PATH = BLENDER_ROOT / "Specimen_Frame_Shared_Topology_Material_Slots.blend"

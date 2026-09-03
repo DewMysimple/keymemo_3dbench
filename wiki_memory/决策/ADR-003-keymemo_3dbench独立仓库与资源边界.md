@@ -15,11 +15,11 @@ supersedes: "[[决策/ADR-001-工作台与网页记忆路由|ADR-001 工作台�
 ## 决策
 
 将 Blender 工作台从 Verminoble 提取为独立的 `keymemo_3dbench` 仓库，仓库根目录
-直接承载 `blender/`、`blender_modelbench/`、`tools/`、`reports/`、`manifests/`、
-`versions/` 和 `wiki_memory/`。原 `Verminoble/blender_scenebench` 保留为本地备份，
+直接承载 `scenes/`、`models/`、`runtime/`、`tools/`、`reports/`、`manifests/` 和
+`wiki_memory/`。原 `Verminoble/blender_scenebench` 保留为本地备份，
 不建立子模块、软链接或运行时引用。
 
-`source_snapshot/` 纳入仓库并作为主 `.blend` 的可复现资源根；生成缓存不纳入 Git。
+`runtime/source_snapshot/` 纳入仓库并作为主 `.blend` 的可复现资源根；生成缓存不纳入 Git。
 三个超过 GitHub 100 MB 限制的原始文件只保留在本机，并由本地清单核验。提取历史
 中的同名大 Blob 已从新仓库历史清除，不使用 Git LFS。
 

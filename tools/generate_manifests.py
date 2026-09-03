@@ -8,13 +8,18 @@ import re
 import shutil
 import struct
 import subprocess
+import sys
 from pathlib import Path
 from typing import Any
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-WORKBENCH = Path(__file__).resolve().parents[1]
+from workbench_paths import MANIFESTS_ROOT, REPORTS_ROOT, SOURCE_SNAPSHOT, WORKBENCH_ROOT
+
+
+WORKBENCH = WORKBENCH_ROOT
 PROJECT = WORKBENCH.parent
-SNAPSHOT = WORKBENCH / "source_snapshot"
+SNAPSHOT = SOURCE_SNAPSHOT
 CURRENT_XP = SNAPSHOT / "assets"
 
 
@@ -249,8 +254,8 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    manifests = WORKBENCH / "manifests"
-    reports = WORKBENCH / "reports"
+    manifests = MANIFESTS_ROOT
+    reports = REPORTS_ROOT
     manifests.mkdir(parents=True, exist_ok=True)
     reports.mkdir(parents=True, exist_ok=True)
 
@@ -366,7 +371,7 @@ def main() -> None:
 - Grass source parameters were extracted from the runtime: Poisson-disc spacing 1.8–2.8 with seven tries, 7–24 clustered blades per seed, ten blade-atlas regions, eight gradient groups with three columns each, eight vertical segments, global scale 5, wind displacement 3000, intensity 3 and speed 0.5.
 - The Blender generator uses a fixed local seed for reproducibility while retaining the source algorithm and resources. Browser cursor reveal and an uncaptured `Math.random()` outcome cannot be mirrored exactly without recording a specific browser session.
 
-{reference_note} All extraction and Blender generation use files copied into `source_snapshot/`.
+{reference_note} All extraction and Blender generation use files copied into `runtime/source_snapshot/`.
 """
     (reports / "source-extraction.md").write_text(report, encoding="utf-8")
     print(f"Wrote {len(records)} asset records ({total_bytes} bytes)")

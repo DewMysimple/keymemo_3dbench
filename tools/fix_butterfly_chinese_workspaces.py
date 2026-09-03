@@ -7,15 +7,16 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_butterfly_scene as base
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-ASSET_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
-BLENDER_ROOT = ASSET_ROOT / "blender"
+from workbench_paths import WORKBENCH_ROOT, model_scenes
+
+PROJECT_ROOT = WORKBENCH_ROOT
+BLENDER_ROOT = model_scenes("Butterfly")
 
 
 def update_current_file():
     path = Path(bpy.data.filepath).resolve()
     if not path.is_file() or BLENDER_ROOT not in path.parents:
-        raise RuntimeError(f"当前 Blender 文件不在 Butterfly/blender 目录: {path}")
+        raise RuntimeError(f"当前 Blender 文件不在 models/Butterfly/scenes 目录: {path}")
     base.localized_workspaces()
     artist_scene = bpy.data.scenes.get("ARTIST_EDIT")
     if artist_scene is None:

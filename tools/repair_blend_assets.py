@@ -11,11 +11,12 @@ import bpy
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from portable_blend_assets import make_blend_assets_portable
+from workbench_paths import GWAYLOO_FULL_BLEND, REPORTS_ROOT, WORKBENCH_ROOT
 
 
-WORKBENCH = Path(__file__).resolve().parents[1]
-DEFAULT_BLEND = WORKBENCH / "blender/GwayLoo_Scene_5_0.blend"
-DEFAULT_REPORT = WORKBENCH / "reports/blender-asset-repair.json"
+WORKBENCH = WORKBENCH_ROOT
+DEFAULT_BLEND = GWAYLOO_FULL_BLEND
+DEFAULT_REPORT = REPORTS_ROOT / "blender-asset-repair.json"
 
 
 def parse_script_args() -> argparse.Namespace:

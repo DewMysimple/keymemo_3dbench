@@ -9,11 +9,14 @@ from pathlib import Path
 
 import bpy
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-WORKBENCH = Path(__file__).resolve().parents[1]
-DEFAULT_REPORT = WORKBENCH / "reports/blender-validation.json"
-MANIFEST = WORKBENCH / "manifests/scene_manifest.json"
-PUBLIC_ASSETS = WORKBENCH / "source_snapshot/assets"
+from workbench_paths import MANIFESTS_ROOT, PUBLIC_ASSETS, REPORTS_ROOT, WORKBENCH_ROOT
+
+
+WORKBENCH = WORKBENCH_ROOT
+DEFAULT_REPORT = REPORTS_ROOT / "blender-validation.json"
+MANIFEST = MANIFESTS_ROOT / "scene_manifest.json"
 REQUIRED_SHARED_COLLECTIONS = {
     "EDITABLE_WATERCOLOR",
     "PROCEDURAL_GRASS",

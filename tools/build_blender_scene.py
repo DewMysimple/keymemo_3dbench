@@ -16,23 +16,31 @@ import bpy
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from portable_blend_assets import make_blend_assets_portable, relative_to_blend as portable_relative_to_blend
+from workbench_paths import (
+    GENERATED_ROOT,
+    GWAYLOO_FULL_BLEND,
+    MANIFESTS_ROOT,
+    REPORTS_ROOT,
+    SOURCE_SNAPSHOT,
+    WORKBENCH_ROOT,
+)
 
 
-WORKBENCH = Path(__file__).resolve().parents[1]
-SNAPSHOT = WORKBENCH / "source_snapshot"
+WORKBENCH = WORKBENCH_ROOT
+SNAPSHOT = SOURCE_SNAPSHOT
 ASSETS = SNAPSHOT / "assets"
-GENERATED = WORKBENCH / "generated"
-MANIFEST = WORKBENCH / "manifests/scene_manifest.json"
+GENERATED = GENERATED_ROOT
+MANIFEST = MANIFESTS_ROOT / "scene_manifest.json"
 OUTPUT = Path(
     os.environ.get(
         "VERMINOBLE_BLEND_OUTPUT",
-        str(WORKBENCH / "blender/GwayLoo_Scene_5_0.blend"),
+        str(GWAYLOO_FULL_BLEND),
     )
 ).resolve()
 REPORT = Path(
     os.environ.get(
         "VERMINOBLE_BLEND_BUILD_REPORT",
-        str(WORKBENCH / "reports/blender-build.json"),
+        str(REPORTS_ROOT / "blender-build.json"),
     )
 ).resolve()
 

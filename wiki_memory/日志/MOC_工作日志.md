@@ -15,9 +15,11 @@ supersedes: null
 
 | 时间 | 类型 | 目标 | 状态 | 主题 | 日志 |
 | --- | --- | --- | --- | --- | --- |
+| 2026-09-03 | bug | - | archived | specimen-frame-eevee-crystal-core-side-visibility | [[日志/2026-09-03-恢复标本方框侧面紫晶内芯.md|恢复标本方框侧面紫晶内芯]] |
 | 2026-09-03 | feature | - | archived | specimen-frame-shared-topology-material-slots | [[日志/2026-09-03-创建标本方框共享拓扑双材质槽版本.md|创建标本方框共享拓扑双材质槽版本]] |
 | 2026-09-03 | bug | - | archived | specimen-frame-inner-panel-opening-fit | [[日志/2026-09-03-修正标本方框内板合缝对齐.md|修正标本方框内板合缝对齐]] |
 | 2026-09-03 | bug | - | archived | specimen-frame-inner-panel-depth-face-alignment | [[日志/2026-09-03-修正标本方框X轴正反面对齐.md|修正标本方框 X 轴正反面对齐]] |
+| 2026-09-03 | architecture | - | archived | unified-blender-workbench-layout | [[日志/2026-09-03-Blender工作台目录结构统一迁移.md|Blender 工作台目录结构统一迁移]] |
 | 2026-09-02 | bug | - | archived | transparent-pale-lavender-specimen-frame-color-fix | [[日志/2026-09-02-透明浅紫标本方框颜色修正.md|透明浅紫标本方框颜色修正]] |
 | 2026-09-02 | feature | - | archived | transparent-pale-lavender-specimen-frame-merged-origin-center | [[日志/2026-09-02-调整合并版本物体中心.md|调整合并版本物体中心]] |
 | 2026-09-02 | feature | - | archived | transparent-pale-lavender-specimen-frame-parenting-world-origin | [[日志/2026-09-02-设置标本方框父子层级与世界原点.md|设置标本方框父子层级与世界原点]] |

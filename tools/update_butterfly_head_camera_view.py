@@ -6,11 +6,12 @@ import bpy
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_butterfly_head_camera_variant as builder
+from workbench_paths import WORKBENCH_ROOT, model_root, model_scenes
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-ASSET_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
-HEAD_CAMERA_ROOT = ASSET_ROOT / "blender" / "follow_path" / "head_camera"
+PROJECT_ROOT = WORKBENCH_ROOT
+ASSET_ROOT = model_root("Butterfly")
+HEAD_CAMERA_ROOT = model_scenes("Butterfly") / "follow_path" / "head_camera"
 EXPECTED_NAMES = {
     "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_HEAD_CAMERA.blend",
     "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_HEAD_CAMERA.blend",

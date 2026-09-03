@@ -3,157 +3,157 @@
   "blend_count": 26,
   "records": [
     {
-      "blend": "blender/GwayLoo_Scene_5_0.blend",
+      "blend": "models/Butterfly/archive/legacy/Butterfly_legacy_master.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/follow_path/head_camera/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_HEAD_CAMERA.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/follow_path/head_camera/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_HEAD_CAMERA.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/idle/Butterfly_Idle_1.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/idle/Butterfly_Idle_2.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/idle/Butterfly_Idle_3.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/idle/Butterfly_Idle_4.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/idle/Butterfly_Idle_5.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/idle/Butterfly_Idle_6.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/idle/Butterfly_Idle_7.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/master/Butterfly_Master.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/slow_flap/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/Butterfly/scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/SpecimenFrame/scenes/Specimen_Frame_Shared_Topology_Material_Slots.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/SpecimenFrame/scenes/Specimen_Frame_Transparent.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/SpecimenFrame/scenes/Specimen_Frame_Transparent_Default_Material.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/SpecimenFrame/scenes/Specimen_Frame_Transparent_Merged.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/兰花/scenes/兰花_形态1.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/兰花/scenes/兰花_形态2.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/杜鹃花/scenes/杜鹃花_形态1.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "models/水/scenes/水_材质.blend",
+      "external_images": 0,
+      "external_fonts": 0,
+      "passed": true
+    },
+    {
+      "blend": "scenes/GwayLoo/full/GwayLoo_Scene_5_0.blend",
       "external_images": 31,
       "external_fonts": 0,
       "passed": true
     },
     {
-      "blend": "blender_modelbench/Butterfly/archive/legacy/Butterfly_legacy_master.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/Butterfly_Master.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/follow_path/head_camera/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_HEAD_CAMERA.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/follow_path/head_camera/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_HEAD_CAMERA.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_1.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_2.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_3.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_4.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_5.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_6.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/idle/Butterfly_Idle_7.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/slow_flap/BUTTERFLY_IDLE_8_SLOW_FLAP_120_FRAMES.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/Butterfly/blender/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Shared_Topology_Material_Slots.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent_Default_Material.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent_Merged.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/兰花/兰花_形态1.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/兰花/兰花_形态2.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/杜鹃花/杜鹃花_形态1.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "blender_modelbench/水/水_材质.blend",
-      "external_images": 0,
-      "external_fonts": 0,
-      "passed": true
-    },
-    {
-      "blend": "versions/no-animation/blender/GwayLoo_Scene_5_0_no_animation.blend",
+      "blend": "scenes/GwayLoo/versions/no-animation/GwayLoo_Scene_5_0_no_animation.blend",
       "external_images": 31,
       "external_fonts": 0,
       "passed": true

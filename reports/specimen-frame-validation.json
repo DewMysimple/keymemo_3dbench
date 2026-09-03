@@ -1,6 +1,6 @@
 {
   "asset": "Transparent Pale Lavender Specimen Frame",
-  "blend": "blender_modelbench/SpecimenFrame/blender/Specimen_Frame_Transparent.blend",
+  "blend": "models/SpecimenFrame/scenes/Specimen_Frame_Transparent.blend",
   "scene": "SPECIMEN_FRAME_WORKBENCH",
   "objects": [
     "CAMERA_SPECIMEN_FRAME",

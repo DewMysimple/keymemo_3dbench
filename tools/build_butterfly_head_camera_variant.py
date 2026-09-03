@@ -7,11 +7,12 @@ from bpy_extras.object_utils import world_to_camera_view
 from mathutils import Matrix, Vector
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from workbench_paths import WORKBENCH_ROOT, model_root, model_scenes
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-ASSET_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
-BLENDER_ROOT = ASSET_ROOT / "blender"
+PROJECT_ROOT = WORKBENCH_ROOT
+ASSET_ROOT = model_root("Butterfly")
+BLENDER_ROOT = model_scenes("Butterfly")
 OUTPUT_ROOT = BLENDER_ROOT / "follow_path" / "head_camera"
 
 

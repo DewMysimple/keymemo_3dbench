@@ -17,13 +17,14 @@
 
 - 仓库根目录就是工作台根目录；脚本从根目录运行，不使用
   `Verminoble` 或 `blender_scenebench` 前缀。
-- `blender/` 保存主 `.blend`；`blender_modelbench/` 保存模型基准与源素材；
-  `source_snapshot/` 是可复现的运行资源快照。
+- `scenes/GwayLoo/full/` 保存 GwayLoo 主 `.blend`，`scenes/GwayLoo/versions/`
+  保存派生版本；`models/` 按模型职责保存源素材与模型场景；
+  `runtime/source_snapshot/` 是可复现的运行资源快照。
 - `generated/`、渲染输出和 `.blend1/.blend2` 自动备份保持本地忽略。
 - 三个超过 GitHub 100 MB 限制的原始文件只保留在本机，路径、大小和 SHA-256
   记录在 `manifests/local_assets_manifest.json`，不得加入 Git。
 - 主 `.blend` 和派生 `.blend` 的外部资源必须使用仓库内
-  `source_snapshot/` 的相对路径，或明确嵌入文件。
+  `runtime/source_snapshot/` 的相对路径，或明确嵌入文件。
 - `.blend` 文件名、Blender 数据块、对象、材质、动画、父子关系和模型资产
   路径属于稳定契约；未获明确授权不得重命名或简化。
 

@@ -40,8 +40,8 @@
   "default_frame": 45,
   "display_object_count": 4,
   "output_size": 10177319,
-  "output": "blender_modelbench/Butterfly/blender/Butterfly_Master.blend",
+  "output": "models/Butterfly/scenes/master/Butterfly_Master.blend",
   "preview": "generated/Butterfly_preview.png",
-  "source_directory": "blender_modelbench/Butterfly/source",
-  "source_manifest": "blender_modelbench/Butterfly/manifests/source-files.json"
+  "source_directory": "models/Butterfly/source",
+  "source_manifest": "models/Butterfly/metadata/source-files.json"
 }

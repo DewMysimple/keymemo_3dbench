@@ -27,7 +27,7 @@ if (-not (Test-Path -LiteralPath $ktxExe)) {
 
 $ktxBin = Split-Path -Parent $ktxExe
 $env:PATH = "$ktxBin;$env:PATH"
-$groundInput = Join-Path $workbench "source_snapshot\assets\textures\grounds\atlas.ktx2"
+$groundInput = Join-Path $workbench "runtime\source_snapshot\assets\textures\grounds\atlas.ktx2"
 $groundOutput = Join-Path $converted "ground_atlas.png"
 & $ktxExe extract --transcode rgba8 $groundInput $groundOutput
 if ($LASTEXITCODE -ne 0 -or -not (Test-Path -LiteralPath $groundOutput)) {
@@ -45,7 +45,7 @@ if (-not (Test-Path -LiteralPath (Join-Path $fontTools "fontTools"))) {
 }
 
 $env:PYTHONPATH = $fontTools
-$fontInput = Join-Path $workbench "source_snapshot\fonts\CanelaText-Light.woff"
+$fontInput = Join-Path $workbench "runtime\source_snapshot\fonts\CanelaText-Light.woff"
 $fontOutput = Join-Path $converted "CanelaText-Light.ttf"
 $fontScript = "from fontTools.ttLib import TTFont; f=TTFont(r'$fontInput'); f.flavor=None; f.save(r'$fontOutput')"
 & $Python312 -c $fontScript

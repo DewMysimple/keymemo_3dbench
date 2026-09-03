@@ -13,10 +13,10 @@ supersedes: null
 
 # ADR-002 Blender 多版本独立副本与基准保护
 
-`full` 是唯一完整 Blender 基准文件：`blender/GwayLoo_Scene_5_0.blend`。
-`no-animation` 等版本使用 `versions/<version-id>/` 的独立 `.blend`，不得使用
+`full` 是唯一完整 Blender 基准文件：`scenes/GwayLoo/full/GwayLoo_Scene_5_0.blend`。
+`no-animation` 等版本使用 `scenes/GwayLoo/versions/<version-id>/` 的独立 `.blend`，不得使用
 Blender 链接库共享可变数据，也不得覆盖 `full`。
 
 版本准备工具默认只预演；只有显式 `--create` 才生成目标文件。生成时按目标
-`.blend` 位置重算 `source_snapshot/` 的相对资源路径，并在资源或独立性检查失败
+`.blend` 位置重算 `runtime/source_snapshot/` 的相对资源路径，并在资源或独立性检查失败
 时保持失败状态。

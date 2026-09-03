@@ -8,14 +8,17 @@ from pathlib import Path
 import bpy
 from mathutils import Vector
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from workbench_paths import GENERATED_ROOT, WORKBENCH_ROOT, model_root, model_scenes, model_source
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-ASSET_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
-SOURCE_ROOT = ASSET_ROOT / "source"
-OUTPUT_DIR = ASSET_ROOT / "blender"
+PROJECT_ROOT = WORKBENCH_ROOT
+ASSET_ROOT = model_root("Butterfly")
+SOURCE_ROOT = model_source("Butterfly")
+OUTPUT_DIR = model_scenes("Butterfly") / "master"
 OUTPUT_PATH = OUTPUT_DIR / "Butterfly_Master.blend"
-PREVIEW_PATH = PROJECT_ROOT  / "generated" / "Butterfly_preview.png"
-REPORT_PATH = PROJECT_ROOT  / "reports" / "butterfly-build.json"
+PREVIEW_PATH = GENERATED_ROOT / "Butterfly_preview.png"
+REPORT_PATH = WORKBENCH_ROOT / "reports" / "butterfly-build.json"
 
 MODEL_COLLECTION_NAME = "MODEL_Butterfly_展示模型"
 SOURCE_COLLECTION_NAME = "SOURCE_Butterfly_源文件"
@@ -462,8 +465,8 @@ def configure_scene(scene, frame_end=250):
     except (AttributeError, TypeError, ValueError):
         pass
     scene["asset_name"] = "Butterfly"
-    scene["source_root"] = "blender_modelbench/Butterfly/source"
-    scene["source_manifest"] = "blender_modelbench/Butterfly/manifests/source-files.json"
+    scene["source_root"] = "models/Butterfly/source"
+    scene["source_manifest"] = "models/Butterfly/metadata/source-files.json"
     scene["data_fidelity"] = "full: geometry, materials, textures, UVs, hierarchy, modifiers, constraints, shape keys, actions/NLA, timeline, cameras/lights, custom properties"
     scene["source_animation_policy"] = "all 10 FBX files imported as independent source collections; original actions retained"
     scene.timeline_markers.new("Idle_1_90帧", frame=1)
@@ -712,8 +715,8 @@ def main():
     manifest_records = source_file_records(copied_files, imported_records)
     manifest_payload = {
         "asset": "Butterfly",
-        "source_root": "blender_modelbench/Butterfly/source",
-        "source_manifest": "blender_modelbench/Butterfly/manifests/source-files.json",
+        "source_root": "models/Butterfly/source",
+        "source_manifest": "models/Butterfly/metadata/source-files.json",
         "files": manifest_records,
         "fbx_imports": [
             {

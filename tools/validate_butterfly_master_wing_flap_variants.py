@@ -4,15 +4,18 @@ from pathlib import Path
 
 import bpy
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from workbench_paths import REPORTS_ROOT, WORKBENCH_ROOT, model_root, model_scenes
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-ASSET_ROOT = PROJECT_ROOT  / "blender_modelbench" / "Butterfly"
-BLENDER_ROOT = ASSET_ROOT / "blender"
-MASTER_PATH = BLENDER_ROOT / "Butterfly_Master.blend"
+PROJECT_ROOT = WORKBENCH_ROOT
+ASSET_ROOT = model_root("Butterfly")
+BLENDER_ROOT = model_scenes("Butterfly")
+MASTER_PATH = BLENDER_ROOT / "master" / "Butterfly_Master.blend"
 SOURCE_DIR = BLENDER_ROOT / "follow_path"
 OUTPUT_DIR = BLENDER_ROOT / "wing_flap_only"
-BUILD_REPORT_PATH = PROJECT_ROOT  / "reports" / "butterfly-master-wing-flap-variants.json"
-REPORT_PATH = PROJECT_ROOT  / "reports" / "butterfly-master-wing-flap-validation.json"
+BUILD_REPORT_PATH = REPORTS_ROOT / "butterfly-master-wing-flap-variants.json"
+REPORT_PATH = REPORTS_ROOT / "butterfly-master-wing-flap-validation.json"
 
 SOURCE_NAMES = (
     "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
