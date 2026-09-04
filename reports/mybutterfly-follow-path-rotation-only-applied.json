@@ -1,0 +1,269 @@
+{
+  "asset": "Butterfly",
+  "variant": "mybutterfly_follow_path_rotation_only_applied",
+  "policy": "以 MyButterfly_Master.blend 为基准，在不改动原版的独立输出中将两份清理后 Follow Path 文件的左右翼 rotation_euler XYZ 关键帧应用到指定展示翼；以 Master 第 1 帧为基线，Z 限制为正负 32°安全幅度，并移除目标翼非旋转曲线",
+  "outputs": [
+    {
+      "variant": 1,
+      "master": "models/Butterfly/scenes/MyWork/MyButterfly_Master.blend",
+      "master_sha256": "71bf897e4ceb545c301cfb5b436f6b158eb63ce1889af5bbad4a6647c696a90a",
+      "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_NO_LIGHT_NO_PATH_ROTATION_ONLY.blend",
+      "source_sha256": "60fd455e289dfb7a138d895f728d5de34ff4755b26834c5b1d17e85d1e0ba7a3",
+      "output": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath1_RotationOnlyApplied.blend",
+      "output_sha256": "a0ba8a5cb8681931961a0237ed2ec9d0c0218238d82366d8357c7df9f2c28429",
+      "output_size": 10203457,
+      "frame_range": [
+        1,
+        91
+      ],
+      "default_frame": 55,
+      "display_wings": {
+        "left": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+        "right": "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
+      },
+      "new_actions": {
+        "left": "MYBUTTERFLY_FOLLOW_PATH_1_ROTATION_ONLY_LEFT",
+        "right": "MYBUTTERFLY_FOLLOW_PATH_1_ROTATION_ONLY_RIGHT"
+      },
+      "action_reports": {
+        "left": {
+          "removed_non_rotation_curves": 6,
+          "curves": {
+            "0": {
+              "source_baseline": -6.0709313402185217e-05,
+              "target_baseline": -0.00012698967475444078,
+              "value_scale": 1.0,
+              "source_range": [
+                -0.00017062027473002672,
+                0.00012835662346333265
+              ],
+              "target_range": [
+                -0.0002369006397202611,
+                6.207625847309828e-05
+              ],
+              "keyframe_count": 91
+            },
+            "1": {
+              "source_baseline": -3.141433000564575,
+              "target_baseline": -3.1414783000946045,
+              "value_scale": 1.0,
+              "source_range": [
+                -3.141594171524048,
+                -3.141422748565674
+              ],
+              "target_range": [
+                -3.141639471054077,
+                -3.141468048095703
+              ],
+              "keyframe_count": 91
+            },
+            "2": {
+              "source_baseline": 0.36387813091278076,
+              "target_baseline": 0.8377578854560852,
+              "value_scale": 0.4596607945871816,
+              "source_range": [
+                -0.851159930229187,
+                1.5789155960083008
+              ],
+              "target_range": [
+                0.2792525291442871,
+                1.3962630033493042
+              ],
+              "keyframe_count": 91
+            }
+          }
+        },
+        "right": {
+          "removed_non_rotation_curves": 6,
+          "curves": {
+            "0": {
+              "source_baseline": 3.1415319442749023,
+              "target_baseline": 3.1414506435394287,
+              "value_scale": 1.0,
+              "source_range": [
+                3.1414220333099365,
+                3.141721487045288
+              ],
+              "target_range": [
+                3.141340732574463,
+                3.1416401863098145
+              ],
+              "keyframe_count": 91
+            },
+            "1": {
+              "source_baseline": 0.00015967614308465272,
+              "target_baseline": 9.505141497356817e-05,
+              "value_scale": 1.0,
+              "source_range": [
+                -1.3086266790196532e-06,
+                0.00017083052080124617
+              ],
+              "target_range": [
+                -6.593335274374112e-05,
+                0.00010620579269016162
+              ],
+              "keyframe_count": 91
+            },
+            "2": {
+              "source_baseline": -0.36341896653175354,
+              "target_baseline": -0.9807528853416443,
+              "value_scale": 0.4596608960577971,
+              "source_range": [
+                -1.5784567594528198,
+                0.851618766784668
+              ],
+              "target_range": [
+                -1.5392582416534424,
+                -0.4222475588321686
+              ],
+              "keyframe_count": 91
+            }
+          }
+        }
+      },
+      "master_non_wing_transforms_preserved": true,
+      "master_wing_frame_one_transforms_preserved": true,
+      "copied_channels": [
+        "rotation_euler[0]",
+        "rotation_euler[1]",
+        "rotation_euler[2]"
+      ],
+      "non_rotation_wing_curves_removed": true,
+      "rotation_rebased_to_master_frame_one": true,
+      "z_safe_half_amplitude_degrees": 32.0,
+      "follow_path_controller_applied": false,
+      "source_reference_preserved": true
+    },
+    {
+      "variant": 2,
+      "master": "models/Butterfly/scenes/MyWork/MyButterfly_Master.blend",
+      "master_sha256": "71bf897e4ceb545c301cfb5b436f6b158eb63ce1889af5bbad4a6647c696a90a",
+      "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_NO_LIGHT_NO_PATH_ROTATION_ONLY.blend",
+      "source_sha256": "685a2d25dde4df12cc53fd6b40f66567555925f6e1cf5ccb5c25f576003f3294",
+      "output": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath2_RotationOnlyApplied.blend",
+      "output_sha256": "5c3de9ecb01af5397b8e1d2ae74020b4f485439dd0cf94bedc4271d6b5218096",
+      "output_size": 10203511,
+      "frame_range": [
+        1,
+        91
+      ],
+      "default_frame": 55,
+      "display_wings": {
+        "left": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+        "right": "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
+      },
+      "new_actions": {
+        "left": "MYBUTTERFLY_FOLLOW_PATH_2_ROTATION_ONLY_LEFT",
+        "right": "MYBUTTERFLY_FOLLOW_PATH_2_ROTATION_ONLY_RIGHT"
+      },
+      "action_reports": {
+        "left": {
+          "removed_non_rotation_curves": 6,
+          "curves": {
+            "0": {
+              "source_baseline": -6.0709313402185217e-05,
+              "target_baseline": -0.00012698967475444078,
+              "value_scale": 1.0,
+              "source_range": [
+                -0.00017062027473002672,
+                0.00012835662346333265
+              ],
+              "target_range": [
+                -0.0002369006397202611,
+                6.207625847309828e-05
+              ],
+              "keyframe_count": 91
+            },
+            "1": {
+              "source_baseline": -3.141433000564575,
+              "target_baseline": -3.1414783000946045,
+              "value_scale": 1.0,
+              "source_range": [
+                -3.141594171524048,
+                -3.141422748565674
+              ],
+              "target_range": [
+                -3.141639471054077,
+                -3.141468048095703
+              ],
+              "keyframe_count": 91
+            },
+            "2": {
+              "source_baseline": 0.36387813091278076,
+              "target_baseline": 0.8377578854560852,
+              "value_scale": 0.4596607945871816,
+              "source_range": [
+                -0.851159930229187,
+                1.5789155960083008
+              ],
+              "target_range": [
+                0.2792525291442871,
+                1.3962630033493042
+              ],
+              "keyframe_count": 91
+            }
+          }
+        },
+        "right": {
+          "removed_non_rotation_curves": 6,
+          "curves": {
+            "0": {
+              "source_baseline": 3.1415319442749023,
+              "target_baseline": 3.1414506435394287,
+              "value_scale": 1.0,
+              "source_range": [
+                3.1414220333099365,
+                3.141721487045288
+              ],
+              "target_range": [
+                3.141340732574463,
+                3.1416401863098145
+              ],
+              "keyframe_count": 91
+            },
+            "1": {
+              "source_baseline": 0.00015967614308465272,
+              "target_baseline": 9.505141497356817e-05,
+              "value_scale": 1.0,
+              "source_range": [
+                -1.3086266790196532e-06,
+                0.00017083052080124617
+              ],
+              "target_range": [
+                -6.593335274374112e-05,
+                0.00010620579269016162
+              ],
+              "keyframe_count": 91
+            },
+            "2": {
+              "source_baseline": -0.36341896653175354,
+              "target_baseline": -0.9807528853416443,
+              "value_scale": 0.4596608960577971,
+              "source_range": [
+                -1.5784567594528198,
+                0.851618766784668
+              ],
+              "target_range": [
+                -1.5392582416534424,
+                -0.4222475588321686
+              ],
+              "keyframe_count": 91
+            }
+          }
+        }
+      },
+      "master_non_wing_transforms_preserved": true,
+      "master_wing_frame_one_transforms_preserved": true,
+      "copied_channels": [
+        "rotation_euler[0]",
+        "rotation_euler[1]",
+        "rotation_euler[2]"
+      ],
+      "non_rotation_wing_curves_removed": true,
+      "rotation_rebased_to_master_frame_one": true,
+      "z_safe_half_amplitude_degrees": 32.0,
+      "follow_path_controller_applied": false,
+      "source_reference_preserved": true
+    }
+  ]
+}

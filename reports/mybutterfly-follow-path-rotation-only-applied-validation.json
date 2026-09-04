@@ -1,0 +1,157 @@
+{
+  "asset": "Butterfly",
+  "variant": "mybutterfly_follow_path_rotation_only_applied",
+  "validated_count": 2,
+  "master_preserved": true,
+  "sources_preserved": true,
+  "validated": [
+    {
+      "variant": 1,
+      "master": "models/Butterfly/scenes/MyWork/MyButterfly_Master.blend",
+      "master_sha256": "71bf897e4ceb545c301cfb5b436f6b158eb63ce1889af5bbad4a6647c696a90a",
+      "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_NO_LIGHT_NO_PATH_ROTATION_ONLY.blend",
+      "source_sha256": "60fd455e289dfb7a138d895f728d5de34ff4755b26834c5b1d17e85d1e0ba7a3",
+      "output": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath1_RotationOnlyApplied.blend",
+      "output_sha256": "a0ba8a5cb8681931961a0237ed2ec9d0c0218238d82366d8357c7df9f2c28429",
+      "frame_range": [
+        1,
+        91
+      ],
+      "display_wings": {
+        "left": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+        "right": "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
+      },
+      "wing_reports": {
+        "left": {
+          "action": "MYBUTTERFLY_FOLLOW_PATH_1_ROTATION_ONLY_LEFT",
+          "rotation_curve_count": 3,
+          "keyframe_count_per_curve": [
+            91,
+            91,
+            91
+          ],
+          "value_scales": [
+            1.0,
+            1.0,
+            0.4596607945871816
+          ],
+          "non_rotation_curves_removed": true,
+          "rotation_keyframes_preserved": true
+        },
+        "right": {
+          "action": "MYBUTTERFLY_FOLLOW_PATH_1_ROTATION_ONLY_RIGHT",
+          "rotation_curve_count": 3,
+          "keyframe_count_per_curve": [
+            91,
+            91,
+            91
+          ],
+          "value_scales": [
+            1.0,
+            1.0,
+            0.4596608960577971
+          ],
+          "non_rotation_curves_removed": true,
+          "rotation_keyframes_preserved": true
+        }
+      },
+      "master_non_wing_transforms_preserved": true,
+      "master_wing_frame_one_transforms_preserved": true,
+      "motion_path_objects_remaining": [],
+      "full_frame_geometry": {
+        "sampled_frame_count": 91,
+        "z_range_degrees": {
+          "left": [
+            15.999991338321669,
+            79.99997718217585
+          ],
+          "right": [
+            -88.19300082747043,
+            -24.19300303078519
+          ]
+        },
+        "minimum_anatomical_side_projection_ratio": {
+          "left": 0.8413934549198934,
+          "right": 0.838870369551981
+        },
+        "wings_stay_on_anatomical_sides": true
+      },
+      "follow_path_controller_applied": false,
+      "result": "pass"
+    },
+    {
+      "variant": 2,
+      "master": "models/Butterfly/scenes/MyWork/MyButterfly_Master.blend",
+      "master_sha256": "71bf897e4ceb545c301cfb5b436f6b158eb63ce1889af5bbad4a6647c696a90a",
+      "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_NO_LIGHT_NO_PATH_ROTATION_ONLY.blend",
+      "source_sha256": "685a2d25dde4df12cc53fd6b40f66567555925f6e1cf5ccb5c25f576003f3294",
+      "output": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath2_RotationOnlyApplied.blend",
+      "output_sha256": "5c3de9ecb01af5397b8e1d2ae74020b4f485439dd0cf94bedc4271d6b5218096",
+      "frame_range": [
+        1,
+        91
+      ],
+      "display_wings": {
+        "left": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+        "right": "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
+      },
+      "wing_reports": {
+        "left": {
+          "action": "MYBUTTERFLY_FOLLOW_PATH_2_ROTATION_ONLY_LEFT",
+          "rotation_curve_count": 3,
+          "keyframe_count_per_curve": [
+            91,
+            91,
+            91
+          ],
+          "value_scales": [
+            1.0,
+            1.0,
+            0.4596607945871816
+          ],
+          "non_rotation_curves_removed": true,
+          "rotation_keyframes_preserved": true
+        },
+        "right": {
+          "action": "MYBUTTERFLY_FOLLOW_PATH_2_ROTATION_ONLY_RIGHT",
+          "rotation_curve_count": 3,
+          "keyframe_count_per_curve": [
+            91,
+            91,
+            91
+          ],
+          "value_scales": [
+            1.0,
+            1.0,
+            0.4596608960577971
+          ],
+          "non_rotation_curves_removed": true,
+          "rotation_keyframes_preserved": true
+        }
+      },
+      "master_non_wing_transforms_preserved": true,
+      "master_wing_frame_one_transforms_preserved": true,
+      "motion_path_objects_remaining": [],
+      "full_frame_geometry": {
+        "sampled_frame_count": 91,
+        "z_range_degrees": {
+          "left": [
+            15.999991338321669,
+            79.99997718217585
+          ],
+          "right": [
+            -88.19300082747043,
+            -24.19300303078519
+          ]
+        },
+        "minimum_anatomical_side_projection_ratio": {
+          "left": 0.8413934549198934,
+          "right": 0.838870369551981
+        },
+        "wings_stay_on_anatomical_sides": true
+      },
+      "follow_path_controller_applied": false,
+      "result": "pass"
+    }
+  ]
+}
