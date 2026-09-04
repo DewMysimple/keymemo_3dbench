@@ -1,0 +1,241 @@
+{
+  "blender_version": "5.0.0",
+  "source_root": "models/othermodel/source",
+  "total_obj_count": 61,
+  "category_counts": {
+    "Envelope": 39,
+    "Bookmark": 10,
+    "Card": 6,
+    "CardHolder": 3,
+    "BubbleMailer": 1,
+    "FoodPackaging": 1,
+    "PaperBackdrop": 1
+  },
+  "selected_categories": [
+    "Envelope",
+    "Bookmark",
+    "Card",
+    "CardHolder",
+    "BubbleMailer",
+    "FoodPackaging",
+    "PaperBackdrop"
+  ],
+  "files": [
+    {
+      "category": "Envelope",
+      "blend": "models/othermodel/scenes/Envelope.blend",
+      "source_objs": [
+        "models/othermodel/source/c4-string-envelope-001.obj",
+        "models/othermodel/source/card-envelope-001.obj",
+        "models/othermodel/source/cd-envelope-001.obj",
+        "models/othermodel/source/envelope-001.obj",
+        "models/othermodel/source/envelope-002.obj",
+        "models/othermodel/source/envelope-003.obj",
+        "models/othermodel/source/envelope-004.obj",
+        "models/othermodel/source/envelope-006.obj",
+        "models/othermodel/source/envelope-007.obj",
+        "models/othermodel/source/envelope-008.obj",
+        "models/othermodel/source/envelope-009.obj",
+        "models/othermodel/source/envelope-010.obj",
+        "models/othermodel/source/envelope-011.obj",
+        "models/othermodel/source/envelope-012.obj",
+        "models/othermodel/source/envelope-013.obj",
+        "models/othermodel/source/envelope-014.obj",
+        "models/othermodel/source/envelope-015.obj",
+        "models/othermodel/source/envelope-016.obj",
+        "models/othermodel/source/envelope-017.obj",
+        "models/othermodel/source/envelope-018.obj",
+        "models/othermodel/source/envelope-019.obj",
+        "models/othermodel/source/envelope-020.obj",
+        "models/othermodel/source/envelope-021.obj",
+        "models/othermodel/source/envelope-022.obj",
+        "models/othermodel/source/envelope-023.obj",
+        "models/othermodel/source/envelope-024.obj",
+        "models/othermodel/source/envelope-025.obj",
+        "models/othermodel/source/envelope-folder-001.obj",
+        "models/othermodel/source/envelope-small-001.obj",
+        "models/othermodel/source/envelope-with-candies-001.obj",
+        "models/othermodel/source/gift-envelope-001.obj",
+        "models/othermodel/source/invitation-envelope-001.obj",
+        "models/othermodel/source/kraft-envelope-001.obj",
+        "models/othermodel/source/large-envelope-card-001.obj",
+        "models/othermodel/source/mailing-envelop-001.obj",
+        "models/othermodel/source/paper-envelope-001.obj",
+        "models/othermodel/source/rectangular-envelope-001.obj",
+        "models/othermodel/source/rectangular-window-envelope-001.obj",
+        "models/othermodel/source/square-necklace-envelope-001.obj"
+      ],
+      "model_count": 39,
+      "layout": {
+        "columns": 5,
+        "rows": 8,
+        "cell_x": 3.8,
+        "cell_y": 3.25
+      },
+      "object_count": 127,
+      "material_count": 102,
+      "scene_count": 1,
+      "external_resources": [],
+      "libraries": [],
+      "preview": "generated/othermodel/Envelope.png",
+      "file_size_bytes": 20913558,
+      "sha256": "18FEE50B5D9D93C066381A2B7E515603A8FE62295036B1D09B41CA7FD8ACCAB1",
+      "passed": true
+    },
+    {
+      "category": "Bookmark",
+      "blend": "models/othermodel/scenes/Bookmark.blend",
+      "source_objs": [
+        "models/othermodel/source/book-with-bookmark-001.obj",
+        "models/othermodel/source/bookmark-001.obj",
+        "models/othermodel/source/bookmark-002.obj",
+        "models/othermodel/source/bookmark-003.obj",
+        "models/othermodel/source/bookmark-004.obj",
+        "models/othermodel/source/bookmark-005.obj",
+        "models/othermodel/source/bookmark-006.obj",
+        "models/othermodel/source/bookmark-007.obj",
+        "models/othermodel/source/bookmark-008.obj",
+        "models/othermodel/source/bookmark-009.obj"
+      ],
+      "model_count": 10,
+      "layout": {
+        "columns": 5,
+        "rows": 2,
+        "cell_x": 3.8,
+        "cell_y": 3.25
+      },
+      "object_count": 31,
+      "material_count": 88,
+      "scene_count": 1,
+      "external_resources": [],
+      "libraries": [],
+      "preview": "generated/othermodel/Bookmark.png",
+      "file_size_bytes": 6994069,
+      "sha256": "48F1461D703189A92AFFE1102AA02917D1E9CB3FF4C18A855D0B3E8E1C5502DE",
+      "passed": true
+    },
+    {
+      "category": "Card",
+      "blend": "models/othermodel/scenes/Card.blend",
+      "source_objs": [
+        "models/othermodel/source/business-card-030.obj",
+        "models/othermodel/source/invitation-card-001.obj",
+        "models/othermodel/source/invitation-card-002.obj",
+        "models/othermodel/source/key-card-001.obj",
+        "models/othermodel/source/sealed-card-001.obj",
+        "models/othermodel/source/wedding-invitation-card-001.obj"
+      ],
+      "model_count": 6,
+      "layout": {
+        "columns": 5,
+        "rows": 2,
+        "cell_x": 3.8,
+        "cell_y": 3.25
+      },
+      "object_count": 24,
+      "material_count": 32,
+      "scene_count": 1,
+      "external_resources": [],
+      "libraries": [],
+      "preview": "generated/othermodel/Card.png",
+      "file_size_bytes": 1977439,
+      "sha256": "096CBEE7934094C8099B848C1871A1A32302776F997D58E1C37A07942B352BD0",
+      "passed": true
+    },
+    {
+      "category": "CardHolder",
+      "blend": "models/othermodel/scenes/CardHolder.blend",
+      "source_objs": [
+        "models/othermodel/source/card-holder-003.obj",
+        "models/othermodel/source/card-holder-004.obj",
+        "models/othermodel/source/card-holder-009.obj"
+      ],
+      "model_count": 3,
+      "layout": {
+        "columns": 3,
+        "rows": 1,
+        "cell_x": 3.8,
+        "cell_y": 3.25
+      },
+      "object_count": 7,
+      "material_count": 19,
+      "scene_count": 1,
+      "external_resources": [],
+      "libraries": [],
+      "preview": "generated/othermodel/CardHolder.png",
+      "file_size_bytes": 1656575,
+      "sha256": "207774D7FCFB3D37D5DBF02F6CBE4B9EC246434AC446E0D39466ACCCE57096B8",
+      "passed": true
+    },
+    {
+      "category": "BubbleMailer",
+      "blend": "models/othermodel/scenes/BubbleMailer.blend",
+      "source_objs": [
+        "models/othermodel/source/bubble-mailer-001.obj"
+      ],
+      "model_count": 1,
+      "layout": {
+        "columns": 1,
+        "rows": 1,
+        "cell_x": 3.8,
+        "cell_y": 3.25
+      },
+      "object_count": 2,
+      "material_count": 11,
+      "scene_count": 1,
+      "external_resources": [],
+      "libraries": [],
+      "preview": "generated/othermodel/BubbleMailer.png",
+      "file_size_bytes": 207929,
+      "sha256": "EB56E7796156D964BFA527C25F20F1BB9CAF915105548CE1A1C9CD015571BC69",
+      "passed": true
+    },
+    {
+      "category": "FoodPackaging",
+      "blend": "models/othermodel/scenes/FoodPackaging.blend",
+      "source_objs": [
+        "models/othermodel/source/food-packaging-003.obj"
+      ],
+      "model_count": 1,
+      "layout": {
+        "columns": 1,
+        "rows": 1,
+        "cell_x": 3.8,
+        "cell_y": 3.25
+      },
+      "object_count": 14,
+      "material_count": 7,
+      "scene_count": 1,
+      "external_resources": [],
+      "libraries": [],
+      "preview": "generated/othermodel/FoodPackaging.png",
+      "file_size_bytes": 3855445,
+      "sha256": "4EB58061EE69A9A6851BDED7BB05385F4C154FF30C76F8FFF3F4A90423A1ACB6",
+      "passed": true
+    },
+    {
+      "category": "PaperBackdrop",
+      "blend": "models/othermodel/scenes/PaperBackdrop.blend",
+      "source_objs": [
+        "models/othermodel/source/paper-backdrop-023.obj"
+      ],
+      "model_count": 1,
+      "layout": {
+        "columns": 1,
+        "rows": 1,
+        "cell_x": 3.8,
+        "cell_y": 3.25
+      },
+      "object_count": 2,
+      "material_count": 5,
+      "scene_count": 1,
+      "external_resources": [],
+      "libraries": [],
+      "preview": "generated/othermodel/PaperBackdrop.png",
+      "file_size_bytes": 153395,
+      "sha256": "5AB2C69F8CE507ADF8A2542EA68A8C22CC77E386C6F38E67FA97A162D5C9CA83",
+      "passed": true
+    }
+  ],
+  "passed": true
+}

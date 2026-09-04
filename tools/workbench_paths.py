@@ -24,6 +24,7 @@ MODEL_ROOTS = {
     "兰花": MODELS_ROOT / "兰花",
     "杜鹃花": MODELS_ROOT / "杜鹃花",
     "水": MODELS_ROOT / "水",
+    "othermodel": MODELS_ROOT / "othermodel",
 }
 
 RUNTIME_ROOT = WORKBENCH_ROOT / "runtime"
@@ -59,4 +60,3 @@ def model_scenes(asset_name: str) -> Path:
 
 def model_metadata(asset_name: str) -> Path:
     return model_root(asset_name) / "metadata"
-

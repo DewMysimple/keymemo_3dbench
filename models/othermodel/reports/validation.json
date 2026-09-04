@@ -1,0 +1,183 @@
+{
+  "blender_version": "5.0.0",
+  "source_root": "models/othermodel/source",
+  "total_obj_count": 61,
+  "category_counts": {
+    "Envelope": 39,
+    "Bookmark": 10,
+    "Card": 6,
+    "CardHolder": 3,
+    "BubbleMailer": 1,
+    "FoodPackaging": 1,
+    "PaperBackdrop": 1
+  },
+  "files": [
+    {
+      "category": "Envelope",
+      "blend": "models/othermodel/scenes/Envelope.blend",
+      "source_obj_count": 39,
+      "model_root_count": 39,
+      "mesh_object_count": 127,
+      "label_count": 39,
+      "scene_count": 1,
+      "external_resources": [],
+      "camera": "SHOWCASE_CAMERA",
+      "source_order": [
+        "models/othermodel/source/c4-string-envelope-001.obj",
+        "models/othermodel/source/card-envelope-001.obj",
+        "models/othermodel/source/cd-envelope-001.obj",
+        "models/othermodel/source/envelope-001.obj",
+        "models/othermodel/source/envelope-002.obj",
+        "models/othermodel/source/envelope-003.obj",
+        "models/othermodel/source/envelope-004.obj",
+        "models/othermodel/source/envelope-006.obj",
+        "models/othermodel/source/envelope-007.obj",
+        "models/othermodel/source/envelope-008.obj",
+        "models/othermodel/source/envelope-009.obj",
+        "models/othermodel/source/envelope-010.obj",
+        "models/othermodel/source/envelope-011.obj",
+        "models/othermodel/source/envelope-012.obj",
+        "models/othermodel/source/envelope-013.obj",
+        "models/othermodel/source/envelope-014.obj",
+        "models/othermodel/source/envelope-015.obj",
+        "models/othermodel/source/envelope-016.obj",
+        "models/othermodel/source/envelope-017.obj",
+        "models/othermodel/source/envelope-018.obj",
+        "models/othermodel/source/envelope-019.obj",
+        "models/othermodel/source/envelope-020.obj",
+        "models/othermodel/source/envelope-021.obj",
+        "models/othermodel/source/envelope-022.obj",
+        "models/othermodel/source/envelope-023.obj",
+        "models/othermodel/source/envelope-024.obj",
+        "models/othermodel/source/envelope-025.obj",
+        "models/othermodel/source/envelope-folder-001.obj",
+        "models/othermodel/source/envelope-small-001.obj",
+        "models/othermodel/source/envelope-with-candies-001.obj",
+        "models/othermodel/source/gift-envelope-001.obj",
+        "models/othermodel/source/invitation-envelope-001.obj",
+        "models/othermodel/source/kraft-envelope-001.obj",
+        "models/othermodel/source/large-envelope-card-001.obj",
+        "models/othermodel/source/mailing-envelop-001.obj",
+        "models/othermodel/source/paper-envelope-001.obj",
+        "models/othermodel/source/rectangular-envelope-001.obj",
+        "models/othermodel/source/rectangular-window-envelope-001.obj",
+        "models/othermodel/source/square-necklace-envelope-001.obj"
+      ],
+      "failures": [],
+      "passed": true
+    },
+    {
+      "category": "Bookmark",
+      "blend": "models/othermodel/scenes/Bookmark.blend",
+      "source_obj_count": 10,
+      "model_root_count": 10,
+      "mesh_object_count": 31,
+      "label_count": 10,
+      "scene_count": 1,
+      "external_resources": [],
+      "camera": "SHOWCASE_CAMERA",
+      "source_order": [
+        "models/othermodel/source/book-with-bookmark-001.obj",
+        "models/othermodel/source/bookmark-001.obj",
+        "models/othermodel/source/bookmark-002.obj",
+        "models/othermodel/source/bookmark-003.obj",
+        "models/othermodel/source/bookmark-004.obj",
+        "models/othermodel/source/bookmark-005.obj",
+        "models/othermodel/source/bookmark-006.obj",
+        "models/othermodel/source/bookmark-007.obj",
+        "models/othermodel/source/bookmark-008.obj",
+        "models/othermodel/source/bookmark-009.obj"
+      ],
+      "failures": [],
+      "passed": true
+    },
+    {
+      "category": "Card",
+      "blend": "models/othermodel/scenes/Card.blend",
+      "source_obj_count": 6,
+      "model_root_count": 6,
+      "mesh_object_count": 24,
+      "label_count": 6,
+      "scene_count": 1,
+      "external_resources": [],
+      "camera": "SHOWCASE_CAMERA",
+      "source_order": [
+        "models/othermodel/source/business-card-030.obj",
+        "models/othermodel/source/invitation-card-001.obj",
+        "models/othermodel/source/invitation-card-002.obj",
+        "models/othermodel/source/key-card-001.obj",
+        "models/othermodel/source/sealed-card-001.obj",
+        "models/othermodel/source/wedding-invitation-card-001.obj"
+      ],
+      "failures": [],
+      "passed": true
+    },
+    {
+      "category": "CardHolder",
+      "blend": "models/othermodel/scenes/CardHolder.blend",
+      "source_obj_count": 3,
+      "model_root_count": 3,
+      "mesh_object_count": 7,
+      "label_count": 3,
+      "scene_count": 1,
+      "external_resources": [],
+      "camera": "SHOWCASE_CAMERA",
+      "source_order": [
+        "models/othermodel/source/card-holder-003.obj",
+        "models/othermodel/source/card-holder-004.obj",
+        "models/othermodel/source/card-holder-009.obj"
+      ],
+      "failures": [],
+      "passed": true
+    },
+    {
+      "category": "BubbleMailer",
+      "blend": "models/othermodel/scenes/BubbleMailer.blend",
+      "source_obj_count": 1,
+      "model_root_count": 1,
+      "mesh_object_count": 2,
+      "label_count": 1,
+      "scene_count": 1,
+      "external_resources": [],
+      "camera": "SHOWCASE_CAMERA",
+      "source_order": [
+        "models/othermodel/source/bubble-mailer-001.obj"
+      ],
+      "failures": [],
+      "passed": true
+    },
+    {
+      "category": "FoodPackaging",
+      "blend": "models/othermodel/scenes/FoodPackaging.blend",
+      "source_obj_count": 1,
+      "model_root_count": 1,
+      "mesh_object_count": 14,
+      "label_count": 1,
+      "scene_count": 1,
+      "external_resources": [],
+      "camera": "SHOWCASE_CAMERA",
+      "source_order": [
+        "models/othermodel/source/food-packaging-003.obj"
+      ],
+      "failures": [],
+      "passed": true
+    },
+    {
+      "category": "PaperBackdrop",
+      "blend": "models/othermodel/scenes/PaperBackdrop.blend",
+      "source_obj_count": 1,
+      "model_root_count": 1,
+      "mesh_object_count": 2,
+      "label_count": 1,
+      "scene_count": 1,
+      "external_resources": [],
+      "camera": "SHOWCASE_CAMERA",
+      "source_order": [
+        "models/othermodel/source/paper-backdrop-023.obj"
+      ],
+      "failures": [],
+      "passed": true
+    }
+  ],
+  "passed": true
+}
