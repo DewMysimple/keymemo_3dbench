@@ -7,7 +7,7 @@ import bpy
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from workbench_paths import REPORTS_ROOT, WORKBENCH_ROOT, model_root, model_scenes
-from butterfly_frame_attachment import DISPLAY_ROOT_NAME, validate_attachment
+from butterfly_frame_attachment import DISPLAY_ROOT_NAME, PANEL_SAFE_WING_RANGES, validate_attachment
 
 PROJECT_ROOT = WORKBENCH_ROOT
 ASSET_ROOT = model_root("Butterfly")
@@ -130,6 +130,12 @@ def action_signature(action):
         curves[key] = {
             "frames": [round(keyframe.co.x, 8) for keyframe in curve.keyframe_points],
             "values": [round(keyframe.co.y, 8) for keyframe in curve.keyframe_points],
+            "handle_left": [[round(value, 8) for value in keyframe.handle_left] for keyframe in curve.keyframe_points],
+            "handle_right": [[round(value, 8) for value in keyframe.handle_right] for keyframe in curve.keyframe_points],
+            "interpolation": [keyframe.interpolation for keyframe in curve.keyframe_points],
+            "easing": [keyframe.easing for keyframe in curve.keyframe_points],
+            "handle_left_type": [keyframe.handle_left_type for keyframe in curve.keyframe_points],
+            "handle_right_type": [keyframe.handle_right_type for keyframe in curve.keyframe_points],
         }
     return {
         "name": action.name,
@@ -149,7 +155,8 @@ def capture_source_action_signatures(source_paths):
     return result
 
 
-def compare_action_deltas(source_signature, output_action):
+def compare_retargeted_action(source_signature, output_wing, master_frame_one):
+    output_action = output_wing.animation_data.action
     source_curves = source_signature["curves"]
     output_curves = {
         (curve.data_path, curve.array_index): curve
@@ -170,17 +177,49 @@ def compare_action_deltas(source_signature, output_action):
         )
         source_base = source_curve["values"][source_curve["frames"].index(1.0)]
         output_base = output_curve.evaluate(1.0)
-        for source_frame, source_value, output_key in zip(source_curve["frames"], source_curve["values"], output_curve.keyframe_points):
+        for index, (source_frame, source_value, output_key) in enumerate(zip(source_curve["frames"], source_curve["values"], output_curve.keyframe_points)):
             ensure(
                 abs(source_frame - output_key.co.x) <= 0.000001,
                 f"输出 Action 帧号与源 Action 不一致: {output_action.name} {key}",
             )
-            source_delta = source_value - source_base
-            output_delta = output_key.co.y - output_base
             ensure(
-                abs(source_delta - output_delta) <= 0.00001,
-                f"输出 Action 扇翅变化与源 Action 不一致: {output_action.name} {key}",
+                abs(source_curve["handle_left"][index][0] - output_key.handle_left.x) <= 0.00001
+                and abs(source_curve["handle_right"][index][0] - output_key.handle_right.x) <= 0.00001,
+                f"输出 Action 关键帧手柄时间被改变: {output_action.name} {key}",
             )
+            ensure(
+                source_curve["interpolation"][index] == output_key.interpolation
+                and source_curve["easing"][index] == output_key.easing
+                and source_curve["handle_left_type"][index] == output_key.handle_left_type
+                and source_curve["handle_right_type"][index] == output_key.handle_right_type,
+                f"输出 Action 关键帧缓动或手柄类型被改变: {output_action.name} {key}",
+            )
+            source_delta = source_value - source_base
+            if key == ("rotation_euler", 2):
+                scale = float(output_wing["frame_attachment_retarget_scale"])
+                offset = float(output_wing["frame_attachment_retarget_offset"])
+                expected = (master_frame_one["rotation_euler"][2] + source_delta) * scale + offset
+                ensure(
+                    abs(expected - output_key.co.y) <= 0.00001,
+                    f"输出 Action Z 旋转未按面板安全区间重定向: {output_action.name} {key}",
+                )
+                for source_handle, output_handle in (
+                    (source_curve["handle_left"][index], output_key.handle_left),
+                    (source_curve["handle_right"][index], output_key.handle_right),
+                ):
+                    expected_handle_y = (master_frame_one["rotation_euler"][2] + (source_handle[1] - source_base)) * scale + offset
+                    ensure(abs(expected_handle_y - output_handle.y) <= 0.00001, f"输出 Action Z 旋转手柄未按面板安全区间重定向: {output_action.name} {key}")
+            else:
+                output_delta = output_key.co.y - output_base
+                ensure(
+                    abs(source_delta - output_delta) <= 0.00001,
+                    f"输出 Action 非重定向曲线变化与源 Action 不一致: {output_action.name} {key}",
+                )
+                ensure(
+                    abs((source_curve["handle_left"][index][1] - source_value) - (output_key.handle_left.y - output_key.co.y)) <= 0.00001
+                    and abs((source_curve["handle_right"][index][1] - source_value) - (output_key.handle_right.y - output_key.co.y)) <= 0.00001,
+                    f"输出 Action 非重定向曲线手柄变化与源 Action 不一致: {output_action.name} {key}",
+                )
 
 
 def find_display_wings(scene):
@@ -239,11 +278,15 @@ def validate_one(path, source_path, master_default_frame, master_artist_snapshot
             max(abs(master_frame_one["rotation_euler"][index] - output_frame_one["rotation_euler"][index]) for index in (0, 1)) <= 0.000001,
             f"Master 翅膀第 1 帧非扇动旋转轴被改变: {path.name}, {name}",
         )
-        rebase = output_wing.get("frame_attachment_outward_rebase")
-        ensure(rebase is not None, f"翅膀缺少朝外安装角记录: {path.name}, {name}")
+        source_range = output_wing.get("frame_attachment_retarget_source_range")
+        target_range = output_wing.get("frame_attachment_retarget_target_range")
+        scale = output_wing.get("frame_attachment_retarget_scale")
+        offset = output_wing.get("frame_attachment_retarget_offset")
+        ensure(source_range is not None and target_range is not None and scale is not None and offset is not None, f"翅膀缺少面板安全区间重定向记录: {path.name}, {name}")
+        ensure(max(abs(float(left) - right) for left, right in zip(target_range, PANEL_SAFE_WING_RANGES[role])) <= 0.0001, f"翅膀目标安全区间错误: {path.name}, {name}")
         ensure(
-            abs((output_frame_one["rotation_euler"][2] - master_frame_one["rotation_euler"][2]) - float(rebase)) <= 0.00001,
-            f"翅膀第 1 帧 Z 旋转与朝外安装角不一致: {path.name}, {name}",
+            abs(output_frame_one["rotation_euler"][2] - (master_frame_one["rotation_euler"][2] * float(scale) + float(offset))) <= 0.00001,
+            f"翅膀第 1 帧 Z 旋转与面板安全重定向不一致: {path.name}, {name}",
         )
         ensure(output_wing.parent.name == master_wing_parents[role], f"翅膀父子关系被改变: {path.name}, {name}")
         ensure(output_wing.animation_data and output_wing.animation_data.action, f"输出翅膀缺少 Action: {path.name}, {name}")
@@ -268,7 +311,12 @@ def validate_one(path, source_path, master_default_frame, master_artist_snapshot
             ensure(master_signature["action"] == output_source[frame][name]["action"], f"SOURCE_REFERENCE Action 被改变: {path.name}, {name}")
 
     for role, source_signature in source_action_signatures.items():
-        compare_action_deltas(source_signature, output_wings[role].animation_data.action)
+        wing_name = output_wings[role].name
+        compare_retargeted_action(
+            source_signature,
+            output_wings[role],
+            master_artist_snapshot[master_frames[0]][wing_name],
+        )
 
     artist.frame_set(1)
     bpy.context.view_layer.update()
@@ -297,9 +345,10 @@ def validate_one(path, source_path, master_default_frame, master_artist_snapshot
         "display_animated_objects": [obj.name for obj in display_animated],
         "master_non_wing_local_transforms_preserved": True,
         "master_wing_frame_one_location_scale_and_nonflap_axes_preserved": True,
-        "wing_mount_baseline_rebased_outward": True,
+        "wing_animation_panel_safe_retargeted": True,
         "source_reference_unchanged": source_snapshot_match,
-        "source_wing_action_deltas_preserved": True,
+        "source_wing_keyframe_timing_and_non_z_deltas_preserved": True,
+        "source_wing_z_curve_affinely_retargeted": True,
         "wing_animation_changed": True,
         "frame_attachment": attachment,
     }

@@ -26,9 +26,10 @@
       ],
       "master_non_wing_local_transforms_preserved": true,
       "master_wing_frame_one_location_scale_and_nonflap_axes_preserved": true,
-      "wing_mount_baseline_rebased_outward": true,
+      "wing_animation_panel_safe_retargeted": true,
       "source_reference_unchanged": true,
-      "source_wing_action_deltas_preserved": true,
+      "source_wing_keyframe_timing_and_non_z_deltas_preserved": true,
+      "source_wing_z_curve_affinely_retargeted": true,
       "wing_animation_changed": true,
       "frame_attachment": {
         "lights": 0,
@@ -50,29 +51,69 @@
           90.00000250447816
         ],
         "all_frame_bounds_min": [
-          0.2120000123977661,
-          -3.2338454723358154,
-          2.0616724491119385
+          0.21199986338615417,
+          -3.23367977142334,
+          2.0380122661590576
         ],
         "all_frame_bounds_max": [
-          4.053155422210693,
-          3.2661542892456055,
-          7.038328170776367
+          4.08955717086792,
+          3.2663204669952393,
+          7.061988353729248
         ],
         "all_frame_bounds_recomputed_after_reopen": true,
         "source_reference_has_frame": false,
-        "body_center_y": 0.0,
+        "body_center_y": 2.9802322387695312e-08,
         "body_span": [
-          0.6415771842002869,
-          0.6784023642539978,
-          1.483936071395874
+          0.6476775407791138,
+          0.6848528385162354,
+          1.4980459213256836
         ],
         "body_axis": "world_Z",
         "native_proportions_preserved": true,
-        "panel_normal_depth": 3.8411554098129272,
-        "wing_outward_rebase": {
-          "left": -2.4085539440300803,
-          "right": 2.551549286642347
+        "panel_normal_depth": 3.8775573074817657,
+        "wing_panel_safe_retarget": {
+          "left": {
+            "source_range": [
+              -0.37728017568588257,
+              2.05279541015625
+            ],
+            "target_range": [
+              -2.792526803190927,
+              -1.5707963267948966
+            ],
+            "scale": 0.5027541050632156,
+            "offset": -2.6028476461058787
+          },
+          "right": {
+            "source_range": [
+              -2.1957907676696777,
+              0.23428484797477722
+            ],
+            "target_range": [
+              1.5707963267948966,
+              2.792526803190927
+            ],
+            "scale": 0.502754098897465,
+            "offset": 2.6747391355620387
+          }
+        },
+        "wing_rotation_ranges": {
+          "left": [
+            -2.7925267219543457,
+            -1.5707963705062866
+          ],
+          "right": [
+            1.5707963705062866,
+            2.7925267219543457
+          ]
+        },
+        "wing_centerline_extrema": {
+          "left_max_y": 0.036272432655096054,
+          "right_min_y": -0.003636072389781475
+        },
+        "wing_hinge_gap_max": {
+          "left": 0.0007571689202450216,
+          "right": 0.0028882501646876335
         },
         "packed_file_images": [
           "蝴蝶源图参考_Male_Dos_MHNT",
@@ -98,9 +139,10 @@
       ],
       "master_non_wing_local_transforms_preserved": true,
       "master_wing_frame_one_location_scale_and_nonflap_axes_preserved": true,
-      "wing_mount_baseline_rebased_outward": true,
+      "wing_animation_panel_safe_retargeted": true,
       "source_reference_unchanged": true,
-      "source_wing_action_deltas_preserved": true,
+      "source_wing_keyframe_timing_and_non_z_deltas_preserved": true,
+      "source_wing_z_curve_affinely_retargeted": true,
       "wing_animation_changed": true,
       "frame_attachment": {
         "lights": 0,
@@ -122,29 +164,69 @@
           90.00000250447816
         ],
         "all_frame_bounds_min": [
-          0.2120000123977661,
-          -3.2338454723358154,
-          2.0616724491119385
+          0.21199986338615417,
+          -3.23367977142334,
+          2.0380122661590576
         ],
         "all_frame_bounds_max": [
-          4.053155422210693,
-          3.2661542892456055,
-          7.038328170776367
+          4.08955717086792,
+          3.2663204669952393,
+          7.061988353729248
         ],
         "all_frame_bounds_recomputed_after_reopen": true,
         "source_reference_has_frame": false,
-        "body_center_y": 0.0,
+        "body_center_y": 2.9802322387695312e-08,
         "body_span": [
-          0.6415771842002869,
-          0.6784023642539978,
-          1.483936071395874
+          0.6476775407791138,
+          0.6848528385162354,
+          1.4980459213256836
         ],
         "body_axis": "world_Z",
         "native_proportions_preserved": true,
-        "panel_normal_depth": 3.8411554098129272,
-        "wing_outward_rebase": {
-          "left": -2.4085539440300803,
-          "right": 2.551549286642347
+        "panel_normal_depth": 3.8775573074817657,
+        "wing_panel_safe_retarget": {
+          "left": {
+            "source_range": [
+              -0.37728017568588257,
+              2.05279541015625
+            ],
+            "target_range": [
+              -2.792526803190927,
+              -1.5707963267948966
+            ],
+            "scale": 0.5027541050632156,
+            "offset": -2.6028476461058787
+          },
+          "right": {
+            "source_range": [
+              -2.1957907676696777,
+              0.23428484797477722
+            ],
+            "target_range": [
+              1.5707963267948966,
+              2.792526803190927
+            ],
+            "scale": 0.502754098897465,
+            "offset": 2.6747391355620387
+          }
+        },
+        "wing_rotation_ranges": {
+          "left": [
+            -2.7925267219543457,
+            -1.5707963705062866
+          ],
+          "right": [
+            1.5707963705062866,
+            2.7925267219543457
+          ]
+        },
+        "wing_centerline_extrema": {
+          "left_max_y": 0.036272432655096054,
+          "right_min_y": -0.003636072389781475
+        },
+        "wing_hinge_gap_max": {
+          "left": 0.0007571689202450216,
+          "right": 0.0028882501646876335
         },
         "packed_file_images": [
           "蝴蝶源图参考_Male_Dos_MHNT",

@@ -1,7 +1,7 @@
 {
   "asset": "Butterfly",
   "variant": "master_wing_flap_vertical_specimen_frame_attachment",
-  "policy": "以 Butterfly_Master.blend 为基准替换左右翅膀扇动；删除旧灯光与水平展示台，导入竖直标本框；保留蝴蝶原生三维比例，使身体沿世界 Z 轴贴框，并将翅膀扇动基准调整为始终朝框外侧",
+  "policy": "以 Butterfly_Master.blend 为基准替换左右翅膀扇动；删除旧灯光与水平展示台，导入竖直标本框；保留蝴蝶原生三维比例，使身体沿世界 Z 轴贴框；保持来源关键帧时间与曲线节奏，并将左右翅膀分别重定向到不穿框、不换边的面板安全角区间",
   "frame_source": "models/SpecimenFrame/source/specimen-frame.glb",
   "frame_source_sha256": "ae3b590a551290249c1d8b83f4c461fb6fd40a8d9f2ea8fc9f9db494700693ed",
   "outputs": [
@@ -11,7 +11,7 @@
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
       "source_sha256_before": "3a17b9ac29d09acf147b3ee3b7a9fd9282c94c59db75286da53b7b7a611f9876",
       "output": "models/Butterfly/scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
-      "output_sha256": "5f545c0ca2a74b23bcdcffa88bfd9303f033c0a449879c4d087a29e3d97754ab",
+      "output_sha256": "ca7ab9822a81a8fd844e4a2c4622fee8bfef4c9533970d25cbb3d175f5bef376",
       "display_wings": {
         "left": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
         "right": "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
@@ -26,8 +26,8 @@
         91
       ],
       "master_non_wing_transforms_preserved": true,
-      "master_wing_frame_one_transforms_preserved_before_attachment_rebase": true,
-      "wing_mount_baseline_rebased_outward": true,
+      "master_wing_frame_one_transforms_preserved_before_panel_retarget": true,
+      "wing_animation_panel_safe_retargeted": true,
       "follow_path_controller_applied": false,
       "source_reference_kept": true,
       "original_frame_restored": 45,
@@ -51,45 +51,55 @@
             2.5044780654876655e-06,
             90.00000250447816
           ],
-          "fit_scale": 0.8026745517643251,
+          "fit_scale": 0.8103066892996742,
           "all_frame_bounds_min": [
-            0.2120000123977661,
-            -3.2338454723358154,
-            2.0616724491119385
+            0.21199986338615417,
+            -3.23367977142334,
+            2.0380122661590576
           ],
           "all_frame_bounds_max": [
-            4.053155422210693,
-            3.2661542892456055,
-            7.038328170776367
+            4.08955717086792,
+            3.2663204669952393,
+            7.061988353729248
           ],
           "all_frame_span": [
-            3.841155529022217,
+            3.8775572776794434,
             6.5,
-            4.976655960083008
+            5.0239763259887695
           ],
           "contact_x": 0.212,
-          "body_center_y": 0.0,
+          "body_center_y": 2.9802322387695312e-08,
           "body_span": [
-            0.6415771842002869,
-            0.6784023642539978,
-            1.483936071395874
+            0.6476775407791138,
+            0.6848528385162354,
+            1.4980459213256836
           ],
           "body_axis": "world_Z",
           "native_proportions_preserved": true,
-          "wing_outward_rebase": {
-            "offsets": {
-              "left": -2.4085539440300803,
-              "right": 2.551549286642347
-            },
-            "ranges": {
-              "left": [
-                -2.785834119715963,
-                -0.3557585338738303
+          "wing_panel_safe_retarget": {
+            "left": {
+              "source_range": [
+                -0.37728017568588257,
+                2.05279541015625
               ],
-              "right": [
-                0.3557585189726691,
-                2.785834134617124
-              ]
+              "target_range": [
+                -2.792526803190927,
+                -1.5707963267948966
+              ],
+              "scale": 0.5027541050632156,
+              "offset": -2.6028476461058787
+            },
+            "right": {
+              "source_range": [
+                -2.1957907676696777,
+                0.23428484797477722
+              ],
+              "target_range": [
+                1.5707963267948966,
+                2.792526803190927
+              ],
+              "scale": 0.502754098897465,
+              "offset": 2.6747391355620387
             }
           }
         },
@@ -99,7 +109,7 @@
           "light_objects": 0
         }
       },
-      "output_size": 10191891
+      "output_size": 10192152
     },
     {
       "master_base": "models/Butterfly/scenes/master/Butterfly_Master.blend",
@@ -107,7 +117,7 @@
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
       "source_sha256_before": "01c87a17b7311d12778f7625dd13c5f1166530234e702c4d7c74bdf2149853e7",
       "output": "models/Butterfly/scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
-      "output_sha256": "1effa65fae181eb572b0fdee9d234f6746d6dec23c3c6d6120ff36d274cd64b5",
+      "output_sha256": "06eab10db1a0b6906788765b0ebfee0743f0c19a79d6a296c04127fbaac353a5",
       "display_wings": {
         "left": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
         "right": "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
@@ -122,8 +132,8 @@
         91
       ],
       "master_non_wing_transforms_preserved": true,
-      "master_wing_frame_one_transforms_preserved_before_attachment_rebase": true,
-      "wing_mount_baseline_rebased_outward": true,
+      "master_wing_frame_one_transforms_preserved_before_panel_retarget": true,
+      "wing_animation_panel_safe_retargeted": true,
       "follow_path_controller_applied": false,
       "source_reference_kept": true,
       "original_frame_restored": 45,
@@ -147,45 +157,55 @@
             2.5044780654876655e-06,
             90.00000250447816
           ],
-          "fit_scale": 0.8026745517643251,
+          "fit_scale": 0.8103066892996742,
           "all_frame_bounds_min": [
-            0.2120000123977661,
-            -3.2338454723358154,
-            2.0616724491119385
+            0.21199986338615417,
+            -3.23367977142334,
+            2.0380122661590576
           ],
           "all_frame_bounds_max": [
-            4.053155422210693,
-            3.2661542892456055,
-            7.038328170776367
+            4.08955717086792,
+            3.2663204669952393,
+            7.061988353729248
           ],
           "all_frame_span": [
-            3.841155529022217,
+            3.8775572776794434,
             6.5,
-            4.976655960083008
+            5.0239763259887695
           ],
           "contact_x": 0.212,
-          "body_center_y": 0.0,
+          "body_center_y": 2.9802322387695312e-08,
           "body_span": [
-            0.6415771842002869,
-            0.6784023642539978,
-            1.483936071395874
+            0.6476775407791138,
+            0.6848528385162354,
+            1.4980459213256836
           ],
           "body_axis": "world_Z",
           "native_proportions_preserved": true,
-          "wing_outward_rebase": {
-            "offsets": {
-              "left": -2.4085539440300803,
-              "right": 2.551549286642347
-            },
-            "ranges": {
-              "left": [
-                -2.785834119715963,
-                -0.3557585338738303
+          "wing_panel_safe_retarget": {
+            "left": {
+              "source_range": [
+                -0.37728017568588257,
+                2.05279541015625
               ],
-              "right": [
-                0.3557585189726691,
-                2.785834134617124
-              ]
+              "target_range": [
+                -2.792526803190927,
+                -1.5707963267948966
+              ],
+              "scale": 0.5027541050632156,
+              "offset": -2.6028476461058787
+            },
+            "right": {
+              "source_range": [
+                -2.1957907676696777,
+                0.23428484797477722
+              ],
+              "target_range": [
+                1.5707963267948966,
+                2.792526803190927
+              ],
+              "scale": 0.502754098897465,
+              "offset": 2.6747391355620387
             }
           }
         },
@@ -195,7 +215,7 @@
           "light_objects": 0
         }
       },
-      "output_size": 10191862
+      "output_size": 10192207
     }
   ]
 }

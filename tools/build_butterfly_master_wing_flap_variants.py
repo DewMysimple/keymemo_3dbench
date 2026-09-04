@@ -200,7 +200,7 @@ def write_variant_notes(source_path, output_path, action_names):
         f"Master 基准：{MASTER_PATH.name}\n"
         f"扇翅来源：{source_path.name}\n"
         f"输出文件：{output_path.name}\n"
-        "ARTIST_EDIT：保留 Master 的场景、展示根、身体与原生三维比例；左右翅膀保留来源扇动变化，并将安装基准角改为朝标本框外侧。\n"
+        "ARTIST_EDIT：保留 Master 的场景、展示根、身体与原生三维比例；左右翅膀保留来源关键帧时间与缓动节奏，并分别重定向到不会越过身体中线的面板安全角区间。\n"
         "Follow Path 的路径控制器不会应用到 Master 展示层，因此不会带入沿路径位移或路径转向。\n"
         "SOURCE_REFERENCE：Master 原有源对象、源 Action 和全部素材保持原样。\n"
         "ARTIST_EDIT 中删除旧水平展示台和全部灯光，导入竖直标本框作为落脚面；蝴蝶身体沿世界 Z 轴、位于 Y=0 中心线并由腹面贴住框面。\n"
@@ -277,8 +277,8 @@ def build_one(source_path, output_path, variant_index):
     artist["master_base_file"] = relative(MASTER_PATH)
     artist["wing_flap_source_file"] = relative(source_path)
     artist["wing_flap_only"] = True
-    artist["master_transform_policy"] = "保留 Master 场景、身体与模型原生三维比例；允许翅膀安装基准角朝框外重定位"
-    artist["animation_policy"] = "仅替换 ARTIST_EDIT 左右翅膀扇动并保持来源动作增量；不应用 Follow Path 路径控制器"
+    artist["master_transform_policy"] = "保留 Master 场景、身体与模型原生三维比例；翅膀铰点不动并按解剖侧重定向到面板安全角区间"
+    artist["animation_policy"] = "仅替换 ARTIST_EDIT 左右翅膀扇动，保持来源关键帧时间和曲线节奏；不应用 Follow Path 路径控制器"
     artist["source_reference_policy"] = "SOURCE_REFERENCE 保持 Master 原始数据"
     artist["default_showcase_frame"] = original_frame
     attachment = configure_attachment(artist, source_scene, FRAME_GLB_PATH)
@@ -313,8 +313,8 @@ def build_one(source_path, output_path, variant_index):
         "new_actions": {role: action.name for role, action in new_actions.items()},
         "frames_checked": list(frames),
         "master_non_wing_transforms_preserved": True,
-        "master_wing_frame_one_transforms_preserved_before_attachment_rebase": True,
-        "wing_mount_baseline_rebased_outward": True,
+        "master_wing_frame_one_transforms_preserved_before_panel_retarget": True,
+        "wing_animation_panel_safe_retargeted": True,
         "follow_path_controller_applied": False,
         "source_reference_kept": True,
         "original_frame_restored": original_frame,
@@ -331,7 +331,7 @@ def main():
     payload = {
         "asset": "Butterfly",
         "variant": "master_wing_flap_vertical_specimen_frame_attachment",
-        "policy": "以 Butterfly_Master.blend 为基准替换左右翅膀扇动；删除旧灯光与水平展示台，导入竖直标本框；保留蝴蝶原生三维比例，使身体沿世界 Z 轴贴框，并将翅膀扇动基准调整为始终朝框外侧",
+        "policy": "以 Butterfly_Master.blend 为基准替换左右翅膀扇动；删除旧灯光与水平展示台，导入竖直标本框；保留蝴蝶原生三维比例，使身体沿世界 Z 轴贴框；保持来源关键帧时间与曲线节奏，并将左右翅膀分别重定向到不穿框、不换边的面板安全角区间",
         "frame_source": relative(FRAME_GLB_PATH),
         "frame_source_sha256": sha256_file(FRAME_GLB_PATH),
         "outputs": reports,
