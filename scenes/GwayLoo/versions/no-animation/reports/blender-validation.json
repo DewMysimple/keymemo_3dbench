@@ -34,9 +34,9 @@
   "camera_runtime_control": "WEB_CAMERA_INTERACTION_CONTROL",
   "hotspots": 6,
   "video_scenes": 12,
-  "external_images_and_movies": 31,
-  "packed_images": 1,
+  "external_images_and_movies": 0,
+  "packed_images": 8,
   "external_fonts": 0,
-  "packed_fonts": 1,
+  "packed_fonts": 0,
   "portable_external_assets": true
 }

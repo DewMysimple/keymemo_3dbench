@@ -19,6 +19,7 @@ supersedes: null
 | 2026-09-04 | feature | - | archived | butterfly-vertical-specimen-frame-attachment | [[日志/2026-09-04-将蝴蝶贴附到竖直标本框.md|将蝴蝶贴附到竖直标本框]] |
 | 2026-09-04 | maintenance | - | archived | remove-butterfly-wing-flap-only-variants | [[日志/2026-09-04-删除蝴蝶wing-flap-only派生目录.md|删除蝴蝶 wing_flap_only 派生目录]] |
 | 2026-09-04 | bug | - | archived | butterfly-panel-wing-keyframe-retarget | [[日志/2026-09-04-修复竖框蝴蝶翅膀关键帧换边.md|修复竖框蝴蝶翅膀关键帧换边]] |
+| 2026-09-04 | feature | - | archived | no-animation-self-contained-assets | [[日志/2026-09-04-no-animation版本资源内嵌化.md|no-animation 版本资源内嵌化]] |
 | 2026-09-03 | maintenance | - | archived | specimen-frame-final-file-cleanup-and-blender-backups | [[日志/2026-09-03-统一标本方框最终文件与清理自动备份.md|统一标本方框最终文件与清理自动备份]] |
 | 2026-09-03 | bug | - | archived | specimen-frame-eevee-crystal-core-side-visibility | [[日志/2026-09-03-恢复标本方框侧面紫晶内芯.md|恢复标本方框侧面紫晶内芯]] |
 | 2026-09-03 | feature | - | archived | specimen-frame-shared-topology-material-slots | [[日志/2026-09-03-创建标本方框共享拓扑双材质槽版本.md|创建标本方框共享拓扑双材质槽版本]] |

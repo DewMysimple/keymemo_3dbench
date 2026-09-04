@@ -1,0 +1,944 @@
+{
+  "blender_version": "5.0.0",
+  "blend_file": "C:\\Users\\Administrator\\Desktop\\keymemo_3dbench\\scenes\\GwayLoo\\versions\\no-animation\\GwayLoo_Scene_5_0_no_animation.blend",
+  "drop_movies": true,
+  "drop_fonts": true,
+  "before": {
+    "resources": [
+      {
+        "kind": "images",
+        "name": "1.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\1.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "1.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\1.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "1.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\1.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "1.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\1.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "2.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\2.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "2.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\2.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "2.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\2.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "2.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\2.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "3.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\3.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "3.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\3.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "3.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\3.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "3.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\3.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "4.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\4.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "4.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\4.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "4.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\4.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "4.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\4.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "5.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\5.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "5.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\5.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "5.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\5.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "5.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\5.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "6.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\6.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "6.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\6.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "6.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\6.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "6.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\6.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "atlas.png",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\grass\\atlas.png",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "color-gradients.jpg",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\grass\\color-gradients.jpg",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "grassTest.png",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\grassTest.png",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "ground_atlas.png",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\blender\\__packed__\\ground_atlas.png",
+        "packed": true,
+        "external": false
+      },
+      {
+        "kind": "images",
+        "name": "noise.jpeg",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\noise.jpeg",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "sdf.png",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\atlas\\sdf.png",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "texture.jpg",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\atlas\\texture.jpg",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "texture_mask.jpg",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\atlas\\texture_mask.jpg",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "fonts",
+        "name": "Bfont Regular",
+        "source": "",
+        "filepath": "<builtin>",
+        "packed": false,
+        "external": false
+      },
+      {
+        "kind": "fonts",
+        "name": "Canela Text Light",
+        "source": "",
+        "filepath": "//..\\..\\..\\blender\\__packed__\\Canela Text Light.ttf",
+        "packed": true,
+        "external": false
+      }
+    ],
+    "external_resources": [
+      {
+        "kind": "images",
+        "name": "1.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\1.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "1.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\1.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "1.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\1.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "1.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\1.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "2.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\2.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "2.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\2.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "2.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\2.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "2.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\2.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "3.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\3.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "3.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\3.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "3.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\3.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "3.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\3.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "4.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\4.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "4.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\4.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "4.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\4.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "4.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\4.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "5.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\5.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "5.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\5.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "5.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\5.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "5.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\5.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "6.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\6.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "6.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\6.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "6.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\6.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "6.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\6.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "atlas.png",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\grass\\atlas.png",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "color-gradients.jpg",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\grass\\color-gradients.jpg",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "grassTest.png",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\grassTest.png",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "noise.jpeg",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\noise.jpeg",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "sdf.png",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\atlas\\sdf.png",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "texture.jpg",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\atlas\\texture.jpg",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "texture_mask.jpg",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\atlas\\texture_mask.jpg",
+        "packed": false,
+        "external": true
+      }
+    ],
+    "libraries": [],
+    "movie_images": [
+      {
+        "kind": "images",
+        "name": "1.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\1.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "1.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\1.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "1.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\1.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "1.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\1.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "2.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\2.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "2.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\2.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "2.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\2.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "2.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\2.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "3.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\3.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "3.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\3.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "3.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\3.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "3.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\3.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "4.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\4.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "4.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\4.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "4.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\4.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "4.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\4.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "5.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\5.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "5.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\5.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "5.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\5.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "5.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\5.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "6.mp4",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\6.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "6.mp4.001",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\6.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "6.mp4.002",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\6.mp4",
+        "packed": false,
+        "external": true
+      },
+      {
+        "kind": "images",
+        "name": "6.mp4.003",
+        "source": "MOVIE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\6.mp4",
+        "packed": false,
+        "external": true
+      }
+    ],
+    "external_fonts": [
+      {
+        "kind": "fonts",
+        "name": "Canela Text Light",
+        "source": "",
+        "filepath": "//..\\..\\..\\blender\\__packed__\\Canela Text Light.ttf",
+        "packed": true,
+        "external": false
+      }
+    ],
+    "packed_resource_count": 2,
+    "external_resource_count": 31,
+    "library_count": 0,
+    "movie_image_count": 24,
+    "external_font_count": 1
+  },
+  "removed_movies": [
+    {
+      "name": "1.mp4",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\1.mp4"
+    },
+    {
+      "name": "1.mp4.001",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\1.mp4"
+    },
+    {
+      "name": "1.mp4.002",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\1.mp4"
+    },
+    {
+      "name": "1.mp4.003",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\1.mp4"
+    },
+    {
+      "name": "2.mp4",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\2.mp4"
+    },
+    {
+      "name": "2.mp4.001",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\2.mp4"
+    },
+    {
+      "name": "2.mp4.002",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\2.mp4"
+    },
+    {
+      "name": "2.mp4.003",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\2.mp4"
+    },
+    {
+      "name": "3.mp4",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\3.mp4"
+    },
+    {
+      "name": "3.mp4.001",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\3.mp4"
+    },
+    {
+      "name": "3.mp4.002",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\3.mp4"
+    },
+    {
+      "name": "3.mp4.003",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\3.mp4"
+    },
+    {
+      "name": "4.mp4",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\4.mp4"
+    },
+    {
+      "name": "4.mp4.001",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\4.mp4"
+    },
+    {
+      "name": "4.mp4.002",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\4.mp4"
+    },
+    {
+      "name": "4.mp4.003",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\4.mp4"
+    },
+    {
+      "name": "5.mp4",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\5.mp4"
+    },
+    {
+      "name": "5.mp4.001",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\5.mp4"
+    },
+    {
+      "name": "5.mp4.002",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\5.mp4"
+    },
+    {
+      "name": "5.mp4.003",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\5.mp4"
+    },
+    {
+      "name": "6.mp4",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\base\\6.mp4"
+    },
+    {
+      "name": "6.mp4.001",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\desktop\\over\\6.mp4"
+    },
+    {
+      "name": "6.mp4.002",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\base\\6.mp4"
+    },
+    {
+      "name": "6.mp4.003",
+      "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\videos\\mobile\\over\\6.mp4"
+    }
+  ],
+  "removed_movie_count": 24,
+  "removed_fonts": [
+    {
+      "name": "Canela Text Light",
+      "filepath": "//..\\..\\..\\blender\\__packed__\\Canela Text Light.ttf",
+      "replaced_slots": [
+        "TITLE_01_Curve.font",
+        "TITLE_02_Curve.font",
+        "TITLE_03_Curve.font",
+        "TITLE_04_Curve.font",
+        "TITLE_05_Curve.font",
+        "TITLE_06_Curve.font"
+      ]
+    }
+  ],
+  "removed_font_count": 1,
+  "after": {
+    "resources": [
+      {
+        "kind": "images",
+        "name": "atlas.png",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\grass\\atlas.png",
+        "packed": true,
+        "external": false
+      },
+      {
+        "kind": "images",
+        "name": "color-gradients.jpg",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\grass\\color-gradients.jpg",
+        "packed": true,
+        "external": false
+      },
+      {
+        "kind": "images",
+        "name": "grassTest.png",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\grassTest.png",
+        "packed": true,
+        "external": false
+      },
+      {
+        "kind": "images",
+        "name": "ground_atlas.png",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\blender\\__packed__\\ground_atlas.png",
+        "packed": true,
+        "external": false
+      },
+      {
+        "kind": "images",
+        "name": "noise.jpeg",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\noise.jpeg",
+        "packed": true,
+        "external": false
+      },
+      {
+        "kind": "images",
+        "name": "sdf.png",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\atlas\\sdf.png",
+        "packed": true,
+        "external": false
+      },
+      {
+        "kind": "images",
+        "name": "texture.jpg",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\atlas\\texture.jpg",
+        "packed": true,
+        "external": false
+      },
+      {
+        "kind": "images",
+        "name": "texture_mask.jpg",
+        "source": "FILE",
+        "filepath": "//..\\..\\..\\..\\runtime\\source_snapshot\\assets\\textures\\atlas\\texture_mask.jpg",
+        "packed": true,
+        "external": false
+      },
+      {
+        "kind": "fonts",
+        "name": "Bfont Regular",
+        "source": "",
+        "filepath": "<builtin>",
+        "packed": false,
+        "external": false
+      }
+    ],
+    "external_resources": [],
+    "libraries": [],
+    "movie_images": [],
+    "external_fonts": [],
+    "packed_resource_count": 8,
+    "external_resource_count": 0,
+    "library_count": 0,
+    "movie_image_count": 0,
+    "external_font_count": 0
+  },
+  "file_size_bytes": 9429996,
+  "sha256": "29579509CCB1E13797DDE21961D9D90D26313A59749709DEE33D2ABF0FDA7572",
+  "passed": true
+}

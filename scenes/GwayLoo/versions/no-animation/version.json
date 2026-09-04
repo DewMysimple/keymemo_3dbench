@@ -5,17 +5,27 @@
   "source": "scenes/GwayLoo/full/GwayLoo_Scene_5_0.blend",
   "target": "scenes/GwayLoo/versions/no-animation/GwayLoo_Scene_5_0_no_animation.blend",
   "source_sha256": "03344698C5427F397255E46B5AB7B67EDDA38FDE312E475F8D2B32993E61482E",
-  "target_sha256": "10B7891DD305B948903D24A7E2391DF4EBB4CC9618102060B851F070C027F9D5",
+  "target_sha256": "29579509CCB1E13797DDE21961D9D90D26313A59749709DEE33D2ABF0FDA7572",
   "source_unchanged": true,
   "status": "available",
   "available": true,
   "requires_validation": false,
   "change_set": [
-    "remove-all-non-camera-animation"
+    "remove-all-non-camera-animation",
+    "remove-video-references",
+    "replace-external-font-with-builtin",
+    "pack-all-remaining-assets"
   ],
   "animation_policy": "preserve-camera-freeze-non-camera-at-frame-3586",
+  "asset_policy": "self-contained-no-video-no-external-font",
+  "self_contained": true,
+  "external_asset_count": 0,
+  "packed_asset_count": 8,
+  "removed_movie_count": 24,
+  "removed_external_font_count": 1,
   "change_exit_code": 0,
   "change_report_passed": true,
   "validation_report": "scenes/GwayLoo/versions/no-animation/reports/blender-validation.json",
+  "self_contained_report": "scenes/GwayLoo/versions/no-animation/reports/self-contained-assets.json",
   "validation_passed": true
 }
