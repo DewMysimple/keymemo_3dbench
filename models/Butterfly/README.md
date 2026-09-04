@@ -32,26 +32,6 @@
 3. 保留 `CAMERA_HEAD_FOLLOW` 的父级 `CAMERA_HEAD_ANCHOR` 和 `CAMERA_HEAD_TRACK_TO` 约束，这样摄像机才会跟随并持续对准蝴蝶。
 4. 播放第 1 帧到最后一帧检查正面构图；运动路径仍可在原有 Follow Path 动画空物体上编辑。
 
-## Master 扇翅替换版本
-
-以下两个文件均以 `Butterfly_Master.blend` 为基准，分别使用对应 Follow Path 文件中的左右翅膀扇动变化：
-
-- `scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend`
-- `scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend`
-
-这两个版本以 Master 的身体、翅膀、材质与动画层级为基础，并导入 `../SpecimenFrame/source/specimen-frame.glb` 作为竖直落脚框。`ARTIST_EDIT` 只保留左右翅膀的扇动变化，不应用 Follow Path 的路径位移和路径转向；旧水平展示台与4盏摄影灯已删除，环境照明仅来自 World。
-
-框面位于 `X=0.21`，蝴蝶机身腹面在 `X=0.212` 与框实际接触，只保留 `0.002` 的防穿插间隙。模型保持原生等比三维结构，完整动画的框法向范围约为 `X=0.212–4.0896`，不再压成贴面薄层。身体主轴沿世界 Z，身体中心位于 `Y=0` 的框内芯中心线上；全部动画帧的 Y/Z 投影均落在 `7.1 × 7.1` 内芯边界内。`DISPLAY_Butterfly_Master_ROOT` 是整体摆放控制根，原点位于框面中心，缩放与旋转可直接用于后续整体调整。
-
-源动画原本围绕水平身体平面上下扇动，直接转到竖直框面后，若只给 Z 旋转曲线增加恒定安装角，左右翼会在半个周期内越过身体中线并交换两侧。当前版本不改网格、翅根、关键帧帧号或缓动节奏，而是把来源 Z 曲线仿射重定向到解剖侧安全区间：左翼 `-160°～-90°`，右翼 `90°～160°`。因此 1–91 帧中左右翼始终各在身体一侧、翅根保持贴合且不穿入框体；默认第45帧显示展开姿态，闭合帧从正面只见机身、从斜侧可见两翼自然重叠。
-
-场景集合已按职责分开：蝴蝶展示模型、`MODEL_SpecimenFrame_落脚框`、`CAMERAS_Butterfly_构图相机` 与源数据集合互不混放。`SOURCE_REFERENCE` 仍保留 Master 原有的全部源对象和 Action，不包含导入框，方便核对源数据；Master 原文件与两个 Follow Path 原文件均不覆盖。
-
-专用构建脚本：`tools/build_butterfly_master_wing_flap_variants.py`
-专用验证脚本：`tools/validate_butterfly_master_wing_flap_variants.py`
-专用构建报告：`reports/butterfly-master-wing-flap-variants.json`
-专用验证报告：`reports/butterfly-master-wing-flap-validation.json`
-
 ## 打开方式
 
 - 默认场景 `ARTIST_EDIT`：单个已居中的展示模型，展示副本保持左右翅膀的原始父子关系和动作；编辑两个 `follow_path` 文件时切换到中文 `动画` 工作区即可。
