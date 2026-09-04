@@ -1,7 +1,7 @@
 {
   "asset": "Butterfly",
   "variant": "mybutterfly_follow_path_rotation_only_applied",
-  "policy": "以 MyButterfly_Master.blend 为基准，在不改动原版的独立输出中将两份清理后 Follow Path 文件的左右翼 rotation_euler XYZ 关键帧应用到指定展示翼；以 Master 第 1 帧为基线，Z 限制为正负 32°安全幅度，并移除目标翼非旋转曲线",
+  "policy": "以 MyButterfly_Master.blend 为基准，在不改动原版的独立输出中将两份清理后 Follow Path 文件的左右翼 rotation_euler XYZ 关键帧应用到指定展示翼；X/Y 以 Master 第 1 帧为基线，Z 逐帧完全等于来源数值，并移除目标翼非旋转曲线",
   "outputs": [
     {
       "variant": 1,
@@ -10,8 +10,8 @@
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_NO_LIGHT_NO_PATH_ROTATION_ONLY.blend",
       "source_sha256": "60fd455e289dfb7a138d895f728d5de34ff4755b26834c5b1d17e85d1e0ba7a3",
       "output": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath1_RotationOnlyApplied.blend",
-      "output_sha256": "a0ba8a5cb8681931961a0237ed2ec9d0c0218238d82366d8357c7df9f2c28429",
-      "output_size": 10203457,
+      "output_sha256": "8226b24655bcd64af2de6b7fac70d50393a2a634ffa5af01d732a9f1b7c40fad",
+      "output_size": 10198061,
       "frame_range": [
         1,
         91
@@ -59,15 +59,15 @@
             },
             "2": {
               "source_baseline": 0.36387813091278076,
-              "target_baseline": 0.8377578854560852,
-              "value_scale": 0.4596607945871816,
+              "target_baseline": 0.36387813091278076,
+              "value_scale": 1.0,
               "source_range": [
                 -0.851159930229187,
                 1.5789155960083008
               ],
               "target_range": [
-                0.2792525291442871,
-                1.3962630033493042
+                -0.851159930229187,
+                1.5789155960083008
               ],
               "keyframe_count": 91
             }
@@ -106,15 +106,15 @@
             },
             "2": {
               "source_baseline": -0.36341896653175354,
-              "target_baseline": -0.9807528853416443,
-              "value_scale": 0.4596608960577971,
+              "target_baseline": -0.36341896653175354,
+              "value_scale": 1.0,
               "source_range": [
                 -1.5784567594528198,
                 0.851618766784668
               ],
               "target_range": [
-                -1.5392582416534424,
-                -0.4222475588321686
+                -1.5784567594528198,
+                0.851618766784668
               ],
               "keyframe_count": 91
             }
@@ -122,15 +122,15 @@
         }
       },
       "master_non_wing_transforms_preserved": true,
-      "master_wing_frame_one_transforms_preserved": true,
+      "master_wing_frame_one_non_z_transforms_preserved": true,
       "copied_channels": [
         "rotation_euler[0]",
         "rotation_euler[1]",
         "rotation_euler[2]"
       ],
       "non_rotation_wing_curves_removed": true,
-      "rotation_rebased_to_master_frame_one": true,
-      "z_safe_half_amplitude_degrees": 32.0,
+      "rotation_rebased_to_master_frame_one": "X/Y only",
+      "z_values_exact_source": true,
       "follow_path_controller_applied": false,
       "source_reference_preserved": true
     },
@@ -141,8 +141,8 @@
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_NO_LIGHT_NO_PATH_ROTATION_ONLY.blend",
       "source_sha256": "685a2d25dde4df12cc53fd6b40f66567555925f6e1cf5ccb5c25f576003f3294",
       "output": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath2_RotationOnlyApplied.blend",
-      "output_sha256": "5c3de9ecb01af5397b8e1d2ae74020b4f485439dd0cf94bedc4271d6b5218096",
-      "output_size": 10203511,
+      "output_sha256": "1767810a105b6e546aea624d44ed782bf884605227c9dea64cffe3d028ac82a1",
+      "output_size": 10198105,
       "frame_range": [
         1,
         91
@@ -190,15 +190,15 @@
             },
             "2": {
               "source_baseline": 0.36387813091278076,
-              "target_baseline": 0.8377578854560852,
-              "value_scale": 0.4596607945871816,
+              "target_baseline": 0.36387813091278076,
+              "value_scale": 1.0,
               "source_range": [
                 -0.851159930229187,
                 1.5789155960083008
               ],
               "target_range": [
-                0.2792525291442871,
-                1.3962630033493042
+                -0.851159930229187,
+                1.5789155960083008
               ],
               "keyframe_count": 91
             }
@@ -237,15 +237,15 @@
             },
             "2": {
               "source_baseline": -0.36341896653175354,
-              "target_baseline": -0.9807528853416443,
-              "value_scale": 0.4596608960577971,
+              "target_baseline": -0.36341896653175354,
+              "value_scale": 1.0,
               "source_range": [
                 -1.5784567594528198,
                 0.851618766784668
               ],
               "target_range": [
-                -1.5392582416534424,
-                -0.4222475588321686
+                -1.5784567594528198,
+                0.851618766784668
               ],
               "keyframe_count": 91
             }
@@ -253,15 +253,15 @@
         }
       },
       "master_non_wing_transforms_preserved": true,
-      "master_wing_frame_one_transforms_preserved": true,
+      "master_wing_frame_one_non_z_transforms_preserved": true,
       "copied_channels": [
         "rotation_euler[0]",
         "rotation_euler[1]",
         "rotation_euler[2]"
       ],
       "non_rotation_wing_curves_removed": true,
-      "rotation_rebased_to_master_frame_one": true,
-      "z_safe_half_amplitude_degrees": 32.0,
+      "rotation_rebased_to_master_frame_one": "X/Y only",
+      "z_values_exact_source": true,
       "follow_path_controller_applied": false,
       "source_reference_preserved": true
     }

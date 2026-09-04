@@ -21,6 +21,7 @@ RIGHT_WING = "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_
 WING_NAMES = {"left": LEFT_WING, "right": RIGHT_WING}
 ROTATION_PATH = "rotation_euler"
 SAFE_Z_HALF_AMPLITUDE_DEGREES = 32.0
+EXACT_SOURCE_Z_VALUES = True
 
 VARIANTS = (
     (
@@ -241,12 +242,13 @@ def replace_wing_action(
         max_delta = max(abs(value - source_baseline) for value in source_values)
         ensure(max_delta > 1e-9, f"{source_action.name}: rotation axis {axis} has no motion")
         value_scale = 1.0
-        if axis == 2:
-            value_scale = math.radians(SAFE_Z_HALF_AMPLITUDE_DEGREES) / max_delta
+        target_curve_baseline = float(target_object.rotation_euler[axis])
+        if axis == 2 and EXACT_SOURCE_Z_VALUES:
+            target_curve_baseline = source_baseline
         curve_reports[str(axis)] = replace_curve_points(
             target_curve,
             source_curve,
-            float(target_object.rotation_euler[axis]),
+            target_curve_baseline,
             value_scale,
         )
     action["animation_source_file"] = relative(source_path)
@@ -254,9 +256,9 @@ def replace_wing_action(
     action["master_base_file"] = relative(MASTER_PATH)
     action["copied_channels"] = "rotation_euler[0],rotation_euler[1],rotation_euler[2]"
     action["removed_non_rotation_curves"] = removed_non_rotation
-    action["rotation_rebased_to_master_frame_one"] = True
-    action["z_safe_half_amplitude_degrees"] = SAFE_Z_HALF_AMPLITUDE_DEGREES
-    action["replacement_policy"] = "复制来源仅旋转曲线；X/Y 保留相对变化并以 Master 第 1 帧为基线；Z 仿射缩放到 Master 解剖侧安全幅度；删除目标 Action 的非旋转曲线"
+    action["rotation_rebased_to_master_frame_one"] = "X/Y only"
+    action["z_values_exact_source"] = EXACT_SOURCE_Z_VALUES
+    action["replacement_policy"] = "复制来源仅旋转曲线；X/Y 保留相对变化并以 Master 第 1 帧为基线；Z 逐帧完全使用来源数值；删除目标 Action 的非旋转曲线"
     return action, {"removed_non_rotation_curves": removed_non_rotation, "curves": curve_reports}
 
 
@@ -281,8 +283,8 @@ def write_notes(source_path: Path, output_path: Path, actions: dict[str, bpy.typ
         f"翅膀动作来源：{source_path.name}\n"
         f"当前输出：{output_path.name}\n"
         "仅替换 ARTIST_EDIT 展示层指定左右翼的 rotation_euler X/Y/Z 关键帧。\n"
-        "目标翼的 Location、Scale 等非旋转曲线已移除，并保留 Master 第 1 帧静态姿态。\n"
-        f"来源 X/Y 曲线以 Master 第 1 帧为基线；来源 Z 曲线缩放到正负 {SAFE_Z_HALF_AMPLITUDE_DEGREES:.0f}°安全幅度，避免换边交叉。\n"
+        "目标翼的 Location、Scale 等非旋转曲线已移除；X/Y 保留 Master 第 1 帧姿态。\n"
+        "来源 Z 曲线逐帧完全使用来源数值（不缩放），因此保留来源的完整 Z 幅度。\n"
         f"左翼 Action：{actions['left'].name}\n"
         f"右翼 Action：{actions['right'].name}\n"
     )
@@ -344,11 +346,21 @@ def build_one(variant: int, source_name: str, output_name: str) -> dict[str, obj
                 f"Non-wing display transform changed: {name}, frame {frame}",
             )
     for role, name in WING_NAMES.items():
+        before_transform = frame_one_baselines[role]
+        after_transform = after[1][name]
         ensure(
-            max_transform_difference(frame_one_baselines[role], after[1][name]) <= 1e-6,
-            f"Wing frame-1 transform changed: {name}",
+            max(
+                abs(left - right)
+                for key in ("location", "scale")
+                for left, right in zip(before_transform[key], after_transform[key])
+            ) <= 1e-6
+            and max(
+                abs(left - right)
+                for left, right in zip(before_transform["rotation_euler"][:2], after_transform["rotation_euler"][:2])
+            ) <= 1e-6,
+            f"Wing frame-1 non-Z transform changed: {name}",
         )
-        ensure(frame_one_baselines[role]["parent"] == after[1][name]["parent"], f"Wing parent changed: {name}")
+        ensure(before_transform["parent"] == after_transform["parent"], f"Wing parent changed: {name}")
 
     artist["document_type"] = "MyButterfly Master Follow Path 旋转关键帧应用版本"
     artist["master_base_file"] = relative(MASTER_PATH)
@@ -356,8 +368,8 @@ def build_one(variant: int, source_name: str, output_name: str) -> dict[str, obj
     artist["wing_keyframe_replacement_only"] = True
     artist["copied_animation_channels"] = "rotation_euler[0],rotation_euler[1],rotation_euler[2]"
     artist["non_rotation_wing_curves_removed"] = True
-    artist["rotation_rebased_to_master_frame_one"] = True
-    artist["z_safe_half_amplitude_degrees"] = SAFE_Z_HALF_AMPLITUDE_DEGREES
+    artist["rotation_rebased_to_master_frame_one"] = "X/Y only"
+    artist["z_values_exact_source"] = EXACT_SOURCE_Z_VALUES
     artist["follow_path_controller_applied"] = False
     artist["source_reference_policy"] = "保持 MyButterfly Master 原始 SOURCE_REFERENCE"
     write_notes(source_path, output_path, new_actions)
@@ -400,11 +412,11 @@ def build_one(variant: int, source_name: str, output_name: str) -> dict[str, obj
         "new_actions": action_names,
         "action_reports": action_reports,
         "master_non_wing_transforms_preserved": True,
-        "master_wing_frame_one_transforms_preserved": True,
+        "master_wing_frame_one_non_z_transforms_preserved": True,
         "copied_channels": ["rotation_euler[0]", "rotation_euler[1]", "rotation_euler[2]"],
         "non_rotation_wing_curves_removed": True,
-        "rotation_rebased_to_master_frame_one": True,
-        "z_safe_half_amplitude_degrees": SAFE_Z_HALF_AMPLITUDE_DEGREES,
+        "rotation_rebased_to_master_frame_one": "X/Y only",
+        "z_values_exact_source": EXACT_SOURCE_Z_VALUES,
         "follow_path_controller_applied": False,
         "source_reference_preserved": True,
     }
@@ -415,7 +427,7 @@ def main() -> None:
     payload = {
         "asset": "Butterfly",
         "variant": "mybutterfly_follow_path_rotation_only_applied",
-        "policy": "以 MyButterfly_Master.blend 为基准，在不改动原版的独立输出中将两份清理后 Follow Path 文件的左右翼 rotation_euler XYZ 关键帧应用到指定展示翼；以 Master 第 1 帧为基线，Z 限制为正负 32°安全幅度，并移除目标翼非旋转曲线",
+        "policy": "以 MyButterfly_Master.blend 为基准，在不改动原版的独立输出中将两份清理后 Follow Path 文件的左右翼 rotation_euler XYZ 关键帧应用到指定展示翼；X/Y 以 Master 第 1 帧为基线，Z 逐帧完全等于来源数值，并移除目标翼非旋转曲线",
         "outputs": reports,
     }
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)

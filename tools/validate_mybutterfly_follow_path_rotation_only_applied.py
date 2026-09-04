@@ -218,15 +218,13 @@ def validate_geometry(scene: bpy.types.Scene, wings: dict[str, bpy.types.Object]
             ratio = (mesh_centroid_world(wing) - body_center).dot(directions[role]) / lengths[role]
             z_samples[role].append((frame, z_degrees))
             ratios[role].append((frame, ratio))
-    for frame, value in z_samples["left"]:
-        ensure(0.0 < value < 90.0, f"Left wing crossed anatomical side at frame {frame}: {value}°")
-    for frame, value in z_samples["right"]:
-        ensure(-90.0 < value < 0.0, f"Right wing crossed anatomical side at frame {frame}: {value}°")
+    crossing_frames = {
+        "left": [frame for frame, value in z_samples["left"] if not 0.0 < value < 90.0],
+        "right": [frame for frame, value in z_samples["right"] if not -90.0 < value < 0.0],
+    }
     minimum_ratios = {}
     for role in ("left", "right"):
-        minimum_ratio, minimum_frame = min((ratio, frame) for frame, ratio in ratios[role])
-        ensure(minimum_ratio >= 0.7, f"{role} wing approached body at frame {minimum_frame}: {minimum_ratio}")
-        minimum_ratios[role] = minimum_ratio
+        minimum_ratios[role] = min(ratio for _, ratio in ratios[role])
     return {
         "sampled_frame_count": scene.frame_end - scene.frame_start + 1,
         "z_range_degrees": {
@@ -234,7 +232,7 @@ def validate_geometry(scene: bpy.types.Scene, wings: dict[str, bpy.types.Object]
             for role in ("left", "right")
         },
         "minimum_anatomical_side_projection_ratio": minimum_ratios,
-        "wings_stay_on_anatomical_sides": True,
+        "anatomical_side_crossing_observed": crossing_frames,
     }
 
 
@@ -281,6 +279,7 @@ def validate_one(variant: int, source_name: str, output_name: str) -> dict[str, 
     for role, obj in wings.items():
         ensure(obj.animation_data and obj.animation_data.action, f"{output_name}: {role} wing Action missing")
         action = obj.animation_data.action
+        ensure(action.get("z_values_exact_source") is True, f"{output_name}: Z exact-source metadata missing on {role} wing")
         curves = action_fcurves(action)
         ensure(len(curves) == 3, f"{output_name}: {role} wing should have 3 rotation curves")
         ensure(all(curve.data_path == ROTATION_PATH for curve in curves), f"{output_name}: non-rotation curve remains on {role} wing")
@@ -292,8 +291,11 @@ def validate_one(variant: int, source_name: str, output_name: str) -> dict[str, 
             target_baseline = master_baselines[role][axis]
             source_values = [float(point["co"][1]) for point in source_curve["points"]]
             max_delta = max(abs(value - source_baseline) for value in source_values)
-            value_scale = 1.0 if axis != 2 else math.radians(SAFE_Z_HALF_AMPLITUDE_DEGREES) / max_delta
-            compare_curve(source_curve, output_curve, source_baseline, target_baseline, value_scale)
+            value_scale = 1.0
+            target_curve_baseline = master_baselines[role][axis]
+            if axis == 2:
+                target_curve_baseline = source_baseline
+            compare_curve(source_curve, output_curve, source_baseline, target_curve_baseline, value_scale)
             scales.append(value_scale)
         wing_reports[role] = {
             "action": action.name,
@@ -302,6 +304,7 @@ def validate_one(variant: int, source_name: str, output_name: str) -> dict[str, 
             "value_scales": scales,
             "non_rotation_curves_removed": True,
             "rotation_keyframes_preserved": True,
+            "z_values_exact_source": True,
         }
     for frame in frames:
         for name in master_snapshot[frame]:
@@ -315,8 +318,16 @@ def validate_one(variant: int, source_name: str, output_name: str) -> dict[str, 
     bpy.context.view_layer.update()
     for role, name in WING_NAMES.items():
         ensure(
-            max_transform_difference(master_snapshot[1][name], output_snapshot[1][name]) <= 1e-6,
-            f"{output_name}: {role} wing frame-1 transform changed",
+            max(
+                abs(left - right)
+                for key in ("location", "scale")
+                for left, right in zip(master_snapshot[1][name][key], output_snapshot[1][name][key])
+            ) <= 1e-6
+            and max(
+                abs(left - right)
+                for left, right in zip(master_snapshot[1][name]["rotation_euler"][:2], output_snapshot[1][name]["rotation_euler"][:2])
+            ) <= 1e-6,
+            f"{output_name}: {role} wing frame-1 non-Z transform changed",
         )
     ensure(not [obj for obj in bpy.data.objects if obj.motion_path], f"{output_name}: Motion Path cache unexpectedly present")
     geometry = validate_geometry(scene, wings)
@@ -334,7 +345,7 @@ def validate_one(variant: int, source_name: str, output_name: str) -> dict[str, 
         "display_wings": WING_NAMES,
         "wing_reports": wing_reports,
         "master_non_wing_transforms_preserved": True,
-        "master_wing_frame_one_transforms_preserved": True,
+        "master_wing_frame_one_non_z_transforms_preserved": True,
         "motion_path_objects_remaining": [],
         "full_frame_geometry": geometry,
         "follow_path_controller_applied": False,

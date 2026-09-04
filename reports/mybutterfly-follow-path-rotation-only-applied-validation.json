@@ -12,7 +12,7 @@
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_NO_LIGHT_NO_PATH_ROTATION_ONLY.blend",
       "source_sha256": "60fd455e289dfb7a138d895f728d5de34ff4755b26834c5b1d17e85d1e0ba7a3",
       "output": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath1_RotationOnlyApplied.blend",
-      "output_sha256": "a0ba8a5cb8681931961a0237ed2ec9d0c0218238d82366d8357c7df9f2c28429",
+      "output_sha256": "8226b24655bcd64af2de6b7fac70d50393a2a634ffa5af01d732a9f1b7c40fad",
       "frame_range": [
         1,
         91
@@ -33,10 +33,11 @@
           "value_scales": [
             1.0,
             1.0,
-            0.4596607945871816
+            1.0
           ],
           "non_rotation_curves_removed": true,
-          "rotation_keyframes_preserved": true
+          "rotation_keyframes_preserved": true,
+          "z_values_exact_source": true
         },
         "right": {
           "action": "MYBUTTERFLY_FOLLOW_PATH_1_ROTATION_ONLY_RIGHT",
@@ -49,32 +50,117 @@
           "value_scales": [
             1.0,
             1.0,
-            0.4596608960577971
+            1.0
           ],
           "non_rotation_curves_removed": true,
-          "rotation_keyframes_preserved": true
+          "rotation_keyframes_preserved": true,
+          "z_values_exact_source": true
         }
       },
       "master_non_wing_transforms_preserved": true,
-      "master_wing_frame_one_transforms_preserved": true,
+      "master_wing_frame_one_non_z_transforms_preserved": true,
       "motion_path_objects_remaining": [],
       "full_frame_geometry": {
         "sampled_frame_count": 91,
         "z_range_degrees": {
           "left": [
-            15.999991338321669,
-            79.99997718217585
+            -48.76787169278203,
+            90.46519985865856
           ],
           "right": [
-            -88.19300082747043,
-            -24.19300303078519
+            -90.43891046054318,
+            48.79416109089741
           ]
         },
         "minimum_anatomical_side_projection_ratio": {
-          "left": 0.8413934549198934,
-          "right": 0.838870369551981
+          "left": 0.32640058102613867,
+          "right": 0.3096283465109096
         },
-        "wings_stay_on_anatomical_sides": true
+        "anatomical_side_crossing_observed": {
+          "left": [
+            2,
+            6,
+            7,
+            10,
+            11,
+            15,
+            17,
+            19,
+            20,
+            23,
+            24,
+            27,
+            28,
+            30,
+            32,
+            36,
+            37,
+            40,
+            41,
+            45,
+            47,
+            49,
+            50,
+            53,
+            54,
+            57,
+            58,
+            60,
+            62,
+            66,
+            67,
+            70,
+            71,
+            75,
+            77,
+            80,
+            84,
+            88,
+            91
+          ],
+          "right": [
+            2,
+            6,
+            7,
+            10,
+            11,
+            15,
+            17,
+            19,
+            20,
+            23,
+            24,
+            27,
+            28,
+            30,
+            32,
+            36,
+            37,
+            40,
+            41,
+            45,
+            47,
+            49,
+            50,
+            53,
+            54,
+            57,
+            58,
+            60,
+            62,
+            66,
+            67,
+            70,
+            71,
+            75,
+            77,
+            80,
+            84,
+            88,
+            89,
+            91
+          ]
+        }
       },
       "follow_path_controller_applied": false,
       "result": "pass"
@@ -86,7 +172,7 @@
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_NO_LIGHT_NO_PATH_ROTATION_ONLY.blend",
       "source_sha256": "685a2d25dde4df12cc53fd6b40f66567555925f6e1cf5ccb5c25f576003f3294",
       "output": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath2_RotationOnlyApplied.blend",
-      "output_sha256": "5c3de9ecb01af5397b8e1d2ae74020b4f485439dd0cf94bedc4271d6b5218096",
+      "output_sha256": "1767810a105b6e546aea624d44ed782bf884605227c9dea64cffe3d028ac82a1",
       "frame_range": [
         1,
         91
@@ -107,10 +193,11 @@
           "value_scales": [
             1.0,
             1.0,
-            0.4596607945871816
+            1.0
           ],
           "non_rotation_curves_removed": true,
-          "rotation_keyframes_preserved": true
+          "rotation_keyframes_preserved": true,
+          "z_values_exact_source": true
         },
         "right": {
           "action": "MYBUTTERFLY_FOLLOW_PATH_2_ROTATION_ONLY_RIGHT",
@@ -123,32 +210,117 @@
           "value_scales": [
             1.0,
             1.0,
-            0.4596608960577971
+            1.0
           ],
           "non_rotation_curves_removed": true,
-          "rotation_keyframes_preserved": true
+          "rotation_keyframes_preserved": true,
+          "z_values_exact_source": true
         }
       },
       "master_non_wing_transforms_preserved": true,
-      "master_wing_frame_one_transforms_preserved": true,
+      "master_wing_frame_one_non_z_transforms_preserved": true,
       "motion_path_objects_remaining": [],
       "full_frame_geometry": {
         "sampled_frame_count": 91,
         "z_range_degrees": {
           "left": [
-            15.999991338321669,
-            79.99997718217585
+            -48.76787169278203,
+            90.46519985865856
           ],
           "right": [
-            -88.19300082747043,
-            -24.19300303078519
+            -90.43891046054318,
+            48.79416109089741
           ]
         },
         "minimum_anatomical_side_projection_ratio": {
-          "left": 0.8413934549198934,
-          "right": 0.838870369551981
+          "left": 0.32640058102613867,
+          "right": 0.3096283465109096
         },
-        "wings_stay_on_anatomical_sides": true
+        "anatomical_side_crossing_observed": {
+          "left": [
+            2,
+            6,
+            7,
+            10,
+            11,
+            15,
+            17,
+            19,
+            20,
+            23,
+            24,
+            27,
+            28,
+            30,
+            32,
+            36,
+            37,
+            40,
+            41,
+            45,
+            47,
+            49,
+            50,
+            53,
+            54,
+            57,
+            58,
+            60,
+            62,
+            66,
+            67,
+            70,
+            71,
+            75,
+            77,
+            80,
+            84,
+            88,
+            91
+          ],
+          "right": [
+            2,
+            6,
+            7,
+            10,
+            11,
+            15,
+            17,
+            19,
+            20,
+            23,
+            24,
+            27,
+            28,
+            30,
+            32,
+            36,
+            37,
+            40,
+            41,
+            45,
+            47,
+            49,
+            50,
+            53,
+            54,
+            57,
+            58,
+            60,
+            62,
+            66,
+            67,
+            70,
+            71,
+            75,
+            77,
+            80,
+            84,
+            88,
+            89,
+            91
+          ]
+        }
       },
       "follow_path_controller_applied": false,
       "result": "pass"

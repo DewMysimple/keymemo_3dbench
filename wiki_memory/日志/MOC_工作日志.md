@@ -20,6 +20,7 @@ supersedes: null
 | 2026-09-04 | feature | - | archived | mybutterfly-dynamic-wing-keyframes | [[日志/2026-09-04-重制MyButterfly翅膀动态关键帧.md|重制 MyButterfly 翅膀动态关键帧]] |
 | 2026-09-04 | feature | - | archived | butterfly-follow-path-rotation-only-no-light-no-path | [[日志/2026-09-04-生成FollowPath去灯光去路径旋转关键帧版本.md|生成 Follow Path 去灯光、去路径、仅旋转关键帧版本]] |
 | 2026-09-04 | bug | - | archived | butterfly-follow-path-motion-path-cache-removal | [[日志/2026-09-04-清除FollowPathMotionPath缓存.md|清除 Follow Path Motion Path 缓存]] |
+| 2026-09-04 | bug | - | archived | mybutterfly-follow-path-exact-source-z-values | [[日志/2026-09-04-按来源逐帧复制MyButterfly翅膀Z旋转.md|按来源逐帧复制 MyButterfly 翅膀 Z 旋转]] |
 | 2026-09-04 | feature | - | archived | butterfly-vertical-specimen-frame-attachment | [[日志/2026-09-04-将蝴蝶贴附到竖直标本框.md|将蝴蝶贴附到竖直标本框]] |
 | 2026-09-04 | feature | - | archived | mybutterfly-follow-path-rotation-only-applied | [[日志/2026-09-04-将清理后的FollowPath旋转关键帧应用到MyButterfly.md|将清理后的 Follow Path 旋转关键帧应用到 MyButterfly]] |
 | 2026-09-04 | maintenance | - | archived | remove-butterfly-wing-flap-only-variants | [[日志/2026-09-04-删除蝴蝶wing-flap-only派生目录.md|删除蝴蝶 wing_flap_only 派生目录]] |
