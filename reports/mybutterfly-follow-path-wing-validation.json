@@ -16,7 +16,7 @@
       "variant": 1,
       "file": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath1_WingKeys.blend",
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
-      "output_sha256": "3d949a91163d5236a4a4e7b86b2c4d95b7a162b8d7e5238accffb966a8dba1ba",
+      "output_sha256": "7444e7a1eced439e10b6313d2b49638436fb9ec97f2ca152d4ac754c37f6b0fd",
       "default_scene": "ARTIST_EDIT",
       "default_frame": 55,
       "frame_range": [
@@ -34,9 +34,14 @@
           "output_action": "MYBUTTERFLY_FOLLOW_PATH_1_WING_KEYS_LEFT",
           "copied_channel": "rotation_euler[2]",
           "z_keyframe_point_count": 91,
+          "z_retarget_scale": 0.4596607945871816,
+          "z_target_range_degrees": [
+            15.999991338321669,
+            79.99997718217585
+          ],
           "master_non_z_curve_count": 8,
           "master_non_z_keyframe_point_count": 680,
-          "source_z_keyframe_deltas_preserved": true,
+          "source_z_curve_shape_and_timing_preserved": true,
           "source_z_handle_timing_and_easing_preserved": true,
           "master_non_z_curves_preserved": true
         },
@@ -46,9 +51,14 @@
           "output_action": "MYBUTTERFLY_FOLLOW_PATH_1_WING_KEYS_RIGHT",
           "copied_channel": "rotation_euler[2]",
           "z_keyframe_point_count": 91,
+          "z_retarget_scale": 0.4596608960577971,
+          "z_target_range_degrees": [
+            -88.19300082747043,
+            -24.19300303078519
+          ],
           "master_non_z_curve_count": 8,
           "master_non_z_keyframe_point_count": 728,
-          "source_z_keyframe_deltas_preserved": true,
+          "source_z_curve_shape_and_timing_preserved": true,
           "source_z_handle_timing_and_easing_preserved": true,
           "master_non_z_curves_preserved": true
         }
@@ -59,6 +69,24 @@
         "rotation_euler[2]"
       ],
       "master_non_z_wing_curves_preserved": true,
+      "full_frame_geometry": {
+        "sampled_frame_count": 91,
+        "z_range_degrees": {
+          "left": [
+            15.999991338321669,
+            79.99997718217585
+          ],
+          "right": [
+            -88.19300082747043,
+            -24.19300303078519
+          ]
+        },
+        "minimum_anatomical_side_projection_ratio": {
+          "left": 0.8413941159621873,
+          "right": 0.8388655180990483
+        },
+        "wings_stay_on_anatomical_sides": true
+      },
       "source_reference_preserved": true,
       "follow_path_controller_applied": false,
       "result": "pass"
@@ -67,7 +95,7 @@
       "variant": 2,
       "file": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath2_WingKeys.blend",
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
-      "output_sha256": "e36f538a3bf2970c871cc441bd1db4119938e8a8b19e4160fe3c89406e8a1954",
+      "output_sha256": "b404873f57578fe1e0db6a2e986bac85a0b2ca2d308e93e415e8bb53fbbeff8e",
       "default_scene": "ARTIST_EDIT",
       "default_frame": 55,
       "frame_range": [
@@ -85,9 +113,14 @@
           "output_action": "MYBUTTERFLY_FOLLOW_PATH_2_WING_KEYS_LEFT",
           "copied_channel": "rotation_euler[2]",
           "z_keyframe_point_count": 91,
+          "z_retarget_scale": 0.4596607945871816,
+          "z_target_range_degrees": [
+            15.999991338321669,
+            79.99997718217585
+          ],
           "master_non_z_curve_count": 8,
           "master_non_z_keyframe_point_count": 680,
-          "source_z_keyframe_deltas_preserved": true,
+          "source_z_curve_shape_and_timing_preserved": true,
           "source_z_handle_timing_and_easing_preserved": true,
           "master_non_z_curves_preserved": true
         },
@@ -97,9 +130,14 @@
           "output_action": "MYBUTTERFLY_FOLLOW_PATH_2_WING_KEYS_RIGHT",
           "copied_channel": "rotation_euler[2]",
           "z_keyframe_point_count": 91,
+          "z_retarget_scale": 0.4596608960577971,
+          "z_target_range_degrees": [
+            -88.19300082747043,
+            -24.19300303078519
+          ],
           "master_non_z_curve_count": 8,
           "master_non_z_keyframe_point_count": 728,
-          "source_z_keyframe_deltas_preserved": true,
+          "source_z_curve_shape_and_timing_preserved": true,
           "source_z_handle_timing_and_easing_preserved": true,
           "master_non_z_curves_preserved": true
         }
@@ -110,6 +148,24 @@
         "rotation_euler[2]"
       ],
       "master_non_z_wing_curves_preserved": true,
+      "full_frame_geometry": {
+        "sampled_frame_count": 91,
+        "z_range_degrees": {
+          "left": [
+            15.999991338321669,
+            79.99997718217585
+          ],
+          "right": [
+            -88.19300082747043,
+            -24.19300303078519
+          ]
+        },
+        "minimum_anatomical_side_projection_ratio": {
+          "left": 0.8413941159621873,
+          "right": 0.8388655180990483
+        },
+        "wings_stay_on_anatomical_sides": true
+      },
       "source_reference_preserved": true,
       "follow_path_controller_applied": false,
       "result": "pass"

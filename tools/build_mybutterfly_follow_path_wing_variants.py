@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 from pathlib import Path
 
 import bpy
@@ -18,6 +19,7 @@ REPORT_PATH = WORKBENCH_ROOT / "reports" / "mybutterfly-follow-path-wing-variant
 LEFT_WING = "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_"
 RIGHT_WING = "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
 WING_NAMES = {"left": LEFT_WING, "right": RIGHT_WING}
+SAFE_HALF_AMPLITUDE_DEGREES = 32.0
 
 VARIANTS = (
     (
@@ -142,8 +144,9 @@ def find_curve(action: bpy.types.Action, data_path: str, array_index: int) -> bp
 def replace_curve_points(
     target_curve: bpy.types.FCurve,
     source_curve: bpy.types.FCurve,
-    value_offset: float,
-) -> None:
+    target_baseline: float,
+) -> dict[str, object]:
+    source_baseline = float(source_curve.evaluate(1.0))
     source_extrapolation = source_curve.extrapolation
     source_points = [
         {
@@ -161,13 +164,17 @@ def replace_curve_points(
         }
         for point in source_curve.keyframe_points
     ]
+    source_values = [point["co"][1] for point in source_points]
+    source_max_delta = max(abs(value - source_baseline) for value in source_values)
+    ensure(source_max_delta > 1e-9, f"{source_curve.data_path}[{source_curve.array_index}] has no motion")
+    value_scale = math.radians(SAFE_HALF_AMPLITUDE_DEGREES) / source_max_delta
     while target_curve.keyframe_points:
         target_curve.keyframe_points.remove(target_curve.keyframe_points[-1], fast=True)
 
     for source_point in source_points:
         target_curve.keyframe_points.insert(
             source_point["co"][0],
-            source_point["co"][1] + value_offset,
+            target_baseline + (source_point["co"][1] - source_baseline) * value_scale,
             options={"FAST"},
         )
 
@@ -182,14 +189,23 @@ def replace_curve_points(
         target_point.handle_right_type = source_point["handle_right_type"]
         target_point.handle_left = (
             source_point["handle_left"][0],
-            source_point["handle_left"][1] + value_offset,
+            target_baseline + (source_point["handle_left"][1] - source_baseline) * value_scale,
         )
         target_point.handle_right = (
             source_point["handle_right"][0],
-            source_point["handle_right"][1] + value_offset,
+            target_baseline + (source_point["handle_right"][1] - source_baseline) * value_scale,
         )
     target_curve.extrapolation = source_extrapolation
     target_curve.update()
+    target_values = [float(point.co.y) for point in target_curve.keyframe_points]
+    return {
+        "source_baseline": source_baseline,
+        "target_baseline": target_baseline,
+        "value_scale": value_scale,
+        "source_range": [min(source_values), max(source_values)],
+        "target_range": [min(target_values), max(target_values)],
+        "safe_half_amplitude_degrees": SAFE_HALF_AMPLITUDE_DEGREES,
+    }
 
 
 def make_master_pose_action(
@@ -205,13 +221,17 @@ def make_master_pose_action(
     source_z = find_curve(source_action, "rotation_euler", 2)
     target_z = find_curve(action, "rotation_euler", 2)
     target_z_baseline = target_baseline["rotation_euler"][2]
-    replace_curve_points(target_z, source_z, target_z_baseline - source_z.evaluate(1.0))
+    retarget = replace_curve_points(target_z, source_z, target_z_baseline)
 
     action["animation_source_file"] = relative(source_path)
     action["animation_source_role"] = role
     action["master_base_file"] = relative(MASTER_PATH)
-    action["replacement_policy"] = "仅替换 rotation_euler[2]；其余 8 条 FCurve 保持 MyButterfly Master 原值"
+    action["replacement_policy"] = "仅替换 rotation_euler[2]；来源 Z 曲线仿射缩放到 Master 解剖侧安全区间；其余 8 条 FCurve 保持 Master 原值"
     action["copied_channel"] = "rotation_euler[2]"
+    action["z_retarget_scale"] = retarget["value_scale"]
+    action["z_retarget_source_range"] = retarget["source_range"]
+    action["z_retarget_target_range"] = retarget["target_range"]
+    action["z_safe_half_amplitude_degrees"] = SAFE_HALF_AMPLITUDE_DEGREES
     action["follow_path_controller_applied"] = False
     return action
 
@@ -238,7 +258,7 @@ def write_notes(source_path: Path, output_path: Path, actions: dict[str, bpy.typ
         f"当前输出：{output_path.name}\n"
         "仅替换 ARTIST_EDIT 展示层左右翼 rotation_euler[2]（局部 Euler Z）关键帧。\n"
         "location XYZ、rotation_euler X/Y、scale XYZ 共 8 条曲线保持 Master 原值，因此不会带入来源位置、缩放、路径位移或路径转向。\n"
-        "来源 Z 曲线以第 1 帧对齐 Master 的局部 Z 姿态。\n"
+        f"来源 Z 曲线以第 1 帧对齐 Master 的局部 Z 姿态，并缩放到基线正负 {SAFE_HALF_AMPLITUDE_DEGREES:.0f}° 的安全幅度，避免越过身体中线。\n"
         f"左翼 Action：{actions['left'].name}\n"
         f"右翼 Action：{actions['right'].name}\n"
     )
@@ -319,6 +339,7 @@ def build_one(variant_index: int, source_name: str, output_name: str) -> dict[st
     artist["wing_keyframe_replacement_only"] = True
     artist["copied_animation_channel"] = "rotation_euler[2]"
     artist["master_non_z_wing_curves_preserved"] = True
+    artist["z_safe_half_amplitude_degrees"] = SAFE_HALF_AMPLITUDE_DEGREES
     artist["follow_path_controller_applied"] = False
     artist["source_reference_policy"] = "保持 MyButterfly Master 原始 SOURCE_REFERENCE"
     write_notes(source_path, output_path, new_actions)
@@ -331,6 +352,14 @@ def build_one(variant_index: int, source_name: str, output_name: str) -> dict[st
     if staging_path.exists():
         staging_path.unlink()
     action_names = {role: action.name for role, action in new_actions.items()}
+    z_target_ranges = {
+        role: list(action["z_retarget_target_range"])
+        for role, action in new_actions.items()
+    }
+    z_retarget_scales = {
+        role: float(action["z_retarget_scale"])
+        for role, action in new_actions.items()
+    }
     frame_range = [artist.frame_start, artist.frame_end]
     bpy.ops.wm.save_as_mainfile(filepath=str(staging_path), check_existing=False)
     ensure(staging_path.is_file(), f"Staging file was not created: {staging_path}")
@@ -365,6 +394,9 @@ def build_one(variant_index: int, source_name: str, output_name: str) -> dict[st
         "master_wing_frame_one_transforms_preserved": True,
         "copied_channels": ["rotation_euler[2]"],
         "master_non_z_wing_curves_preserved": True,
+        "z_safe_half_amplitude_degrees": SAFE_HALF_AMPLITUDE_DEGREES,
+        "z_target_ranges_radians": z_target_ranges,
+        "z_retarget_scales": z_retarget_scales,
         "follow_path_controller_applied": False,
         "source_reference_preserved": True,
     }
@@ -375,7 +407,7 @@ def main() -> None:
     payload = {
         "asset": "Butterfly",
         "variant": "mybutterfly_follow_path_wing_key_replacement",
-        "policy": "以 MyButterfly_Master.blend 为不变原版，只替换 ARTIST_EDIT 左右翼 rotation_euler[2]（局部 Euler Z）关键帧；其余 8 条曲线保持 Master 原值，不应用路径控制器",
+        "policy": "以 MyButterfly_Master.blend 为不变原版，只替换 ARTIST_EDIT 左右翼 rotation_euler[2]（局部 Euler Z）关键帧；来源 Z 曲线以 Master 第 1 帧为基线仿射缩放到正负 32° 安全幅度，避免越过身体中线；其余 8 条曲线保持 Master 原值，不应用路径控制器",
         "outputs": reports,
     }
     REPORT_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")

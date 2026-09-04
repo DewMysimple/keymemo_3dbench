@@ -1,7 +1,7 @@
 {
   "asset": "Butterfly",
   "variant": "mybutterfly_follow_path_wing_key_replacement",
-  "policy": "以 MyButterfly_Master.blend 为不变原版，只替换 ARTIST_EDIT 左右翼 rotation_euler[2]（局部 Euler Z）关键帧；其余 8 条曲线保持 Master 原值，不应用路径控制器",
+  "policy": "以 MyButterfly_Master.blend 为不变原版，只替换 ARTIST_EDIT 左右翼 rotation_euler[2]（局部 Euler Z）关键帧；来源 Z 曲线以 Master 第 1 帧为基线仿射缩放到正负 32° 安全幅度，避免越过身体中线；其余 8 条曲线保持 Master 原值，不应用路径控制器",
   "outputs": [
     {
       "variant": 1,
@@ -10,8 +10,8 @@
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
       "source_sha256": "3a17b9ac29d09acf147b3ee3b7a9fd9282c94c59db75286da53b7b7a611f9876",
       "output": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath1_WingKeys.blend",
-      "output_sha256": "3d949a91163d5236a4a4e7b86b2c4d95b7a162b8d7e5238accffb966a8dba1ba",
-      "output_size": 10199214,
+      "output_sha256": "7444e7a1eced439e10b6313d2b49638436fb9ec97f2ca152d4ac754c37f6b0fd",
+      "output_size": 10199752,
       "frame_range": [
         1,
         91
@@ -31,6 +31,21 @@
         "rotation_euler[2]"
       ],
       "master_non_z_wing_curves_preserved": true,
+      "z_safe_half_amplitude_degrees": 32.0,
+      "z_target_ranges_radians": {
+        "left": [
+          0.2792525291442871,
+          1.3962630033493042
+        ],
+        "right": [
+          -1.5392582416534424,
+          -0.4222475588321686
+        ]
+      },
+      "z_retarget_scales": {
+        "left": 0.4596607945871816,
+        "right": 0.4596608960577971
+      },
       "follow_path_controller_applied": false,
       "source_reference_preserved": true
     },
@@ -41,8 +56,8 @@
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
       "source_sha256": "01c87a17b7311d12778f7625dd13c5f1166530234e702c4d7c74bdf2149853e7",
       "output": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath2_WingKeys.blend",
-      "output_sha256": "e36f538a3bf2970c871cc441bd1db4119938e8a8b19e4160fe3c89406e8a1954",
-      "output_size": 10199130,
+      "output_sha256": "b404873f57578fe1e0db6a2e986bac85a0b2ca2d308e93e415e8bb53fbbeff8e",
+      "output_size": 10200227,
       "frame_range": [
         1,
         91
@@ -62,6 +77,21 @@
         "rotation_euler[2]"
       ],
       "master_non_z_wing_curves_preserved": true,
+      "z_safe_half_amplitude_degrees": 32.0,
+      "z_target_ranges_radians": {
+        "left": [
+          0.2792525291442871,
+          1.3962630033493042
+        ],
+        "right": [
+          -1.5392582416534424,
+          -0.4222475588321686
+        ]
+      },
+      "z_retarget_scales": {
+        "left": 0.4596607945871816,
+        "right": 0.4596608960577971
+      },
       "follow_path_controller_applied": false,
       "source_reference_preserved": true
     }

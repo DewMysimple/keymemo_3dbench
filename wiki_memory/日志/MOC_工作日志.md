@@ -16,6 +16,7 @@ supersedes: null
 | 时间 | 类型 | 目标 | 状态 | 主题 | 日志 |
 | --- | --- | --- | --- | --- | --- |
 | 2026-09-04 | bug | - | archived | butterfly-frame-clean-rig-and-orientation | [[日志/2026-09-04-重建竖框蝴蝶轴向与干净层级.md|重建竖框蝴蝶轴向与干净层级]] |
+| 2026-09-04 | bug | - | archived | mybutterfly-follow-path-z-retarget-no-crossing | [[日志/2026-09-04-重定向MyButterfly翅膀Z曲线避免交叉.md|重定向 MyButterfly 翅膀 Z 曲线避免交叉]] |
 | 2026-09-04 | feature | - | archived | mybutterfly-dynamic-wing-keyframes | [[日志/2026-09-04-重制MyButterfly翅膀动态关键帧.md|重制 MyButterfly 翅膀动态关键帧]] |
 | 2026-09-04 | feature | - | archived | butterfly-vertical-specimen-frame-attachment | [[日志/2026-09-04-将蝴蝶贴附到竖直标本框.md|将蝴蝶贴附到竖直标本框]] |
 | 2026-09-04 | maintenance | - | archived | remove-butterfly-wing-flap-only-variants | [[日志/2026-09-04-删除蝴蝶wing-flap-only派生目录.md|删除蝴蝶 wing_flap_only 派生目录]] |

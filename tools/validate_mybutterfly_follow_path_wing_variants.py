@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 from pathlib import Path
 
 import bpy
+from mathutils import Vector
 
 
 WORKBENCH_ROOT = Path(__file__).resolve().parents[1]
@@ -19,6 +21,8 @@ LEFT_WING = "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_"
 RIGHT_WING = "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
 WING_NAMES = {"left": LEFT_WING, "right": RIGHT_WING}
 Z_CURVE_KEY = "rotation_euler[2]"
+BODY_NAME = "展示_Butterfly_Master_源_FBX_01_01_BASIC_BUTTERFLY_BODY_Travis_Davids_OBJ_1"
+EXPECTED_SAFE_HALF_AMPLITUDE_DEGREES = 32.0
 
 VARIANTS = (
     (
@@ -171,6 +175,75 @@ def display_wings(scene: bpy.types.Scene) -> dict[str, bpy.types.Object]:
     return wings
 
 
+def mesh_centroid_world(obj: bpy.types.Object) -> Vector:
+    points = [obj.matrix_world @ vertex.co for vertex in obj.data.vertices]
+    return sum(points, Vector()) / len(points)
+
+
+def validate_full_frame_wing_geometry(
+    scene: bpy.types.Scene,
+    wings: dict[str, bpy.types.Object],
+) -> dict[str, object]:
+    body = scene.objects.get(BODY_NAME)
+    ensure(body is not None and body.type == "MESH", "Display body mesh missing")
+    if bpy.context.window:
+        bpy.context.window.scene = scene
+    scene.frame_set(1)
+    bpy.context.view_layer.update()
+    body_center = mesh_centroid_world(body)
+    reference_vectors = {
+        role: mesh_centroid_world(wing) - body_center
+        for role, wing in wings.items()
+    }
+    reference_directions = {
+        role: vector.normalized()
+        for role, vector in reference_vectors.items()
+    }
+    reference_projections = {
+        role: vector.length
+        for role, vector in reference_vectors.items()
+    }
+
+    z_samples = {"left": [], "right": []}
+    side_ratios = {"left": [], "right": []}
+    for frame in range(scene.frame_start, scene.frame_end + 1):
+        scene.frame_set(frame)
+        bpy.context.view_layer.update()
+        body_center = mesh_centroid_world(body)
+        for role, wing in wings.items():
+            z_degrees = math.degrees(float(wing.rotation_euler.z))
+            z_samples[role].append((frame, z_degrees))
+            projection = (mesh_centroid_world(wing) - body_center).dot(reference_directions[role])
+            side_ratios[role].append((frame, projection / reference_projections[role]))
+
+    for frame, value in z_samples["left"]:
+        ensure(0.0 < value < 90.0, f"Left wing crossed anatomical side at frame {frame}: {value}°")
+    for frame, value in z_samples["right"]:
+        ensure(-90.0 < value < 0.0, f"Right wing crossed anatomical side at frame {frame}: {value}°")
+    for role in ("left", "right"):
+        minimum_ratio, minimum_frame = min((ratio, frame) for frame, ratio in side_ratios[role])
+        ensure(
+            minimum_ratio >= 0.7,
+            f"{role} wing centroid approached/crossed the body side at frame {minimum_frame}: ratio={minimum_ratio}",
+        )
+
+    return {
+        "sampled_frame_count": scene.frame_end - scene.frame_start + 1,
+        "z_range_degrees": {
+            role: [
+                min(value for _, value in z_samples[role]),
+                max(value for _, value in z_samples[role]),
+            ]
+            for role in ("left", "right")
+        },
+        "minimum_anatomical_side_projection_ratio": {
+            role: min(ratio for _, ratio in side_ratios[role])
+            for role in ("left", "right")
+        },
+        "wings_stay_on_anatomical_sides": True,
+    }
+
+
 def compare_rebased_action(
     source: dict[str, object],
     master: dict[str, object],
@@ -194,12 +267,14 @@ def compare_rebased_action(
     ensure(len(source_points) == len(output_points), f"{output.name}: Z keyframe count differs from source")
     source_base = source_curve["baseline"]
     output_base = output_curve["baseline"]
+    value_scale = float(output.get("z_retarget_scale", 0.0))
+    ensure(0.0 < value_scale < 1.0, f"{output.name}: invalid Z retarget scale")
     ensure(source_curve["extrapolation"] == output_curve["extrapolation"], f"{output.name}: Z extrapolation changed")
     for source_point, output_point in zip(source_points, output_points):
         ensure(abs(source_point["co"][0] - output_point["co"][0]) <= 1e-6, f"{output.name}: Z keyframe frame changed")
         ensure(
-            abs((source_point["co"][1] - source_base) - (output_point["co"][1] - output_base)) <= 1e-5,
-            f"{output.name}: Z keyframe delta changed",
+            abs((source_point["co"][1] - source_base) * value_scale - (output_point["co"][1] - output_base)) <= 1e-5,
+            f"{output.name}: Z keyframe affine mapping changed",
         )
         ensure(
             abs(source_point["handle_left"][0] - output_point["handle_left"][0]) <= 1e-5
@@ -207,9 +282,9 @@ def compare_rebased_action(
             f"{output.name}: Z handle time changed",
         )
         ensure(
-            abs((source_point["handle_left"][1] - source_base) - (output_point["handle_left"][1] - output_base)) <= 1e-5
-            and abs((source_point["handle_right"][1] - source_base) - (output_point["handle_right"][1] - output_base)) <= 1e-5,
-            f"{output.name}: Z handle value delta changed",
+            abs((source_point["handle_left"][1] - source_base) * value_scale - (output_point["handle_left"][1] - output_base)) <= 1e-5
+            and abs((source_point["handle_right"][1] - source_base) * value_scale - (output_point["handle_right"][1] - output_base)) <= 1e-5,
+            f"{output.name}: Z handle affine mapping changed",
         )
         for property_name in (
             "interpolation",
@@ -231,12 +306,17 @@ def compare_rebased_action(
         "output_action": output.name,
         "copied_channel": Z_CURVE_KEY,
         "z_keyframe_point_count": len(output_points),
+        "z_retarget_scale": value_scale,
+        "z_target_range_degrees": [
+            math.degrees(min(point["co"][1] for point in output_points)),
+            math.degrees(max(point["co"][1] for point in output_points)),
+        ],
         "master_non_z_curve_count": len(non_z_keys),
         "master_non_z_keyframe_point_count": sum(
             len(output_curves[key]["points"])
             for key in non_z_keys
         ),
-        "source_z_keyframe_deltas_preserved": True,
+        "source_z_curve_shape_and_timing_preserved": True,
         "source_z_handle_timing_and_easing_preserved": True,
         "master_non_z_curves_preserved": True,
     }
@@ -264,6 +344,10 @@ def validate_one(
     ensure(artist.get("follow_path_controller_applied") is False, f"{output_path.name}: path controller policy mismatch")
     ensure(artist.get("copied_animation_channel") == Z_CURVE_KEY, f"{output_path.name}: copied channel metadata mismatch")
     ensure(artist.get("master_non_z_wing_curves_preserved") is True, f"{output_path.name}: non-Z preservation metadata missing")
+    ensure(
+        abs(float(artist.get("z_safe_half_amplitude_degrees", 0.0)) - EXPECTED_SAFE_HALF_AMPLITUDE_DEGREES) <= 1e-6,
+        f"{output_path.name}: safe Z amplitude metadata mismatch",
+    )
 
     output_artist_snapshot = scene_snapshot(
         artist,
@@ -317,11 +401,17 @@ def validate_one(
         ensure(action.get("animation_source_file") == relative(source_path), f"{output_path.name}: Action source mismatch: {role}")
         ensure(action.get("animation_source_role") == role, f"{output_path.name}: Action role mismatch: {role}")
         ensure(action.get("copied_channel") == Z_CURVE_KEY, f"{output_path.name}: Action copied channel mismatch: {role}")
+        ensure(
+            abs(float(action.get("z_safe_half_amplitude_degrees", 0.0)) - EXPECTED_SAFE_HALF_AMPLITUDE_DEGREES) <= 1e-6,
+            f"{output_path.name}: Action safe Z amplitude mismatch: {role}",
+        )
         action_reports[role] = compare_rebased_action(
             source_signatures[role],
             master_action_signatures[role],
             action,
         )
+
+    geometry_report = validate_full_frame_wing_geometry(artist, wings)
 
     animated_display = [
         obj.name
@@ -346,6 +436,7 @@ def validate_one(
         "master_wing_frame_one_transforms_preserved": True,
         "copied_channels": [Z_CURVE_KEY],
         "master_non_z_wing_curves_preserved": True,
+        "full_frame_geometry": geometry_report,
         "source_reference_preserved": True,
         "follow_path_controller_applied": False,
         "result": "pass",
