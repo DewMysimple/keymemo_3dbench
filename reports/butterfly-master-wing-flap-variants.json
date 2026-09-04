@@ -1,7 +1,9 @@
 {
   "asset": "Butterfly",
-  "variant": "master_wing_flap_replacement",
-  "policy": "以 Butterfly_Master.blend 为基准，仅替换 ARTIST_EDIT 左右翅膀扇动；Master 位置/旋转等信息保持不变",
+  "variant": "master_wing_flap_vertical_specimen_frame_attachment",
+  "policy": "以 Butterfly_Master.blend 为基准替换左右翅膀扇动；删除旧灯光与水平展示台，导入竖直标本框；保留蝴蝶原生三维比例，使身体沿世界 Z 轴贴框，并将翅膀扇动基准调整为始终朝框外侧",
+  "frame_source": "models/SpecimenFrame/source/specimen-frame.glb",
+  "frame_source_sha256": "ae3b590a551290249c1d8b83f4c461fb6fd40a8d9f2ea8fc9f9db494700693ed",
   "outputs": [
     {
       "master_base": "models/Butterfly/scenes/master/Butterfly_Master.blend",
@@ -9,7 +11,7 @@
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
       "source_sha256_before": "3a17b9ac29d09acf147b3ee3b7a9fd9282c94c59db75286da53b7b7a611f9876",
       "output": "models/Butterfly/scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
-      "output_sha256": "8ae5402e78c1c7f9390fec6522642ee80ef9f484aee219e085047c126154bec2",
+      "output_sha256": "5f545c0ca2a74b23bcdcffa88bfd9303f033c0a449879c4d087a29e3d97754ab",
       "display_wings": {
         "left": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
         "right": "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
@@ -24,11 +26,80 @@
         91
       ],
       "master_non_wing_transforms_preserved": true,
-      "master_wing_frame_one_transforms_preserved": true,
+      "master_wing_frame_one_transforms_preserved_before_attachment_rebase": true,
+      "wing_mount_baseline_rebased_outward": true,
       "follow_path_controller_applied": false,
       "source_reference_kept": true,
       "original_frame_restored": 45,
-      "output_size": 10188754
+      "frame_attachment": {
+        "lighting": {
+          "removed_lights": [
+            "蝴蝶_主光",
+            "蝴蝶_背面补光",
+            "蝴蝶_轮廓光",
+            "蝴蝶_辅光"
+          ],
+          "removed_legacy_ground": true,
+          "camera_collection": "CAMERAS_Butterfly_构图相机"
+        },
+        "frame": "SPECIMEN_FRAME_MATERIAL_SLOTS",
+        "placement": {
+          "display_root": "DISPLAY_Butterfly_Master_ROOT",
+          "fbx_root": "展示_Butterfly_Master_源_FBX_01_02_BUTTERFLY_IDLE_1",
+          "rotation_euler_degrees": [
+            -90.00000250447816,
+            2.5044780654876655e-06,
+            90.00000250447816
+          ],
+          "fit_scale": 0.8026745517643251,
+          "all_frame_bounds_min": [
+            0.2120000123977661,
+            -3.2338454723358154,
+            2.0616724491119385
+          ],
+          "all_frame_bounds_max": [
+            4.053155422210693,
+            3.2661542892456055,
+            7.038328170776367
+          ],
+          "all_frame_span": [
+            3.841155529022217,
+            6.5,
+            4.976655960083008
+          ],
+          "contact_x": 0.212,
+          "body_center_y": 0.0,
+          "body_span": [
+            0.6415771842002869,
+            0.6784023642539978,
+            1.483936071395874
+          ],
+          "body_axis": "world_Z",
+          "native_proportions_preserved": true,
+          "wing_outward_rebase": {
+            "offsets": {
+              "left": -2.4085539440300803,
+              "right": 2.551549286642347
+            },
+            "ranges": {
+              "left": [
+                -2.785834119715963,
+                -0.3557585338738303
+              ],
+              "right": [
+                0.3557585189726691,
+                2.785834134617124
+              ]
+            }
+          }
+        },
+        "presentation": {
+          "camera": "蝴蝶_英雄相机",
+          "world": "ARTIST_EDIT_世界",
+          "light_objects": 0
+        }
+      },
+      "output_size": 10191891
     },
     {
       "master_base": "models/Butterfly/scenes/master/Butterfly_Master.blend",
@@ -36,7 +107,7 @@
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
       "source_sha256_before": "01c87a17b7311d12778f7625dd13c5f1166530234e702c4d7c74bdf2149853e7",
       "output": "models/Butterfly/scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
-      "output_sha256": "6b48f2000f8900e6f0fb13fb234a47afc31cf94468c4b914368bcc23e8f744f7",
+      "output_sha256": "1effa65fae181eb572b0fdee9d234f6746d6dec23c3c6d6120ff36d274cd64b5",
       "display_wings": {
         "left": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
         "right": "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
@@ -51,11 +122,80 @@
         91
       ],
       "master_non_wing_transforms_preserved": true,
-      "master_wing_frame_one_transforms_preserved": true,
+      "master_wing_frame_one_transforms_preserved_before_attachment_rebase": true,
+      "wing_mount_baseline_rebased_outward": true,
       "follow_path_controller_applied": false,
       "source_reference_kept": true,
       "original_frame_restored": 45,
-      "output_size": 10188741
+      "frame_attachment": {
+        "lighting": {
+          "removed_lights": [
+            "蝴蝶_主光",
+            "蝴蝶_背面补光",
+            "蝴蝶_轮廓光",
+            "蝴蝶_辅光"
+          ],
+          "removed_legacy_ground": true,
+          "camera_collection": "CAMERAS_Butterfly_构图相机"
+        },
+        "frame": "SPECIMEN_FRAME_MATERIAL_SLOTS",
+        "placement": {
+          "display_root": "DISPLAY_Butterfly_Master_ROOT",
+          "fbx_root": "展示_Butterfly_Master_源_FBX_01_02_BUTTERFLY_IDLE_1",
+          "rotation_euler_degrees": [
+            -90.00000250447816,
+            2.5044780654876655e-06,
+            90.00000250447816
+          ],
+          "fit_scale": 0.8026745517643251,
+          "all_frame_bounds_min": [
+            0.2120000123977661,
+            -3.2338454723358154,
+            2.0616724491119385
+          ],
+          "all_frame_bounds_max": [
+            4.053155422210693,
+            3.2661542892456055,
+            7.038328170776367
+          ],
+          "all_frame_span": [
+            3.841155529022217,
+            6.5,
+            4.976655960083008
+          ],
+          "contact_x": 0.212,
+          "body_center_y": 0.0,
+          "body_span": [
+            0.6415771842002869,
+            0.6784023642539978,
+            1.483936071395874
+          ],
+          "body_axis": "world_Z",
+          "native_proportions_preserved": true,
+          "wing_outward_rebase": {
+            "offsets": {
+              "left": -2.4085539440300803,
+              "right": 2.551549286642347
+            },
+            "ranges": {
+              "left": [
+                -2.785834119715963,
+                -0.3557585338738303
+              ],
+              "right": [
+                0.3557585189726691,
+                2.785834134617124
+              ]
+            }
+          }
+        },
+        "presentation": {
+          "camera": "蝴蝶_英雄相机",
+          "world": "ARTIST_EDIT_世界",
+          "light_objects": 0
+        }
+      },
+      "output_size": 10191862
     }
   ]
 }

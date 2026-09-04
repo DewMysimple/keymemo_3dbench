@@ -1,13 +1,15 @@
 {
   "asset": "Butterfly",
-  "variant": "master_wing_flap_replacement",
+  "variant": "master_wing_flap_vertical_specimen_frame_attachment",
   "validated_count": 2,
-  "master_sha256_after": "b80bbc3addc3d576a04b28ac74c6710e084a004999a4240a06f665054b1cecd5",
+  "master_sha256_after": "e10e97dd9d840b7b0dd32b66de0de38c61641270a47e4cff9c16fcc9ffb1571e",
   "source_sha256_after": {
-    "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend": "239d18721ed094497156ca9d00c4aa55a8507ec436da233404d2499cabfb8e67",
-    "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend": "2ee55599b236188ce67fdbd280037068b8a73f13ce7f03dea552d26cfaf9e8e7"
+    "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend": "3a17b9ac29d09acf147b3ee3b7a9fd9282c94c59db75286da53b7b7a611f9876",
+    "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend": "01c87a17b7311d12778f7625dd13c5f1166530234e702c4d7c74bdf2149853e7"
   },
   "master_default_frame": 45,
+  "frame_source": "models/SpecimenFrame/source/specimen-frame.glb",
+  "frame_source_sha256": "ae3b590a551290249c1d8b83f4c461fb6fd40a8d9f2ea8fc9f9db494700693ed",
   "validated": [
     {
       "file": "models/Butterfly/scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend",
@@ -22,11 +24,64 @@
         "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
         "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
       ],
-      "master_non_wing_transforms_preserved": true,
-      "master_wing_frame_one_transforms_preserved": true,
+      "master_non_wing_local_transforms_preserved": true,
+      "master_wing_frame_one_location_scale_and_nonflap_axes_preserved": true,
+      "wing_mount_baseline_rebased_outward": true,
       "source_reference_unchanged": true,
       "source_wing_action_deltas_preserved": true,
-      "wing_animation_changed": true
+      "wing_animation_changed": true,
+      "frame_attachment": {
+        "lights": 0,
+        "legacy_ground": false,
+        "frame": "SPECIMEN_FRAME_MATERIAL_SLOTS",
+        "frame_material_slots": [
+          "MAT_OuterFrame_TranslucentWhite",
+          "MAT_InnerPanel_TransparentLavender"
+        ],
+        "display_root": "DISPLAY_Butterfly_Master_ROOT",
+        "display_root_location": [
+          0.21199999749660492,
+          0.0,
+          4.550000190734863
+        ],
+        "display_root_rotation_degrees": [
+          -90.00000250447816,
+          2.5044780654876655e-06,
+          90.00000250447816
+        ],
+        "all_frame_bounds_min": [
+          0.2120000123977661,
+          -3.2338454723358154,
+          2.0616724491119385
+        ],
+        "all_frame_bounds_max": [
+          4.053155422210693,
+          3.2661542892456055,
+          7.038328170776367
+        ],
+        "all_frame_bounds_recomputed_after_reopen": true,
+        "source_reference_has_frame": false,
+        "body_center_y": 0.0,
+        "body_span": [
+          0.6415771842002869,
+          0.6784023642539978,
+          1.483936071395874
+        ],
+        "body_axis": "world_Z",
+        "native_proportions_preserved": true,
+        "panel_normal_depth": 3.8411554098129272,
+        "wing_outward_rebase": {
+          "left": -2.4085539440300803,
+          "right": 2.551549286642347
+        },
+        "packed_file_images": [
+          "蝴蝶源图参考_Male_Dos_MHNT",
+          "蝴蝶翅膀_法线_NORMAL",
+          "蝴蝶翅膀_透明度_ALPHA",
+          "蝴蝶翅膀_颜色_DIFFUSE"
+        ],
+        "external_libraries": 0
+      }
     },
     {
       "file": "models/Butterfly/scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend",
@@ -41,11 +96,64 @@
         "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
         "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
       ],
-      "master_non_wing_transforms_preserved": true,
-      "master_wing_frame_one_transforms_preserved": true,
+      "master_non_wing_local_transforms_preserved": true,
+      "master_wing_frame_one_location_scale_and_nonflap_axes_preserved": true,
+      "wing_mount_baseline_rebased_outward": true,
       "source_reference_unchanged": true,
       "source_wing_action_deltas_preserved": true,
-      "wing_animation_changed": true
+      "wing_animation_changed": true,
+      "frame_attachment": {
+        "lights": 0,
+        "legacy_ground": false,
+        "frame": "SPECIMEN_FRAME_MATERIAL_SLOTS",
+        "frame_material_slots": [
+          "MAT_OuterFrame_TranslucentWhite",
+          "MAT_InnerPanel_TransparentLavender"
+        ],
+        "display_root": "DISPLAY_Butterfly_Master_ROOT",
+        "display_root_location": [
+          0.21199999749660492,
+          0.0,
+          4.550000190734863
+        ],
+        "display_root_rotation_degrees": [
+          -90.00000250447816,
+          2.5044780654876655e-06,
+          90.00000250447816
+        ],
+        "all_frame_bounds_min": [
+          0.2120000123977661,
+          -3.2338454723358154,
+          2.0616724491119385
+        ],
+        "all_frame_bounds_max": [
+          4.053155422210693,
+          3.2661542892456055,
+          7.038328170776367
+        ],
+        "all_frame_bounds_recomputed_after_reopen": true,
+        "source_reference_has_frame": false,
+        "body_center_y": 0.0,
+        "body_span": [
+          0.6415771842002869,
+          0.6784023642539978,
+          1.483936071395874
+        ],
+        "body_axis": "world_Z",
+        "native_proportions_preserved": true,
+        "panel_normal_depth": 3.8411554098129272,
+        "wing_outward_rebase": {
+          "left": -2.4085539440300803,
+          "right": 2.551549286642347
+        },
+        "packed_file_images": [
+          "蝴蝶源图参考_Male_Dos_MHNT",
+          "蝴蝶翅膀_法线_NORMAL",
+          "蝴蝶翅膀_透明度_ALPHA",
+          "蝴蝶翅膀_颜色_DIFFUSE"
+        ],
+        "external_libraries": 0
+      }
     }
   ]
 }

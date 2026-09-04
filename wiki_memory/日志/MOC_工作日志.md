@@ -3,7 +3,7 @@ type: moc
 status: active
 kind: process
 importance: high
-updated: 2026-09-03
+updated: 2026-09-04
 topic: work-log-index
 source_logs: []
 supersedes: null
@@ -15,6 +15,7 @@ supersedes: null
 
 | 时间 | 类型 | 目标 | 状态 | 主题 | 日志 |
 | --- | --- | --- | --- | --- | --- |
+| 2026-09-04 | feature | - | archived | butterfly-vertical-specimen-frame-attachment | [[日志/2026-09-04-将蝴蝶贴附到竖直标本框.md|将蝴蝶贴附到竖直标本框]] |
 | 2026-09-03 | maintenance | - | archived | specimen-frame-final-file-cleanup-and-blender-backups | [[日志/2026-09-03-统一标本方框最终文件与清理自动备份.md|统一标本方框最终文件与清理自动备份]] |
 | 2026-09-03 | bug | - | archived | specimen-frame-eevee-crystal-core-side-visibility | [[日志/2026-09-03-恢复标本方框侧面紫晶内芯.md|恢复标本方框侧面紫晶内芯]] |
 | 2026-09-03 | feature | - | archived | specimen-frame-shared-topology-material-slots | [[日志/2026-09-03-创建标本方框共享拓扑双材质槽版本.md|创建标本方框共享拓扑双材质槽版本]] |

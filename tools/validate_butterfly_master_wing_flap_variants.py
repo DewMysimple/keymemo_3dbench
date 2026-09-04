@@ -7,6 +7,7 @@ import bpy
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from workbench_paths import REPORTS_ROOT, WORKBENCH_ROOT, model_root, model_scenes
+from butterfly_frame_attachment import DISPLAY_ROOT_NAME, validate_attachment
 
 PROJECT_ROOT = WORKBENCH_ROOT
 ASSET_ROOT = model_root("Butterfly")
@@ -16,6 +17,7 @@ SOURCE_DIR = BLENDER_ROOT / "follow_path"
 OUTPUT_DIR = BLENDER_ROOT / "wing_flap_only"
 BUILD_REPORT_PATH = REPORTS_ROOT / "butterfly-master-wing-flap-variants.json"
 REPORT_PATH = REPORTS_ROOT / "butterfly-master-wing-flap-validation.json"
+FRAME_GLB_PATH = model_root("SpecimenFrame") / "source" / "specimen-frame.glb"
 
 SOURCE_NAMES = (
     "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
@@ -81,6 +83,14 @@ def max_signature_difference(first, second):
     return max(
         abs(left - right)
         for key in ("matrix_world", "location", "rotation_euler", "scale")
+        for left, right in zip(first[key], second[key])
+    )
+
+
+def max_local_signature_difference(first, second):
+    return max(
+        abs(left - right)
+        for key in ("location", "rotation_euler", "scale")
         for left, right in zip(first[key], second[key])
     )
 
@@ -202,19 +212,38 @@ def validate_one(path, source_path, master_default_frame, master_artist_snapshot
 
     output_wings = find_display_wings(artist)
     wing_names = {obj.name for obj in output_wings.values()}
+    display_root = artist.objects.get(DISPLAY_ROOT_NAME)
+    ensure(display_root is not None, f"缺少展示根: {path.name}")
+    placement_controls = {display_root.name} | {obj.name for obj in artist.objects if obj.parent == display_root}
     for frame in master_frames:
         for name, master_signature in master_artist_snapshot[frame].items():
-            if name in wing_names:
+            if name in wing_names or name in placement_controls:
                 continue
             ensure(
-                max_signature_difference(master_signature, output_artist[frame][name]) <= 0.000001,
-                f"Master 非翅膀位置/旋转被改变: {path.name}, {name}, frame {frame}",
+                max_local_signature_difference(master_signature, output_artist[frame][name]) <= 0.000001,
+                f"Master 非翅膀局部位置/旋转被改变: {path.name}, {name}, frame {frame}",
             )
     for role, output_wing in output_wings.items():
         name = output_wing.name
+        master_frame_one = master_artist_snapshot[master_frames[0]][name]
+        output_frame_one = output_artist[master_frames[0]][name]
         ensure(
-            max_signature_difference(master_artist_snapshot[master_frames[0]][name], output_artist[master_frames[0]][name]) <= 0.000001,
-            f"Master 翅膀第 1 帧位置/旋转被改变: {path.name}, {name}",
+            max(
+                abs(left - right)
+                for key in ("location", "scale")
+                for left, right in zip(master_frame_one[key], output_frame_one[key])
+            ) <= 0.000001,
+            f"Master 翅膀第 1 帧局部位置或缩放被改变: {path.name}, {name}",
+        )
+        ensure(
+            max(abs(master_frame_one["rotation_euler"][index] - output_frame_one["rotation_euler"][index]) for index in (0, 1)) <= 0.000001,
+            f"Master 翅膀第 1 帧非扇动旋转轴被改变: {path.name}, {name}",
+        )
+        rebase = output_wing.get("frame_attachment_outward_rebase")
+        ensure(rebase is not None, f"翅膀缺少朝外安装角记录: {path.name}, {name}")
+        ensure(
+            abs((output_frame_one["rotation_euler"][2] - master_frame_one["rotation_euler"][2]) - float(rebase)) <= 0.00001,
+            f"翅膀第 1 帧 Z 旋转与朝外安装角不一致: {path.name}, {name}",
         )
         ensure(output_wing.parent.name == master_wing_parents[role], f"翅膀父子关系被改变: {path.name}, {name}")
         ensure(output_wing.animation_data and output_wing.animation_data.action, f"输出翅膀缺少 Action: {path.name}, {name}")
@@ -255,6 +284,8 @@ def validate_one(path, source_path, master_default_frame, master_artist_snapshot
     }
     ensure(frame_one != frame_45, f"翅膀扇动没有发生: {path.name}")
 
+    attachment = validate_attachment(artist, source_scene)
+
     expected_output = expected_build["output"]
     ensure(expected_output == relative(path), f"构建报告与输出文件不匹配: {path.name}")
     return {
@@ -264,17 +295,21 @@ def validate_one(path, source_path, master_default_frame, master_artist_snapshot
         "default_frame": artist.frame_current,
         "display_wings": {role: obj.name for role, obj in output_wings.items()},
         "display_animated_objects": [obj.name for obj in display_animated],
-        "master_non_wing_transforms_preserved": True,
-        "master_wing_frame_one_transforms_preserved": True,
+        "master_non_wing_local_transforms_preserved": True,
+        "master_wing_frame_one_location_scale_and_nonflap_axes_preserved": True,
+        "wing_mount_baseline_rebased_outward": True,
         "source_reference_unchanged": source_snapshot_match,
         "source_wing_action_deltas_preserved": True,
         "wing_animation_changed": True,
+        "frame_attachment": attachment,
     }
 
 
 def main():
     ensure(BUILD_REPORT_PATH.is_file(), f"缺少构建报告: {BUILD_REPORT_PATH}")
     build_payload = json.loads(BUILD_REPORT_PATH.read_text(encoding="utf-8"))
+    ensure(build_payload.get("frame_source") == relative(FRAME_GLB_PATH), "构建报告中的标本框来源路径错误")
+    ensure(build_payload.get("frame_source_sha256") == sha256_file(FRAME_GLB_PATH), "标本框 GLB 与构建报告哈希不一致")
     build_by_output = {item["output"]: item for item in build_payload["outputs"]}
     ensure(len(build_by_output) == 2, "构建报告输出数量不是 2")
 
@@ -319,11 +354,13 @@ def main():
 
     payload = {
         "asset": "Butterfly",
-        "variant": "master_wing_flap_replacement",
+        "variant": "master_wing_flap_vertical_specimen_frame_attachment",
         "validated_count": len(reports),
         "master_sha256_after": sha256_file(MASTER_PATH),
         "source_sha256_after": source_hashes,
         "master_default_frame": master_default_frame,
+        "frame_source": relative(FRAME_GLB_PATH),
+        "frame_source_sha256": sha256_file(FRAME_GLB_PATH),
         "validated": reports,
     }
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)

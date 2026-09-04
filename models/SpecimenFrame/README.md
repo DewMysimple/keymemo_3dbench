@@ -4,6 +4,8 @@ SpecimenFrame 只保留一个正式的 Blender 展示文件：
 
 `scenes/Specimen_Frame_Transparent.blend`
 
+可移植 GLB 来源副本为 `source/specimen-frame.glb`。它与用户提供的导入文件字节一致，供 Butterfly 等组合场景可复现地导入；导入后不依赖原机器上的外部绝对路径。
+
 这是 Eevee 优先的透明外框与紫晶内芯单对象模型：
 
 - 对象名为 `SPECIMEN_OUTER_FRAME`，没有独立内板对象。

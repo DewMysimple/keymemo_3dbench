@@ -39,7 +39,13 @@
 - `scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_WING_FLAP_ONLY.blend`
 - `scenes/wing_flap_only/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_WING_FLAP_ONLY.blend`
 
-这两个版本的场景、展示根、身体、材质、相机、灯光和整体布局都来自 Master。`ARTIST_EDIT` 只替换左右翅膀的扇动变化：翅膀第 1 帧的位置/旋转保持 Master 原值，Follow Path 的路径位移和路径转向不会应用到 Master。`SOURCE_REFERENCE` 保留 Master 原有的全部源对象和 Action，方便核对源数据；Master 原文件与两个 Follow Path 原文件均不覆盖。
+这两个版本以 Master 的身体、翅膀、材质与动画层级为基础，并导入 `../SpecimenFrame/source/specimen-frame.glb` 作为竖直落脚框。`ARTIST_EDIT` 只保留左右翅膀的扇动变化，不应用 Follow Path 的路径位移和路径转向；旧水平展示台与4盏摄影灯已删除，环境照明仅来自 World。
+
+框面位于 `X=0.21`，蝴蝶机身腹面在 `X=0.212` 与框实际接触，只保留 `0.002` 的防穿插间隙。模型保持原生等比三维结构，完整动画的框法向范围约为 `X=0.212–4.0532`，不再压成贴面薄层。身体主轴沿世界 Z，身体中心位于 `Y=0` 的框内芯中心线上；全部动画帧的 Y/Z 投影均落在 `7.1 × 7.1` 内芯边界内。`DISPLAY_Butterfly_Master_ROOT` 是整体摆放控制根，原点位于框面中心，缩放与旋转可直接用于后续整体调整。
+
+源动画原本围绕水平地面扇动，直接转到竖直框面会让翅膀周期性穿进框体。当前版本不改网格、不改关键帧时间和扇动增量，只对左右翅膀分别增加恒定的朝外安装角，使 1–91 帧始终位于框面外侧；默认第45帧显示展开姿态，侧视和斜视可看到完整三维深度。
+
+场景集合已按职责分开：蝴蝶展示模型、`MODEL_SpecimenFrame_落脚框`、`CAMERAS_Butterfly_构图相机` 与源数据集合互不混放。`SOURCE_REFERENCE` 仍保留 Master 原有的全部源对象和 Action，不包含导入框，方便核对源数据；Master 原文件与两个 Follow Path 原文件均不覆盖。
 
 专用构建脚本：`tools/build_butterfly_master_wing_flap_variants.py`
 专用验证脚本：`tools/validate_butterfly_master_wing_flap_variants.py`

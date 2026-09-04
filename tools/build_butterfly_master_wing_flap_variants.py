@@ -7,6 +7,7 @@ import bpy
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from workbench_paths import REPORTS_ROOT, WORKBENCH_ROOT, model_root, model_scenes
+from butterfly_frame_attachment import configure_attachment
 
 PROJECT_ROOT = WORKBENCH_ROOT
 ASSET_ROOT = model_root("Butterfly")
@@ -15,6 +16,8 @@ MASTER_PATH = BLENDER_ROOT / "master" / "Butterfly_Master.blend"
 SOURCE_DIR = BLENDER_ROOT / "follow_path"
 OUTPUT_DIR = BLENDER_ROOT / "wing_flap_only"
 REPORT_PATH = REPORTS_ROOT / "butterfly-master-wing-flap-variants.json"
+FRAME_GLB_PATH = model_root("SpecimenFrame") / "source" / "specimen-frame.glb"
+STAGING_DIR = PROJECT_ROOT / "generated" / "Butterfly" / "frame_attachment" / "build_staging"
 
 SOURCE_NAMES = (
     "BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
@@ -197,9 +200,10 @@ def write_variant_notes(source_path, output_path, action_names):
         f"Master 基准：{MASTER_PATH.name}\n"
         f"扇翅来源：{source_path.name}\n"
         f"输出文件：{output_path.name}\n"
-        "ARTIST_EDIT：保留 Master 的场景、展示根、身体和翅膀第 1 帧位置/旋转；仅替换左右翅膀的扇动变化。\n"
+        "ARTIST_EDIT：保留 Master 的场景、展示根、身体与原生三维比例；左右翅膀保留来源扇动变化，并将安装基准角改为朝标本框外侧。\n"
         "Follow Path 的路径控制器不会应用到 Master 展示层，因此不会带入沿路径位移或路径转向。\n"
         "SOURCE_REFERENCE：Master 原有源对象、源 Action 和全部素材保持原样。\n"
+        "ARTIST_EDIT 中删除旧水平展示台和全部灯光，导入竖直标本框作为落脚面；蝴蝶身体沿世界 Z 轴、位于 Y=0 中心线并由腹面贴住框面。\n"
         f"新左翅 Action：{action_names['left']}\n"
         f"新右翅 Action：{action_names['right']}\n"
     )
@@ -273,17 +277,29 @@ def build_one(source_path, output_path, variant_index):
     artist["master_base_file"] = relative(MASTER_PATH)
     artist["wing_flap_source_file"] = relative(source_path)
     artist["wing_flap_only"] = True
-    artist["master_transform_policy"] = "Master 场景、展示根、身体以及翅膀第 1 帧位置/旋转保持不变"
-    artist["animation_policy"] = "仅替换 ARTIST_EDIT 左右翅膀扇动；不应用 Follow Path 路径控制器"
+    artist["master_transform_policy"] = "保留 Master 场景、身体与模型原生三维比例；允许翅膀安装基准角朝框外重定位"
+    artist["animation_policy"] = "仅替换 ARTIST_EDIT 左右翅膀扇动并保持来源动作增量；不应用 Follow Path 路径控制器"
     artist["source_reference_policy"] = "SOURCE_REFERENCE 保持 Master 原始数据"
     artist["default_showcase_frame"] = original_frame
+    attachment = configure_attachment(artist, source_scene, FRAME_GLB_PATH)
     write_variant_notes(source_path, output_path, {role: action.name for role, action in new_actions.items()})
 
     artist.frame_set(original_frame)
     bpy.context.window.scene = artist
     bpy.context.view_layer.update()
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    bpy.ops.wm.save_as_mainfile(filepath=str(output_path), check_existing=False)
+    STAGING_DIR.mkdir(parents=True, exist_ok=True)
+    staging_path = STAGING_DIR / output_path.name
+    staging_backups = [Path(str(staging_path) + suffix) for suffix in ("1", "2")]
+    for stale in [staging_path, *staging_backups]:
+        if stale.is_file():
+            stale.unlink()
+    bpy.ops.wm.save_as_mainfile(filepath=str(staging_path), check_existing=False)
+    ensure(staging_path.is_file(), f"临时输出文件未生成: {staging_path}")
+    staging_path.replace(output_path)
+    for backup in staging_backups:
+        if backup.is_file():
+            backup.unlink()
     ensure(output_path.is_file(), f"输出文件未生成: {output_path}")
 
     return {
@@ -297,10 +313,12 @@ def build_one(source_path, output_path, variant_index):
         "new_actions": {role: action.name for role, action in new_actions.items()},
         "frames_checked": list(frames),
         "master_non_wing_transforms_preserved": True,
-        "master_wing_frame_one_transforms_preserved": True,
+        "master_wing_frame_one_transforms_preserved_before_attachment_rebase": True,
+        "wing_mount_baseline_rebased_outward": True,
         "follow_path_controller_applied": False,
         "source_reference_kept": True,
         "original_frame_restored": original_frame,
+        "frame_attachment": attachment,
         "output_size": output_path.stat().st_size,
     }
 
@@ -312,8 +330,10 @@ def main():
         reports.append(build_one(SOURCE_DIR / source_name, OUTPUT_DIR / output_name, index))
     payload = {
         "asset": "Butterfly",
-        "variant": "master_wing_flap_replacement",
-        "policy": "以 Butterfly_Master.blend 为基准，仅替换 ARTIST_EDIT 左右翅膀扇动；Master 位置/旋转等信息保持不变",
+        "variant": "master_wing_flap_vertical_specimen_frame_attachment",
+        "policy": "以 Butterfly_Master.blend 为基准替换左右翅膀扇动；删除旧灯光与水平展示台，导入竖直标本框；保留蝴蝶原生三维比例，使身体沿世界 Z 轴贴框，并将翅膀扇动基准调整为始终朝框外侧",
+        "frame_source": relative(FRAME_GLB_PATH),
+        "frame_source_sha256": sha256_file(FRAME_GLB_PATH),
         "outputs": reports,
     }
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
