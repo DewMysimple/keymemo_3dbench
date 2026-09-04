@@ -1,7 +1,7 @@
 {
   "asset": "Butterfly",
   "variant": "mybutterfly_follow_path_wing_key_replacement",
-  "policy": "以 MyButterfly_Master.blend 为不变原版，只替换 ARTIST_EDIT 左右翼关键帧变化，不应用路径控制器",
+  "policy": "以 MyButterfly_Master.blend 为不变原版，只替换 ARTIST_EDIT 左右翼 rotation_euler[2]（局部 Euler Z）关键帧；其余 8 条曲线保持 Master 原值，不应用路径控制器",
   "outputs": [
     {
       "variant": 1,
@@ -10,8 +10,8 @@
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
       "source_sha256": "3a17b9ac29d09acf147b3ee3b7a9fd9282c94c59db75286da53b7b7a611f9876",
       "output": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath1_WingKeys.blend",
-      "output_sha256": "725acb9ad3172e81fb761139c71d275e42a47c86fbbc9cf66fa551e4927146d8",
-      "output_size": 10204587,
+      "output_sha256": "3d949a91163d5236a4a4e7b86b2c4d95b7a162b8d7e5238accffb966a8dba1ba",
+      "output_size": 10199214,
       "frame_range": [
         1,
         91
@@ -27,6 +27,10 @@
       },
       "master_non_wing_transforms_preserved": true,
       "master_wing_frame_one_transforms_preserved": true,
+      "copied_channels": [
+        "rotation_euler[2]"
+      ],
+      "master_non_z_wing_curves_preserved": true,
       "follow_path_controller_applied": false,
       "source_reference_preserved": true
     },
@@ -37,8 +41,8 @@
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
       "source_sha256": "01c87a17b7311d12778f7625dd13c5f1166530234e702c4d7c74bdf2149853e7",
       "output": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath2_WingKeys.blend",
-      "output_sha256": "3438b3b0c1199d257960fc37cc1f360fcf92baadbe2798984f8daf89b2b7164c",
-      "output_size": 10204659,
+      "output_sha256": "e36f538a3bf2970c871cc441bd1db4119938e8a8b19e4160fe3c89406e8a1954",
+      "output_size": 10199130,
       "frame_range": [
         1,
         91
@@ -54,6 +58,10 @@
       },
       "master_non_wing_transforms_preserved": true,
       "master_wing_frame_one_transforms_preserved": true,
+      "copied_channels": [
+        "rotation_euler[2]"
+      ],
+      "master_non_z_wing_curves_preserved": true,
       "follow_path_controller_applied": false,
       "source_reference_preserved": true
     }

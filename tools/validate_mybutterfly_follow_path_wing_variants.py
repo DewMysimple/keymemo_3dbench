@@ -18,6 +18,7 @@ REPORT_PATH = WORKBENCH_ROOT / "reports" / "mybutterfly-follow-path-wing-validat
 LEFT_WING = "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_"
 RIGHT_WING = "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
 WING_NAMES = {"left": LEFT_WING, "right": RIGHT_WING}
+Z_CURVE_KEY = "rotation_euler[2]"
 
 VARIANTS = (
     (
@@ -78,6 +79,7 @@ def action_signature(action: bpy.types.Action) -> dict[str, object]:
         key = f"{curve.data_path}[{curve.array_index}]"
         curves[key] = {
             "baseline": float(curve.evaluate(1.0)),
+            "extrapolation": curve.extrapolation,
             "points": [
                 {
                     "co": [float(point.co.x), float(point.co.y)],
@@ -87,6 +89,10 @@ def action_signature(action: bpy.types.Action) -> dict[str, object]:
                     "easing": point.easing,
                     "handle_left_type": point.handle_left_type,
                     "handle_right_type": point.handle_right_type,
+                    "type": point.type,
+                    "back": float(point.back),
+                    "amplitude": float(point.amplitude),
+                    "period": float(point.period),
                 }
                 for point in curve.keyframe_points
             ],
@@ -130,6 +136,19 @@ def max_transform_difference(first: dict[str, object], second: dict[str, object]
     )
 
 
+def max_wing_non_z_difference(first: dict[str, object], second: dict[str, object]) -> float:
+    differences = [
+        abs(left - right)
+        for key in ("location", "scale")
+        for left, right in zip(first[key], second[key])
+    ]
+    differences.extend(
+        abs(first["rotation_euler"][axis] - second["rotation_euler"][axis])
+        for axis in (0, 1)
+    )
+    return max(differences)
+
+
 def scene_snapshot(
     scene: bpy.types.Scene,
     frames: tuple[int, ...],
@@ -152,52 +171,74 @@ def display_wings(scene: bpy.types.Scene) -> dict[str, bpy.types.Object]:
     return wings
 
 
-def compare_rebased_action(source: dict[str, object], output: bpy.types.Action) -> dict[str, object]:
-    output_curves = {
-        f"{curve.data_path}[{curve.array_index}]": curve
-        for curve in action_fcurves(output)
-    }
+def compare_rebased_action(
+    source: dict[str, object],
+    master: dict[str, object],
+    output: bpy.types.Action,
+) -> dict[str, object]:
+    output_signature = action_signature(output)
+    output_curves = output_signature["curves"]
     source_curves = source["curves"]
-    ensure(set(output_curves) == set(source_curves), f"{output.name}: FCurve channel set differs from source")
-    keyframe_count = 0
-    for key, source_curve in source_curves.items():
-        output_curve = output_curves[key]
-        source_points = source_curve["points"]
-        output_points = list(output_curve.keyframe_points)
-        ensure(len(source_points) == len(output_points), f"{output.name}: keyframe count differs for {key}")
-        source_base = source_curve["baseline"]
-        output_base = float(output_curve.evaluate(1.0))
-        keyframe_count += len(output_points)
-        for source_point, output_point in zip(source_points, output_points):
-            ensure(abs(source_point["co"][0] - output_point.co.x) <= 1e-6, f"{output.name}: frame changed for {key}")
+    master_curves = master["curves"]
+    ensure(set(output_curves) == set(master_curves), f"{output.name}: FCurve channel set differs from Master")
+    ensure(Z_CURVE_KEY in source_curves and Z_CURVE_KEY in output_curves, f"{output.name}: Euler Z FCurve missing")
+
+    non_z_keys = set(master_curves) - {Z_CURVE_KEY}
+    for key in non_z_keys:
+        ensure(output_curves[key] == master_curves[key], f"{output.name}: Master non-Z FCurve changed: {key}")
+
+    source_curve = source_curves[Z_CURVE_KEY]
+    output_curve = output_curves[Z_CURVE_KEY]
+    source_points = source_curve["points"]
+    output_points = output_curve["points"]
+    ensure(len(source_points) == len(output_points), f"{output.name}: Z keyframe count differs from source")
+    source_base = source_curve["baseline"]
+    output_base = output_curve["baseline"]
+    ensure(source_curve["extrapolation"] == output_curve["extrapolation"], f"{output.name}: Z extrapolation changed")
+    for source_point, output_point in zip(source_points, output_points):
+        ensure(abs(source_point["co"][0] - output_point["co"][0]) <= 1e-6, f"{output.name}: Z keyframe frame changed")
+        ensure(
+            abs((source_point["co"][1] - source_base) - (output_point["co"][1] - output_base)) <= 1e-5,
+            f"{output.name}: Z keyframe delta changed",
+        )
+        ensure(
+            abs(source_point["handle_left"][0] - output_point["handle_left"][0]) <= 1e-5
+            and abs(source_point["handle_right"][0] - output_point["handle_right"][0]) <= 1e-5,
+            f"{output.name}: Z handle time changed",
+        )
+        ensure(
+            abs((source_point["handle_left"][1] - source_base) - (output_point["handle_left"][1] - output_base)) <= 1e-5
+            and abs((source_point["handle_right"][1] - source_base) - (output_point["handle_right"][1] - output_base)) <= 1e-5,
+            f"{output.name}: Z handle value delta changed",
+        )
+        for property_name in (
+            "interpolation",
+            "easing",
+            "handle_left_type",
+            "handle_right_type",
+            "type",
+            "back",
+            "amplitude",
+            "period",
+        ):
             ensure(
-                abs((source_point["co"][1] - source_base) - (output_point.co.y - output_base)) <= 1e-5,
-                f"{output.name}: keyframe delta changed for {key}",
-            )
-            ensure(
-                abs(source_point["handle_left"][0] - output_point.handle_left.x) <= 1e-5
-                and abs(source_point["handle_right"][0] - output_point.handle_right.x) <= 1e-5,
-                f"{output.name}: handle time changed for {key}",
-            )
-            ensure(
-                abs((source_point["handle_left"][1] - source_base) - (output_point.handle_left.y - output_base)) <= 1e-5
-                and abs((source_point["handle_right"][1] - source_base) - (output_point.handle_right.y - output_base)) <= 1e-5,
-                f"{output.name}: handle value delta changed for {key}",
-            )
-            ensure(
-                source_point["interpolation"] == output_point.interpolation
-                and source_point["easing"] == output_point.easing
-                and source_point["handle_left_type"] == output_point.handle_left_type
-                and source_point["handle_right_type"] == output_point.handle_right_type,
-                f"{output.name}: interpolation metadata changed for {key}",
+                source_point[property_name] == output_point[property_name],
+                f"{output.name}: Z metadata changed: {property_name}",
             )
     return {
         "source_action": source["name"],
+        "master_action": master["name"],
         "output_action": output.name,
-        "curve_count": len(output_curves),
-        "keyframe_point_count": keyframe_count,
-        "source_keyframe_deltas_preserved": True,
-        "source_handle_timing_and_easing_preserved": True,
+        "copied_channel": Z_CURVE_KEY,
+        "z_keyframe_point_count": len(output_points),
+        "master_non_z_curve_count": len(non_z_keys),
+        "master_non_z_keyframe_point_count": sum(
+            len(output_curves[key]["points"])
+            for key in non_z_keys
+        ),
+        "source_z_keyframe_deltas_preserved": True,
+        "source_z_handle_timing_and_easing_preserved": True,
+        "master_non_z_curves_preserved": True,
     }
 
 
@@ -211,6 +252,7 @@ def validate_one(
     master_artist_snapshot: dict[int, dict[str, dict[str, object]]],
     master_source_snapshot: dict[int, dict[str, dict[str, object]]],
     source_signatures: dict[str, dict[str, object]],
+    master_action_signatures: dict[str, dict[str, object]],
 ) -> dict[str, object]:
     bpy.ops.wm.open_mainfile(filepath=str(output_path), load_ui=False)
     artist = bpy.data.scenes.get("ARTIST_EDIT")
@@ -220,6 +262,8 @@ def validate_one(
     ensure(artist.frame_current == master_default_frame, f"{output_path.name}: default frame changed")
     ensure(artist.get("wing_keyframe_source_file") == relative(source_path), f"{output_path.name}: source metadata mismatch")
     ensure(artist.get("follow_path_controller_applied") is False, f"{output_path.name}: path controller policy mismatch")
+    ensure(artist.get("copied_animation_channel") == Z_CURVE_KEY, f"{output_path.name}: copied channel metadata mismatch")
+    ensure(artist.get("master_non_z_wing_curves_preserved") is True, f"{output_path.name}: non-Z preservation metadata missing")
 
     output_artist_snapshot = scene_snapshot(
         artist,
@@ -258,12 +302,26 @@ def validate_one(
         output_frame_one = output_artist_snapshot[1][wing.name]
         ensure(max_transform_difference(master_frame_one, output_frame_one) <= 1e-6, f"{output_path.name}: frame-1 wing pose changed: {wing.name}")
         ensure(master_frame_one["parent"] == output_frame_one["parent"], f"{output_path.name}: wing parent changed: {wing.name}")
+        for frame in master_frames:
+            ensure(
+                max_wing_non_z_difference(
+                    master_artist_snapshot[frame][wing.name],
+                    output_artist_snapshot[frame][wing.name],
+                )
+                <= 1e-6,
+                f"{output_path.name}: wing non-Z transform changed: {wing.name}, frame {frame}",
+            )
         ensure(wing.animation_data and wing.animation_data.action, f"{output_path.name}: wing Action missing: {wing.name}")
         action = wing.animation_data.action
         ensure(action.name == f"MYBUTTERFLY_FOLLOW_PATH_{variant_index}_WING_KEYS_{role.upper()}", f"{output_path.name}: wrong wing Action: {role}")
         ensure(action.get("animation_source_file") == relative(source_path), f"{output_path.name}: Action source mismatch: {role}")
         ensure(action.get("animation_source_role") == role, f"{output_path.name}: Action role mismatch: {role}")
-        action_reports[role] = compare_rebased_action(source_signatures[role], action)
+        ensure(action.get("copied_channel") == Z_CURVE_KEY, f"{output_path.name}: Action copied channel mismatch: {role}")
+        action_reports[role] = compare_rebased_action(
+            source_signatures[role],
+            master_action_signatures[role],
+            action,
+        )
 
     animated_display = [
         obj.name
@@ -286,6 +344,8 @@ def validate_one(
         "action_reports": action_reports,
         "master_non_wing_transforms_preserved": True,
         "master_wing_frame_one_transforms_preserved": True,
+        "copied_channels": [Z_CURVE_KEY],
+        "master_non_z_wing_curves_preserved": True,
         "source_reference_preserved": True,
         "follow_path_controller_applied": False,
         "result": "pass",
@@ -313,6 +373,11 @@ def main() -> None:
     master_artist = bpy.data.scenes.get("ARTIST_EDIT")
     master_source = bpy.data.scenes.get("SOURCE_REFERENCE")
     ensure(master_artist is not None and master_source is not None, "Master scene entries missing")
+    master_wings = display_wings(master_artist)
+    master_action_signatures = {}
+    for role, wing in master_wings.items():
+        ensure(wing.animation_data and wing.animation_data.action, f"Master wing Action missing: {wing.name}")
+        master_action_signatures[role] = action_signature(wing.animation_data.action)
     master_frames = (master_artist.frame_start, min(45, master_artist.frame_end), master_artist.frame_end)
     master_default_frame = master_artist.frame_current
     master_artist_snapshot = scene_snapshot(
@@ -342,6 +407,7 @@ def main() -> None:
                 master_artist_snapshot,
                 master_source_snapshot,
                 signatures[source_name],
+                master_action_signatures,
             )
         )
 

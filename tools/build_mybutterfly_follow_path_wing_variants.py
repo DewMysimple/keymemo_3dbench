@@ -129,35 +129,89 @@ def display_wings(scene: bpy.types.Scene) -> dict[str, bpy.types.Object]:
     return wings
 
 
-def shift_curve(curve: bpy.types.FCurve, offset: float) -> None:
-    if abs(offset) < 1e-12:
-        return
-    for point in curve.keyframe_points:
-        point.co.y += offset
-        point.handle_left.y += offset
-        point.handle_right.y += offset
-    curve.update()
+def find_curve(action: bpy.types.Action, data_path: str, array_index: int) -> bpy.types.FCurve:
+    matches = [
+        curve
+        for curve in action_fcurves(action)
+        if curve.data_path == data_path and curve.array_index == array_index
+    ]
+    ensure(len(matches) == 1, f"{action.name}: expected one {data_path}[{array_index}] FCurve")
+    return matches[0]
+
+
+def replace_curve_points(
+    target_curve: bpy.types.FCurve,
+    source_curve: bpy.types.FCurve,
+    value_offset: float,
+) -> None:
+    source_extrapolation = source_curve.extrapolation
+    source_points = [
+        {
+            "co": (float(point.co.x), float(point.co.y)),
+            "handle_left": (float(point.handle_left.x), float(point.handle_left.y)),
+            "handle_right": (float(point.handle_right.x), float(point.handle_right.y)),
+            "interpolation": point.interpolation,
+            "easing": point.easing,
+            "type": point.type,
+            "back": float(point.back),
+            "amplitude": float(point.amplitude),
+            "period": float(point.period),
+            "handle_left_type": point.handle_left_type,
+            "handle_right_type": point.handle_right_type,
+        }
+        for point in source_curve.keyframe_points
+    ]
+    while target_curve.keyframe_points:
+        target_curve.keyframe_points.remove(target_curve.keyframe_points[-1], fast=True)
+
+    for source_point in source_points:
+        target_curve.keyframe_points.insert(
+            source_point["co"][0],
+            source_point["co"][1] + value_offset,
+            options={"FAST"},
+        )
+
+    for source_point, target_point in zip(source_points, target_curve.keyframe_points):
+        target_point.interpolation = source_point["interpolation"]
+        target_point.easing = source_point["easing"]
+        target_point.type = source_point["type"]
+        target_point.back = source_point["back"]
+        target_point.amplitude = source_point["amplitude"]
+        target_point.period = source_point["period"]
+        target_point.handle_left_type = source_point["handle_left_type"]
+        target_point.handle_right_type = source_point["handle_right_type"]
+        target_point.handle_left = (
+            source_point["handle_left"][0],
+            source_point["handle_left"][1] + value_offset,
+        )
+        target_point.handle_right = (
+            source_point["handle_right"][0],
+            source_point["handle_right"][1] + value_offset,
+        )
+    target_curve.extrapolation = source_extrapolation
+    target_curve.update()
 
 
 def make_master_pose_action(
+    master_action: bpy.types.Action,
     source_action: bpy.types.Action,
     target_baseline: dict[str, tuple[float, ...]],
     role: str,
     variant_index: int,
     source_path: Path,
 ) -> bpy.types.Action:
-    action = source_action.copy()
+    action = master_action.copy()
     action.name = f"MYBUTTERFLY_FOLLOW_PATH_{variant_index}_WING_KEYS_{role.upper()}"
-    for curve in action_fcurves(action):
-        if curve.data_path not in target_baseline:
-            continue
-        baseline = target_baseline[curve.data_path][curve.array_index]
-        shift_curve(curve, baseline - curve.evaluate(1.0))
+    source_z = find_curve(source_action, "rotation_euler", 2)
+    target_z = find_curve(action, "rotation_euler", 2)
+    target_z_baseline = target_baseline["rotation_euler"][2]
+    replace_curve_points(target_z, source_z, target_z_baseline - source_z.evaluate(1.0))
 
     action["animation_source_file"] = relative(source_path)
     action["animation_source_role"] = role
     action["master_base_file"] = relative(MASTER_PATH)
-    action["replacement_policy"] = "保留 MyButterfly Master 第 1 帧局部姿态，替换 Follow Path 翅膀关键帧变化"
+    action["replacement_policy"] = "仅替换 rotation_euler[2]；其余 8 条 FCurve 保持 MyButterfly Master 原值"
+    action["copied_channel"] = "rotation_euler[2]"
     action["follow_path_controller_applied"] = False
     return action
 
@@ -182,8 +236,9 @@ def write_notes(source_path: Path, output_path: Path, actions: dict[str, bpy.typ
         f"Master 原版：{MASTER_PATH.name}\n"
         f"翅膀动作来源：{source_path.name}\n"
         f"当前输出：{output_path.name}\n"
-        "仅替换 ARTIST_EDIT 展示层左右翼 Action；身体、父级、材质、场景和 SOURCE_REFERENCE 保持 Master 内容。\n"
-        "来源 Action 以第 1 帧对齐 Master 局部姿态，因此不会带入 Follow Path 的路径位移或路径转向。\n"
+        "仅替换 ARTIST_EDIT 展示层左右翼 rotation_euler[2]（局部 Euler Z）关键帧。\n"
+        "location XYZ、rotation_euler X/Y、scale XYZ 共 8 条曲线保持 Master 原值，因此不会带入来源位置、缩放、路径位移或路径转向。\n"
+        "来源 Z 曲线以第 1 帧对齐 Master 的局部 Z 姿态。\n"
         f"左翼 Action：{actions['left'].name}\n"
         f"右翼 Action：{actions['right'].name}\n"
     )
@@ -196,7 +251,6 @@ def build_one(variant_index: int, source_name: str, output_name: str) -> dict[st
     ensure(MASTER_PATH.is_file(), f"Master file missing: {MASTER_PATH}")
     ensure(source_path.is_file(), f"Follow Path source missing: {source_path}")
     ensure(output_path != MASTER_PATH and output_path != source_path, "Output would overwrite an input")
-    ensure(not output_path.exists(), f"Refusing to overwrite existing output: {output_path}")
 
     master_hash = sha256_file(MASTER_PATH)
     source_hash = sha256_file(source_path)
@@ -225,7 +279,15 @@ def build_one(variant_index: int, source_name: str, output_name: str) -> dict[st
 
     new_actions: dict[str, bpy.types.Action] = {}
     for role, obj in wings.items():
-        action = make_master_pose_action(source_actions[role], baselines[role], role, variant_index, source_path)
+        ensure(obj.animation_data and obj.animation_data.action, f"Master wing Action missing: {obj.name}")
+        action = make_master_pose_action(
+            obj.animation_data.action,
+            source_actions[role],
+            baselines[role],
+            role,
+            variant_index,
+            source_path,
+        )
         assign_action(obj, action)
         new_actions[role] = action
 
@@ -255,6 +317,8 @@ def build_one(variant_index: int, source_name: str, output_name: str) -> dict[st
     artist["master_base_file"] = relative(MASTER_PATH)
     artist["wing_keyframe_source_file"] = relative(source_path)
     artist["wing_keyframe_replacement_only"] = True
+    artist["copied_animation_channel"] = "rotation_euler[2]"
+    artist["master_non_z_wing_curves_preserved"] = True
     artist["follow_path_controller_applied"] = False
     artist["source_reference_policy"] = "保持 MyButterfly Master 原始 SOURCE_REFERENCE"
     write_notes(source_path, output_path, new_actions)
@@ -299,6 +363,8 @@ def build_one(variant_index: int, source_name: str, output_name: str) -> dict[st
         "new_actions": action_names,
         "master_non_wing_transforms_preserved": True,
         "master_wing_frame_one_transforms_preserved": True,
+        "copied_channels": ["rotation_euler[2]"],
+        "master_non_z_wing_curves_preserved": True,
         "follow_path_controller_applied": False,
         "source_reference_preserved": True,
     }
@@ -309,7 +375,7 @@ def main() -> None:
     payload = {
         "asset": "Butterfly",
         "variant": "mybutterfly_follow_path_wing_key_replacement",
-        "policy": "以 MyButterfly_Master.blend 为不变原版，只替换 ARTIST_EDIT 左右翼关键帧变化，不应用路径控制器",
+        "policy": "以 MyButterfly_Master.blend 为不变原版，只替换 ARTIST_EDIT 左右翼 rotation_euler[2]（局部 Euler Z）关键帧；其余 8 条曲线保持 Master 原值，不应用路径控制器",
         "outputs": reports,
     }
     REPORT_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")

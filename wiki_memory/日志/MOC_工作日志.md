@@ -19,6 +19,7 @@ supersedes: null
 | 2026-09-04 | feature | - | archived | mybutterfly-dynamic-wing-keyframes | [[日志/2026-09-04-重制MyButterfly翅膀动态关键帧.md|重制 MyButterfly 翅膀动态关键帧]] |
 | 2026-09-04 | feature | - | archived | butterfly-vertical-specimen-frame-attachment | [[日志/2026-09-04-将蝴蝶贴附到竖直标本框.md|将蝴蝶贴附到竖直标本框]] |
 | 2026-09-04 | maintenance | - | archived | remove-butterfly-wing-flap-only-variants | [[日志/2026-09-04-删除蝴蝶wing-flap-only派生目录.md|删除蝴蝶 wing_flap_only 派生目录]] |
+| 2026-09-04 | bug | - | archived | mybutterfly-follow-path-z-only-wing-fix | [[日志/2026-09-04-修正MyButterfly只复制翅膀Z曲线.md|修正 MyButterfly 只复制翅膀 Z 曲线]] |
 | 2026-09-04 | bug | - | archived | butterfly-panel-wing-keyframe-retarget | [[日志/2026-09-04-修复竖框蝴蝶翅膀关键帧换边.md|修复竖框蝴蝶翅膀关键帧换边]] |
 | 2026-09-04 | feature | - | archived | mybutterfly-follow-path-wing-key-variants | [[日志/2026-09-04-为MyButterfly生成两份FollowPath翅膀关键帧版本.md|为 MyButterfly 生成两份 Follow Path 翅膀关键帧版本]] |
 | 2026-09-04 | feature | - | archived | othermodel-obj-category-showcases | [[日志/2026-09-04-othermodel-OBJ按类别生成Blender展示文件.md|othermodel OBJ 按类别生成 Blender 展示文件]] |

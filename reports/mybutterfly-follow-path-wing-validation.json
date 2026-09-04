@@ -16,7 +16,7 @@
       "variant": 1,
       "file": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath1_WingKeys.blend",
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
-      "output_sha256": "725acb9ad3172e81fb761139c71d275e42a47c86fbbc9cf66fa551e4927146d8",
+      "output_sha256": "3d949a91163d5236a4a4e7b86b2c4d95b7a162b8d7e5238accffb966a8dba1ba",
       "default_scene": "ARTIST_EDIT",
       "default_frame": 55,
       "frame_range": [
@@ -30,23 +30,35 @@
       "action_reports": {
         "left": {
           "source_action": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH__left_wing_|CINEMA_4D_Main|Layer0",
+          "master_action": "BUTTERFLY_IDLE_1_LEFT_WING_|CINEMA_4D_Main|Layer0",
           "output_action": "MYBUTTERFLY_FOLLOW_PATH_1_WING_KEYS_LEFT",
-          "curve_count": 9,
-          "keyframe_point_count": 819,
-          "source_keyframe_deltas_preserved": true,
-          "source_handle_timing_and_easing_preserved": true
+          "copied_channel": "rotation_euler[2]",
+          "z_keyframe_point_count": 91,
+          "master_non_z_curve_count": 8,
+          "master_non_z_keyframe_point_count": 680,
+          "source_z_keyframe_deltas_preserved": true,
+          "source_z_handle_timing_and_easing_preserved": true,
+          "master_non_z_curves_preserved": true
         },
         "right": {
           "source_action": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH__right_wing__Copy_|CINEMA_4D_Main|Layer0",
+          "master_action": "BUTTERFLY_IDLE_1_RIGHT_WING_|CINEMA_4D_Main|Layer0",
           "output_action": "MYBUTTERFLY_FOLLOW_PATH_1_WING_KEYS_RIGHT",
-          "curve_count": 9,
-          "keyframe_point_count": 819,
-          "source_keyframe_deltas_preserved": true,
-          "source_handle_timing_and_easing_preserved": true
+          "copied_channel": "rotation_euler[2]",
+          "z_keyframe_point_count": 91,
+          "master_non_z_curve_count": 8,
+          "master_non_z_keyframe_point_count": 728,
+          "source_z_keyframe_deltas_preserved": true,
+          "source_z_handle_timing_and_easing_preserved": true,
+          "master_non_z_curves_preserved": true
         }
       },
       "master_non_wing_transforms_preserved": true,
       "master_wing_frame_one_transforms_preserved": true,
+      "copied_channels": [
+        "rotation_euler[2]"
+      ],
+      "master_non_z_wing_curves_preserved": true,
       "source_reference_preserved": true,
       "follow_path_controller_applied": false,
       "result": "pass"
@@ -55,7 +67,7 @@
       "variant": 2,
       "file": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath2_WingKeys.blend",
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
-      "output_sha256": "3438b3b0c1199d257960fc37cc1f360fcf92baadbe2798984f8daf89b2b7164c",
+      "output_sha256": "e36f538a3bf2970c871cc441bd1db4119938e8a8b19e4160fe3c89406e8a1954",
       "default_scene": "ARTIST_EDIT",
       "default_frame": 55,
       "frame_range": [
@@ -69,23 +81,35 @@
       "action_reports": {
         "left": {
           "source_action": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_left_wing_|CINEMA_4D_Main|Layer0",
+          "master_action": "BUTTERFLY_IDLE_1_LEFT_WING_|CINEMA_4D_Main|Layer0",
           "output_action": "MYBUTTERFLY_FOLLOW_PATH_2_WING_KEYS_LEFT",
-          "curve_count": 9,
-          "keyframe_point_count": 819,
-          "source_keyframe_deltas_preserved": true,
-          "source_handle_timing_and_easing_preserved": true
+          "copied_channel": "rotation_euler[2]",
+          "z_keyframe_point_count": 91,
+          "master_non_z_curve_count": 8,
+          "master_non_z_keyframe_point_count": 680,
+          "source_z_keyframe_deltas_preserved": true,
+          "source_z_handle_timing_and_easing_preserved": true,
+          "master_non_z_curves_preserved": true
         },
         "right": {
           "source_action": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_right_wing_|CINEMA_4D_Main|Layer0",
+          "master_action": "BUTTERFLY_IDLE_1_RIGHT_WING_|CINEMA_4D_Main|Layer0",
           "output_action": "MYBUTTERFLY_FOLLOW_PATH_2_WING_KEYS_RIGHT",
-          "curve_count": 9,
-          "keyframe_point_count": 819,
-          "source_keyframe_deltas_preserved": true,
-          "source_handle_timing_and_easing_preserved": true
+          "copied_channel": "rotation_euler[2]",
+          "z_keyframe_point_count": 91,
+          "master_non_z_curve_count": 8,
+          "master_non_z_keyframe_point_count": 728,
+          "source_z_keyframe_deltas_preserved": true,
+          "source_z_handle_timing_and_easing_preserved": true,
+          "master_non_z_curves_preserved": true
         }
       },
       "master_non_wing_transforms_preserved": true,
       "master_wing_frame_one_transforms_preserved": true,
+      "copied_channels": [
+        "rotation_euler[2]"
+      ],
+      "master_non_z_wing_curves_preserved": true,
       "source_reference_preserved": true,
       "follow_path_controller_applied": false,
       "result": "pass"
