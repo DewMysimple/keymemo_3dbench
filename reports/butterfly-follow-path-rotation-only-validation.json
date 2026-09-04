@@ -1,0 +1,508 @@
+{
+  "asset": "Butterfly",
+  "variant": "follow_path_rotation_only_no_light_no_path",
+  "validated_count": 2,
+  "sources_preserved": true,
+  "validated": [
+    {
+      "variant": 1,
+      "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
+      "output": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_NO_LIGHT_NO_PATH_ROTATION_ONLY.blend",
+      "source_sha256": "3a17b9ac29d09acf147b3ee3b7a9fd9282c94c59db75286da53b7b7a611f9876",
+      "output_sha256": "58bd5101d6d8e7553a8d81748a9ed0660370017001f126ee5fb717ba0728914d",
+      "lights_remaining": [],
+      "path_animation_removed": true,
+      "non_wing_action_objects": [],
+      "follow_path_constraints_remaining": [],
+      "non_rotation_curves_remaining": [],
+      "source_action_summary": [
+        {
+          "name": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_1_2|CINEMA_4D_Main|Layer0",
+          "users": 3,
+          "fcurves": [
+            {
+              "data_path": "location",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "location",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "location",
+              "array_index": 2,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 2,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 2,
+              "keyframe_count": 91
+            }
+          ]
+        },
+        {
+          "name": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH__left_wing_|CINEMA_4D_Main|Layer0",
+          "users": 3,
+          "fcurves": [
+            {
+              "data_path": "location",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "location",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "location",
+              "array_index": 2,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 2,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 2,
+              "keyframe_count": 91
+            }
+          ]
+        },
+        {
+          "name": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH__right_wing__Copy_|CINEMA_4D_Main|Layer0",
+          "users": 3,
+          "fcurves": [
+            {
+              "data_path": "location",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "location",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "location",
+              "array_index": 2,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 2,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 2,
+              "keyframe_count": 91
+            }
+          ]
+        }
+      ],
+      "output_action_summary": [
+        {
+          "name": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH__left_wing_|CINEMA_4D_Main|Layer0",
+          "users": 3,
+          "fcurves": [
+            {
+              "data_path": "rotation_euler",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 2,
+              "keyframe_count": 91
+            }
+          ]
+        },
+        {
+          "name": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH__right_wing__Copy_|CINEMA_4D_Main|Layer0",
+          "users": 3,
+          "fcurves": [
+            {
+              "data_path": "rotation_euler",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 2,
+              "keyframe_count": 91
+            }
+          ]
+        }
+      ],
+      "wing_rotation_keyframes_preserved": true,
+      "sampled_wing_rotation": {
+        "frames": [
+          1,
+          46,
+          91
+        ],
+        "rotation_z_radians": {
+          "left": [
+            [
+              0.36387813091278076,
+              0.36387813091278076
+            ],
+            [
+              0.36387813091278076,
+              0.36387813091278076
+            ],
+            [
+              1.5789155960083008,
+              0.36387813091278076
+            ]
+          ],
+          "right": [
+            [
+              -0.36341896653175354,
+              -0.36341896653175354
+            ],
+            [
+              -0.36341896653175354,
+              -0.36341896653175354
+            ],
+            [
+              -1.5784567594528198,
+              -0.36341896653175354
+            ]
+          ]
+        }
+      },
+      "result": "pass"
+    },
+    {
+      "variant": 2,
+      "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
+      "output": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_NO_LIGHT_NO_PATH_ROTATION_ONLY.blend",
+      "source_sha256": "01c87a17b7311d12778f7625dd13c5f1166530234e702c4d7c74bdf2149853e7",
+      "output_sha256": "e2ccc6c6a5bd0ecf44ce45d2ce6fb203def3077debbe5ecc8cf1024e0959ec5f",
+      "lights_remaining": [],
+      "path_animation_removed": true,
+      "non_wing_action_objects": [],
+      "follow_path_constraints_remaining": [],
+      "non_rotation_curves_remaining": [],
+      "source_action_summary": [
+        {
+          "name": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_2|CINEMA_4D_Main|Layer0",
+          "users": 3,
+          "fcurves": [
+            {
+              "data_path": "location",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "location",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "location",
+              "array_index": 2,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 2,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 2,
+              "keyframe_count": 91
+            }
+          ]
+        },
+        {
+          "name": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_left_wing_|CINEMA_4D_Main|Layer0",
+          "users": 3,
+          "fcurves": [
+            {
+              "data_path": "location",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "location",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "location",
+              "array_index": 2,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 2,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 2,
+              "keyframe_count": 91
+            }
+          ]
+        },
+        {
+          "name": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_right_wing_|CINEMA_4D_Main|Layer0",
+          "users": 3,
+          "fcurves": [
+            {
+              "data_path": "location",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "location",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "location",
+              "array_index": 2,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 2,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "scale",
+              "array_index": 2,
+              "keyframe_count": 91
+            }
+          ]
+        }
+      ],
+      "output_action_summary": [
+        {
+          "name": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_left_wing_|CINEMA_4D_Main|Layer0",
+          "users": 3,
+          "fcurves": [
+            {
+              "data_path": "rotation_euler",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 2,
+              "keyframe_count": 91
+            }
+          ]
+        },
+        {
+          "name": "BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_right_wing_|CINEMA_4D_Main|Layer0",
+          "users": 3,
+          "fcurves": [
+            {
+              "data_path": "rotation_euler",
+              "array_index": 0,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 1,
+              "keyframe_count": 91
+            },
+            {
+              "data_path": "rotation_euler",
+              "array_index": 2,
+              "keyframe_count": 91
+            }
+          ]
+        }
+      ],
+      "wing_rotation_keyframes_preserved": true,
+      "sampled_wing_rotation": {
+        "frames": [
+          1,
+          46,
+          91
+        ],
+        "rotation_z_radians": {
+          "left": [
+            [
+              0.36387813091278076,
+              0.36387813091278076
+            ],
+            [
+              0.36387813091278076,
+              0.36387813091278076
+            ],
+            [
+              1.5789155960083008,
+              0.36387813091278076
+            ]
+          ],
+          "right": [
+            [
+              -0.36341896653175354,
+              -0.36341896653175354
+            ],
+            [
+              -0.36341896653175354,
+              -0.36341896653175354
+            ],
+            [
+              -1.5784567594528198,
+              -0.36341896653175354
+            ]
+          ]
+        }
+      },
+      "result": "pass"
+    }
+  ]
+}
