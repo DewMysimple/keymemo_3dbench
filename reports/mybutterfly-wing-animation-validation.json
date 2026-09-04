@@ -1,5 +1,7 @@
 {
-  "file": "models/Butterfly/scenes/MyWork/MyButterfly_Master.blend",
+  "file": "models/Butterfly/scenes/MyWork/MyButterfly_Master_DynamicWings.blend",
+  "original_file": "models/Butterfly/scenes/MyWork/MyButterfly_Master.blend",
+  "original_preserved": true,
   "scene": "ARTIST_EDIT",
   "frame_range": [1, 91],
   "result": "pass",
