@@ -20,6 +20,7 @@ supersedes: null
 | 2026-09-04 | feature | - | archived | butterfly-vertical-specimen-frame-attachment | [[日志/2026-09-04-将蝴蝶贴附到竖直标本框.md|将蝴蝶贴附到竖直标本框]] |
 | 2026-09-04 | maintenance | - | archived | remove-butterfly-wing-flap-only-variants | [[日志/2026-09-04-删除蝴蝶wing-flap-only派生目录.md|删除蝴蝶 wing_flap_only 派生目录]] |
 | 2026-09-04 | bug | - | archived | butterfly-panel-wing-keyframe-retarget | [[日志/2026-09-04-修复竖框蝴蝶翅膀关键帧换边.md|修复竖框蝴蝶翅膀关键帧换边]] |
+| 2026-09-04 | feature | - | archived | mybutterfly-follow-path-wing-key-variants | [[日志/2026-09-04-为MyButterfly生成两份FollowPath翅膀关键帧版本.md|为 MyButterfly 生成两份 Follow Path 翅膀关键帧版本]] |
 | 2026-09-04 | feature | - | archived | othermodel-obj-category-showcases | [[日志/2026-09-04-othermodel-OBJ按类别生成Blender展示文件.md|othermodel OBJ 按类别生成 Blender 展示文件]] |
 | 2026-09-04 | feature | - | archived | no-animation-self-contained-assets | [[日志/2026-09-04-no-animation版本资源内嵌化.md|no-animation 版本资源内嵌化]] |
 | 2026-09-03 | maintenance | - | archived | specimen-frame-final-file-cleanup-and-blender-backups | [[日志/2026-09-03-统一标本方框最终文件与清理自动备份.md|统一标本方框最终文件与清理自动备份]] |

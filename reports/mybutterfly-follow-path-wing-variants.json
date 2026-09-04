@@ -1,0 +1,61 @@
+{
+  "asset": "Butterfly",
+  "variant": "mybutterfly_follow_path_wing_key_replacement",
+  "policy": "以 MyButterfly_Master.blend 为不变原版，只替换 ARTIST_EDIT 左右翼关键帧变化，不应用路径控制器",
+  "outputs": [
+    {
+      "variant": 1,
+      "master": "models/Butterfly/scenes/MyWork/MyButterfly_Master.blend",
+      "master_sha256": "71bf897e4ceb545c301cfb5b436f6b158eb63ce1889af5bbad4a6647c696a90a",
+      "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
+      "source_sha256": "3a17b9ac29d09acf147b3ee3b7a9fd9282c94c59db75286da53b7b7a611f9876",
+      "output": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath1_WingKeys.blend",
+      "output_sha256": "725acb9ad3172e81fb761139c71d275e42a47c86fbbc9cf66fa551e4927146d8",
+      "output_size": 10204587,
+      "frame_range": [
+        1,
+        91
+      ],
+      "default_frame": 55,
+      "display_wings": {
+        "left": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+        "right": "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
+      },
+      "new_actions": {
+        "left": "MYBUTTERFLY_FOLLOW_PATH_1_WING_KEYS_LEFT",
+        "right": "MYBUTTERFLY_FOLLOW_PATH_1_WING_KEYS_RIGHT"
+      },
+      "master_non_wing_transforms_preserved": true,
+      "master_wing_frame_one_transforms_preserved": true,
+      "follow_path_controller_applied": false,
+      "source_reference_preserved": true
+    },
+    {
+      "variant": 2,
+      "master": "models/Butterfly/scenes/MyWork/MyButterfly_Master.blend",
+      "master_sha256": "71bf897e4ceb545c301cfb5b436f6b158eb63ce1889af5bbad4a6647c696a90a",
+      "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
+      "source_sha256": "01c87a17b7311d12778f7625dd13c5f1166530234e702c4d7c74bdf2149853e7",
+      "output": "models/Butterfly/scenes/MyWork/MyButterfly_Master_FollowPath2_WingKeys.blend",
+      "output_sha256": "3438b3b0c1199d257960fc37cc1f360fcf92baadbe2798984f8daf89b2b7164c",
+      "output_size": 10204659,
+      "frame_range": [
+        1,
+        91
+      ],
+      "default_frame": 55,
+      "display_wings": {
+        "left": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+        "right": "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
+      },
+      "new_actions": {
+        "left": "MYBUTTERFLY_FOLLOW_PATH_2_WING_KEYS_LEFT",
+        "right": "MYBUTTERFLY_FOLLOW_PATH_2_WING_KEYS_RIGHT"
+      },
+      "master_non_wing_transforms_preserved": true,
+      "master_wing_frame_one_transforms_preserved": true,
+      "follow_path_controller_applied": false,
+      "source_reference_preserved": true
+    }
+  ]
+}
