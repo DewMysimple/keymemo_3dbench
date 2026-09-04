@@ -166,6 +166,7 @@ def validate_one(variant: int, source_name: str, output_name: str) -> dict[str, 
     ensure(scene is not None, f"{output_name}: ARTIST_EDIT scene missing")
     ensure(scene.frame_start == 1 and scene.frame_end == 91, f"{output_name}: frame range changed")
     ensure(not [obj for obj in bpy.data.objects if obj.type == "LIGHT"], f"{output_name}: light objects remain")
+    ensure(not [obj for obj in bpy.data.objects if obj.motion_path], f"{output_name}: Motion Path cache remains")
 
     non_wing_action_objects = [
         obj.name
@@ -213,6 +214,7 @@ def validate_one(variant: int, source_name: str, output_name: str) -> dict[str, 
         "source_sha256": source_hash,
         "output_sha256": sha256_file(output_path),
         "lights_remaining": [],
+        "motion_path_objects_remaining": [],
         "path_animation_removed": True,
         "non_wing_action_objects": [],
         "follow_path_constraints_remaining": [],

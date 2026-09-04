@@ -1,21 +1,26 @@
 {
   "asset": "Butterfly",
   "variant": "follow_path_rotation_only_no_light_no_path",
-  "policy": "从每份 Follow Path 源文件生成独立副本；删除所有灯光、路径/层级控制动画及非旋转关键帧，仅保留两翼旋转关键帧；源文件不覆盖",
+  "policy": "从每份 Follow Path 源文件生成独立副本；删除所有灯光、路径/层级控制动画和 Motion Path 缓存及非旋转关键帧，仅保留两翼旋转关键帧；源文件不覆盖",
   "outputs": [
     {
       "variant": 1,
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1.blend",
       "output": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_NO_LIGHT_NO_PATH_ROTATION_ONLY.blend",
       "source_sha256": "3a17b9ac29d09acf147b3ee3b7a9fd9282c94c59db75286da53b7b7a611f9876",
-      "output_sha256": "58bd5101d6d8e7553a8d81748a9ed0660370017001f126ee5fb717ba0728914d",
+      "output_sha256": "129083fa9b7bfc95257ea6e22b3056ced1a8047bbd707edbc15e3226bc2f96ab",
       "removed_light_objects": [
         "蝴蝶_主光",
         "蝴蝶_背面补光",
         "蝴蝶_轮廓光",
         "蝴蝶_辅光"
       ],
+      "removed_motion_path_objects": [
+        "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_1_源_FBX_01_03_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_1_2",
+        "源_FBX_01_03_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_1_2"
+      ],
       "path_animation_removed": true,
+      "motion_path_removed": true,
       "non_rotation_animation_removed": true,
       "rotation_keyframes_preserved_only": true,
       "pre_actions": {
@@ -189,14 +194,19 @@
       "source": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2.blend",
       "output": "models/Butterfly/scenes/follow_path/BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_NO_LIGHT_NO_PATH_ROTATION_ONLY.blend",
       "source_sha256": "01c87a17b7311d12778f7625dd13c5f1166530234e702c4d7c74bdf2149853e7",
-      "output_sha256": "e2ccc6c6a5bd0ecf44ce45d2ce6fb203def3077debbe5ecc8cf1024e0959ec5f",
+      "output_sha256": "80a7340282ff6680de1b0aaa248d29abf13dd5d1cf4504d2b1e19432443090d2",
       "removed_light_objects": [
         "蝴蝶_主光",
         "蝴蝶_背面补光",
         "蝴蝶_轮廓光",
         "蝴蝶_辅光"
       ],
+      "removed_motion_path_objects": [
+        "展示_BUTTERFLY_FLAP_FAST_FOLLOW_PATH_2_源_FBX_01_03_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_2",
+        "源_FBX_01_03_BUTTERFLY_FAST__FLAP_FOLLOW_PATH_2_2"
+      ],
       "path_animation_removed": true,
+      "motion_path_removed": true,
       "non_rotation_animation_removed": true,
       "rotation_keyframes_preserved_only": true,
       "pre_actions": {

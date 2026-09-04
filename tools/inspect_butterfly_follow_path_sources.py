@@ -29,6 +29,7 @@ def main() -> None:
                 "name": obj.name,
                 "type": obj.type,
                 "parent": obj.parent.name if obj.parent else None,
+                "motion_path": bool(obj.motion_path),
                 "constraints": [
                     (
                         constraint.name,

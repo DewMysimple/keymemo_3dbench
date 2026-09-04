@@ -121,6 +121,31 @@ def remove_lights() -> list[str]:
     return removed_names
 
 
+def remove_motion_paths() -> list[str]:
+    path_objects = [obj for obj in bpy.data.objects if obj.motion_path]
+    removed_names = [obj.name for obj in path_objects]
+    for scene in bpy.data.scenes:
+        if bpy.context.window:
+            bpy.context.window.scene = scene
+            bpy.context.window.view_layer = scene.view_layers[0]
+        view_layer = bpy.context.view_layer
+        bpy.ops.object.select_all(action="DESELECT")
+        scene_path_objects = [
+            obj
+            for obj in scene.objects
+            if obj.motion_path and obj.name in view_layer.objects
+        ]
+        for obj in scene_path_objects:
+            obj.select_set(True)
+        if scene_path_objects:
+            view_layer.objects.active = scene_path_objects[0]
+            bpy.ops.object.paths_clear(only_selected=True)
+    if bpy.context.window:
+        bpy.context.window.scene = bpy.data.scenes.get("ARTIST_EDIT") or bpy.context.scene
+    ensure(not [obj for obj in bpy.data.objects if obj.motion_path], "Motion Path data remains")
+    return removed_names
+
+
 def remove_all_non_wing_animation() -> dict[str, object]:
     cleared_objects: list[str] = []
     cleared_actions: set[str] = set()
@@ -170,6 +195,7 @@ def add_metadata(source_path: Path, output_path: Path, variant: int, report: dic
     scene["variant"] = variant
     scene["lights_removed"] = True
     scene["path_animation_removed"] = True
+    scene["motion_path_removed"] = True
     scene["non_rotation_animation_removed"] = True
     scene["rotation_keyframes_preserved_only"] = True
     scene["build_report"] = json.dumps(report, ensure_ascii=False, sort_keys=True)
@@ -181,7 +207,7 @@ def add_metadata(source_path: Path, output_path: Path, variant: int, report: dic
         f"来源：{relative(source_path)}\n"
         f"输出：{relative(output_path)}\n"
         "移除全部灯光对象。\n"
-        "清除路径控制层级及其他非翅膀对象的动画。\n"
+        "清除路径控制层级及其他非翅膀对象的动画，并删除所有 Motion Path 可视化缓存。\n"
         "左右翅仅保留 rotation_euler / rotation_quaternion / rotation_axis_angle 旋转关键帧；\n"
         "Location、Scale 及其他非旋转关键帧已移除。\n"
     )
@@ -206,6 +232,7 @@ def build_one(variant: int, source_name: str, output_name: str) -> dict[str, obj
     }
     animation_report = remove_all_non_wing_animation()
     removed_lights = remove_lights()
+    removed_motion_paths = remove_motion_paths()
     ensure(set(removed_lights) == set(source_lights), f"{source_name}: light removal mismatch")
     ensure(not [obj for obj in bpy.data.objects if obj.type == "LIGHT"], f"{source_name}: lights remain")
     add_metadata(
@@ -217,6 +244,7 @@ def build_one(variant: int, source_name: str, output_name: str) -> dict[str, obj
             "pre_actions": pre_actions,
             "animation": animation_report,
             "removed_light_objects": removed_lights,
+            "removed_motion_path_objects": removed_motion_paths,
         },
     )
 
@@ -228,6 +256,7 @@ def build_one(variant: int, source_name: str, output_name: str) -> dict[str, obj
     ensure(staging_path.is_file(), f"Staging file was not created: {staging_path}")
     bpy.ops.wm.open_mainfile(filepath=str(staging_path), load_ui=False)
     ensure(not [obj for obj in bpy.data.objects if obj.type == "LIGHT"], f"{output_name}: light remained after reopen")
+    ensure(not [obj for obj in bpy.data.objects if obj.motion_path], f"{output_name}: motion path remained after reopen")
     ensure(all(not object_action(obj) for obj in bpy.data.objects if wing_role(obj) is None), f"{output_name}: non-wing action remained")
     ensure(all(
         curve.data_path in {"rotation_euler", "rotation_quaternion", "rotation_axis_angle"}
@@ -245,7 +274,9 @@ def build_one(variant: int, source_name: str, output_name: str) -> dict[str, obj
         "source_sha256": source_hash,
         "output_sha256": output_hash,
         "removed_light_objects": removed_lights,
+        "removed_motion_path_objects": removed_motion_paths,
         "path_animation_removed": True,
+        "motion_path_removed": True,
         "non_rotation_animation_removed": True,
         "rotation_keyframes_preserved_only": True,
         "pre_actions": pre_actions,
@@ -259,7 +290,7 @@ def main() -> None:
     payload = {
         "asset": "Butterfly",
         "variant": "follow_path_rotation_only_no_light_no_path",
-        "policy": "从每份 Follow Path 源文件生成独立副本；删除所有灯光、路径/层级控制动画及非旋转关键帧，仅保留两翼旋转关键帧；源文件不覆盖",
+        "policy": "从每份 Follow Path 源文件生成独立副本；删除所有灯光、路径/层级控制动画和 Motion Path 缓存及非旋转关键帧，仅保留两翼旋转关键帧；源文件不覆盖",
         "outputs": reports,
     }
     REPORT_PATH.parent.mkdir(parents=True, exist_ok=True)
