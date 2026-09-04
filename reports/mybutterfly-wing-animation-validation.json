@@ -1,0 +1,44 @@
+{
+  "file": "models/Butterfly/scenes/MyWork/MyButterfly_Master.blend",
+  "scene": "ARTIST_EDIT",
+  "frame_range": [1, 91],
+  "result": "pass",
+  "original_sha256": "71bf897e4ceb545c301cfb5b436f6b158eb63ce1889af5bbad4a6647c696a90a",
+  "updated_sha256": "d2f3f4a915ec93b5b2936ca6998ce2c105132934cb838a3ed073dea658fd5ea3",
+  "backup": "generated/backups/MyButterfly_Master_before_dynamic_wings_20260904_2315.blend",
+  "sampled_frame_count": 91,
+  "loop_seam_matches": true,
+  "mirror_offset_degrees": 2.19029,
+  "objects": [
+    {
+      "name": "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+      "parent": "展示_Butterfly_Master_源_FBX_01_02_BUTTERFLY_IDLE_1",
+      "source_action_preserved": "BUTTERFLY_IDLE_1_LEFT_WING_|CINEMA_4D_Main|Layer0",
+      "new_action": "MyButterfly_WingMotion_DYNAMIC_LEFT",
+      "old_z_keyframe_count": 85,
+      "new_z_keyframe_count": 17,
+      "old_z_range_degrees": [45.053591, 66.530038],
+      "new_z_range_degrees": [21.0, 90.0],
+      "non_z_curves_match_source": true
+    },
+    {
+      "name": "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_",
+      "parent": "展示_Butterfly_Master_源_FBX_01_02_BUTTERFLY_IDLE_1",
+      "source_action_preserved": "BUTTERFLY_IDLE_1_RIGHT_WING_|CINEMA_4D_Main|Layer0",
+      "new_action": "MyButterfly_WingMotion_DYNAMIC_RIGHT",
+      "old_z_keyframe_count": 91,
+      "new_z_keyframe_count": 17,
+      "old_z_range_degrees": [-68.720323, -47.243875],
+      "new_z_range_degrees": [-92.19029, -23.19029],
+      "non_z_curves_match_source": true
+    }
+  ],
+  "motion": {
+    "beat_count": 8,
+    "timing": "uneven cycle lengths with fast closing strokes and slower recovery strokes",
+    "interpolation": "BEZIER",
+    "handles": "AUTO_CLAMPED",
+    "preview_frames": [1, 6, 15, 31, 37, 48, 54, 91],
+    "preview_directory": "generated/mybutterfly_wing_animation_final"
+  }
+}
