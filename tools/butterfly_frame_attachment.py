@@ -21,12 +21,13 @@ FRAME_CENTER_Z = 4.55
 CORE_HALF_SIZE = 3.55
 CORE_FIT_SIZE = 6.50
 MIN_NATIVE_DEPTH = 1.0
-PANEL_SAFE_WING_RANGES = {
-    "left": (math.radians(-160.0), math.radians(-90.0)),
-    "right": (math.radians(90.0), math.radians(160.0)),
+CLEAN_WING_FOLD_RANGES = {
+    "left": (0.0, math.radians(75.0)),
+    "right": (math.radians(-75.0), 0.0),
 }
 WING_CENTERLINE_TOLERANCE = 0.06
 MAX_WING_HINGE_GAP = 0.02
+DISPLAY_FIT_MARGIN = 0.10
 
 
 def ensure(condition, message):
@@ -98,20 +99,23 @@ def _wing_role(obj):
     return None
 
 
-def _retarget_wings_to_panel_safe_ranges(scene, wings):
-    """Retarget each flap to its own side of the body without moving the hinge.
+def _curve_owner(action, target):
+    for layer in action.layers:
+        for strip in layer.strips:
+            for channelbag in strip.channelbags:
+                for curve in channelbag.fcurves:
+                    if curve == target:
+                        return channelbag
+    return None
 
-    The source animation swings through both sides of its horizontal body plane.
-    After mounting the body on a vertical panel, a constant Euler offset makes the
-    left and right wings exchange sides during half of the cycle.  Affinely mapping
-    the source Z curve into one panel-safe interval preserves its keyframe timing
-    and easing while keeping each wing on its anatomical side.
-    """
+
+def _retarget_wings_to_clean_fold_ranges(scene, wings):
+    """Keep only hinge rotation and map it into outward, non-crossing folds."""
     original_frame = scene.frame_current
     retarget = {}
     for wing in wings:
         role = _wing_role(wing)
-        ensure(role in PANEL_SAFE_WING_RANGES, f"无法识别翅膀方向: {wing.name}")
+        ensure(role in CLEAN_WING_FOLD_RANGES, f"无法识别翅膀方向: {wing.name}")
         ensure(wing.animation_data and wing.animation_data.action, f"翅膀缺少 Action: {wing.name}")
         values = []
         for frame in range(scene.frame_start, scene.frame_end + 1):
@@ -121,7 +125,7 @@ def _retarget_wings_to_panel_safe_ranges(scene, wings):
         source_min = min(values)
         source_max = max(values)
         ensure(source_max - source_min > 1e-6, f"翅膀 Z 旋转范围异常: {wing.name}")
-        target_min, target_max = PANEL_SAFE_WING_RANGES[role]
+        target_min, target_max = CLEAN_WING_FOLD_RANGES[role]
         scale = (target_max - target_min) / (source_max - source_min)
         offset = target_min - source_min * scale
         curve = next(
@@ -134,6 +138,12 @@ def _retarget_wings_to_panel_safe_ranges(scene, wings):
         )
         ensure(curve is not None, f"翅膀 Action 缺少 Z 旋转曲线: {wing.name}")
         _affine_curve(curve, scale, offset)
+        for other in list(_action_fcurves(wing.animation_data.action)):
+            if other == curve:
+                continue
+            owner = _curve_owner(wing.animation_data.action, other)
+            ensure(owner is not None, f"无法定位 Action 曲线所属 ChannelBag: {wing.name}")
+            owner.fcurves.remove(other)
         metadata = {
             "source_range": [source_min, source_max],
             "target_range": [target_min, target_max],
@@ -152,6 +162,112 @@ def _retarget_wings_to_panel_safe_ranges(scene, wings):
     scene.frame_set(original_frame)
     bpy.context.view_layer.update()
     return retarget
+
+
+def _vector_bounds(points):
+    ensure(points, "没有可计算边界的点")
+    return {
+        "min": Vector(min(point[index] for point in points) for index in range(3)),
+        "max": Vector(max(point[index] for point in points) for index in range(3)),
+    }
+
+
+def _clean_wing_vertex(raw, role, scale):
+    """Map native wing-local axes to panel normal, side and body axes."""
+    if role == "left":
+        return Vector((raw.y, raw.x, -raw.z)) * scale
+    return Vector((-raw.y, -raw.x, -raw.z)) * scale
+
+
+def _rebuild_clean_display_hierarchy(artist, root, fbx_root, body, wings):
+    """Bake the Master display into a local, panel-oriented three-part rig."""
+    reference_frame = min(45, artist.frame_end)
+    artist.frame_set(reference_frame)
+    bpy.context.view_layer.update()
+
+    master_hinges = {role: wing.matrix_world.translation.copy() for role, wing in ((_wing_role(item), item) for item in wings)}
+    hinge_center = (master_hinges["left"] + master_hinges["right"]) * 0.5
+    body_hinge_anchor = body.matrix_world.inverted() @ hinge_center
+    effective_scale = sum(wing.matrix_world.to_3x3().col[index].length for wing in wings for index in range(3)) / (len(wings) * 3.0)
+    ensure(effective_scale > 1e-8, "Master 翅膀有效缩放异常")
+    radial_extent = max(-vertex.co.x for wing in wings for vertex in wing.data.vertices)
+    canonical_rotation = Matrix.Rotation(-math.pi / 2.0, 3, "Z")
+    unscaled_hinge_span = abs((canonical_rotation @ (master_hinges["right"] - master_hinges["left"])).y) / effective_scale
+    mesh_scale = (CORE_FIT_SIZE - DISPLAY_FIT_MARGIN) / (2.0 * radial_extent + unscaled_hinge_span)
+    canonical_scale = mesh_scale / effective_scale
+
+    def transform_body_vertex(raw):
+        relative = raw - body_hinge_anchor
+        return Vector((-relative.y, relative.x, relative.z)) * mesh_scale
+
+    body_points = [transform_body_vertex(vertex.co) for vertex in body.data.vertices]
+    body_initial_bounds = _vector_bounds(body_points)
+    shift = Vector((-body_initial_bounds["min"].x, -(body_initial_bounds["min"].y + body_initial_bounds["max"].y) * 0.5, 0.0))
+    body_points = [point + shift for point in body_points]
+    hinge_half_span = unscaled_hinge_span * mesh_scale * 0.5
+    hinge_locations = {
+        "left": Vector((shift.x, shift.y - hinge_half_span, shift.z)),
+        "right": Vector((shift.x, shift.y + hinge_half_span, shift.z)),
+    }
+
+    root.location = (CONTACT_X, 0.0, FRAME_CENTER_Z)
+    root.rotation_mode = "XYZ"
+    root.rotation_euler = (0.0, 0.0, 0.0)
+    root.scale = (1.0, 1.0, 1.0)
+    root.empty_display_type = "PLAIN_AXES"
+    root.empty_display_size = 0.45
+    root.matrix_parent_inverse = Matrix.Identity(4)
+
+    body_bounds = _vector_bounds(body_points)
+    body_origin = (body_bounds["min"] + body_bounds["max"]) * 0.5
+    body.data = body.data.copy()
+    for vertex, point in zip(body.data.vertices, body_points):
+        vertex.co = point - body_origin
+    body.parent = root
+    body.matrix_parent_inverse = Matrix.Identity(4)
+    body.location = body_origin
+    body.rotation_mode = "XYZ"
+    body.rotation_euler = (0.0, 0.0, 0.0)
+    body.scale = (1.0, 1.0, 1.0)
+    body.animation_data_clear()
+    body.data.update()
+
+    for wing in wings:
+        role = _wing_role(wing)
+        wing.data = wing.data.copy()
+        for vertex in wing.data.vertices:
+            vertex.co = _clean_wing_vertex(vertex.co.copy(), role, mesh_scale)
+        wing.parent = root
+        wing.matrix_parent_inverse = Matrix.Identity(4)
+        wing.location = hinge_locations[role]
+        wing.rotation_mode = "XYZ"
+        wing.rotation_euler = (0.0, 0.0, 0.0)
+        wing.scale = (1.0, 1.0, 1.0)
+        wing.data.update()
+
+    ensure(all(wing.parent == root for wing in wings) and body.parent == root, "清理后展示部件未直接绑定总控根")
+    ensure(not fbx_root.children, "清理后旧 FBX Empty 仍有子对象")
+    bpy.data.objects.remove(fbx_root, do_unlink=True)
+    bpy.context.view_layer.update()
+    retarget = _retarget_wings_to_clean_fold_ranges(artist, wings)
+    for wing in wings:
+        role = _wing_role(wing)
+        wing.location = hinge_locations[role]
+        wing.rotation_euler[0] = 0.0
+        wing.rotation_euler[1] = 0.0
+        wing.scale = (1.0, 1.0, 1.0)
+    artist.frame_set(reference_frame)
+    bpy.context.view_layer.update()
+    return {
+        "mesh_scale": mesh_scale,
+        "canonical_scale": canonical_scale,
+        "canonical_rotation_degrees": [0.0, 0.0, -90.0],
+        "master_front_to_world": "native body -Y to world -X",
+        "master_head_to_world": "native body +Z to world +Z",
+        "body_origin": list(body_origin),
+        "hinge_locations": {role: list(point) for role, point in hinge_locations.items()},
+        "wing_fold_retarget": retarget,
+    }
 
 
 def _world_mesh_geometry(obj):
@@ -173,6 +289,14 @@ def _minimum_surface_distance(source, target):
     distances = [nearest[3] for point in source_vertices if (nearest := tree.find_nearest(point))]
     ensure(distances, f"无法测量 {source.name} 与 {target.name} 的表面距离")
     return min(distances)
+
+
+def _surface_overlap_count(first, second):
+    first_vertices, first_polygons = _world_mesh_geometry(first)
+    second_vertices, second_polygons = _world_mesh_geometry(second)
+    first_tree = BVHTree.FromPolygons(first_vertices, first_polygons, all_triangles=False)
+    second_tree = BVHTree.FromPolygons(second_vertices, second_polygons, all_triangles=False)
+    return len(first_tree.overlap(second_tree))
 
 
 def _get_or_create_collection(scene, name):
@@ -286,50 +410,8 @@ def pose_butterfly_on_frame(artist):
     wings = [obj for obj in display_meshes if "WING" in obj.name.upper()]
     ensure(body is not None and len(wings) == 2, "展示蝴蝶缺少身体或左右翅膀网格")
 
-    if "frame_attachment_source_display_scale" not in root:
-        root["frame_attachment_source_display_scale"] = float(root.scale.x)
-        root["frame_attachment_source_fbx_location"] = list(fbx_root.location)
-        root["frame_attachment_source_fbx_scale"] = list(fbx_root.scale)
-    source_display_scale = float(root["frame_attachment_source_display_scale"])
-    source_fbx_location = Vector(root["frame_attachment_source_fbx_location"])
-    source_fbx_scale = Vector(root["frame_attachment_source_fbx_scale"])
-
-    root.location = (CONTACT_X, 0.0, FRAME_CENTER_Z)
-    orientation = Matrix.Rotation(-math.pi / 2.0, 4, "X") @ Matrix.Rotation(-math.pi / 2.0, 4, "Y")
-    root.rotation_mode = "XYZ"
-    root.rotation_euler = orientation.to_euler("XYZ")
-    # Preserve the native model proportions.  The wing actions are retargeted to
-    # side-specific panel-safe ranges below, so the animated geometry neither
-    # crosses the frame nor exchanges anatomical sides.
-    root.scale = (1.0, 1.0, 1.0)
-    root.empty_display_type = "PLAIN_AXES"
-    root.empty_display_size = 0.45
-
-    fbx_root.location = source_fbx_location
-    fbx_root.scale = source_fbx_scale * source_display_scale
-    wing_retarget = _retarget_wings_to_panel_safe_ranges(artist, wings)
-    bpy.context.view_layer.update()
-    initial = _animated_bounds(artist, display_meshes)
-    span = initial["max"] - initial["min"]
-    fit = min(CORE_FIT_SIZE / span.y, CORE_FIT_SIZE / span.z, 1.0)
-    ensure(fit > 0.0, f"蝴蝶拟合比例异常: {fit}")
-    fbx_root.scale *= fit
-    bpy.context.view_layer.update()
-
-    fitted = _animated_bounds(artist, display_meshes)
-    center = (fitted["min"] + fitted["max"]) * 0.5
-    body_bounds = _world_bounds([body])
-    world_shift = Vector((CONTACT_X - body_bounds["min"].x, -center.y, FRAME_CENTER_Z - center.z))
-    local_shift = root.matrix_world.inverted().to_3x3() @ world_shift
-    fbx_root.location += local_shift
-    bpy.context.view_layer.update()
-    final = _animated_bounds(artist, display_meshes)
-
-    body_bounds = _world_bounds([body])
-    body_center_y = (body_bounds["min"].y + body_bounds["max"].y) * 0.5
-    body_line_shift = Vector((0.0, -body_center_y, 0.0))
-    fbx_root.location += root.matrix_world.inverted().to_3x3() @ body_line_shift
-    bpy.context.view_layer.update()
+    hierarchy = _rebuild_clean_display_hierarchy(artist, root, fbx_root, body, wings)
+    display_meshes = [body, *wings]
     final = _animated_bounds(artist, display_meshes)
     body_bounds = _world_bounds([body])
     body_span = body_bounds["max"] - body_bounds["min"]
@@ -352,16 +434,24 @@ def pose_butterfly_on_frame(artist):
     root["body_axis"] = "world_Z"
     root["body_center_y"] = body_center_y
     root["native_proportions_preserved"] = True
-    root["wing_mount_policy"] = "source_timing_affine_retargeted_to_anatomical_panel_safe_ranges"
-    root["wing_panel_safe_range_left"] = list(PANEL_SAFE_WING_RANGES["left"])
-    root["wing_panel_safe_range_right"] = list(PANEL_SAFE_WING_RANGES["right"])
+    root["wing_mount_policy"] = "clean_hinge_origins_source_timing_outward_fold_only"
+    root["wing_panel_safe_range_left"] = list(CLEAN_WING_FOLD_RANGES["left"])
+    root["wing_panel_safe_range_right"] = list(CLEAN_WING_FOLD_RANGES["right"])
+    root["master_front_direction_world"] = "-X"
+    root["master_head_direction_world"] = "+Z"
+    root["wing_in_plane_orientation"] = "180_degrees_from_previous_downward_wing_layout"
+    root["display_hierarchy_policy"] = "root_directly_parents_body_left_wing_right_wing"
     root["all_frame_bounds_min"] = list(final["min"])
     root["all_frame_bounds_max"] = list(final["max"])
     return {
         "display_root": root.name,
-        "fbx_root": fbx_root.name,
+        "display_hierarchy": {
+            "root": root.name,
+            "direct_children": sorted(obj.name for obj in artist.objects if obj.parent == root),
+            "legacy_fbx_root_removed": True,
+        },
         "rotation_euler_degrees": [math.degrees(value) for value in root.rotation_euler],
-        "fit_scale": fit,
+        "clean_rig": hierarchy,
         "all_frame_bounds_min": list(final["min"]),
         "all_frame_bounds_max": list(final["max"]),
         "all_frame_span": list(final_span),
@@ -370,7 +460,7 @@ def pose_butterfly_on_frame(artist):
         "body_span": list(body_span),
         "body_axis": "world_Z",
         "native_proportions_preserved": True,
-        "wing_panel_safe_retarget": wing_retarget,
+        "wing_panel_safe_retarget": hierarchy["wing_fold_retarget"],
     }
 
 
@@ -450,11 +540,22 @@ def validate_attachment(artist, source_scene):
         ensure(frame.name not in {obj.name for obj in source_scene.objects}, "标本框不应链接到 SOURCE_REFERENCE")
     root = bpy.data.objects.get(DISPLAY_ROOT_NAME)
     ensure(root is not None and root.get("frame_attachment_configured") is True, "蝴蝶展示根未配置框内依附")
-    expected = Matrix.Rotation(-math.pi / 2.0, 4, "X") @ Matrix.Rotation(-math.pi / 2.0, 4, "Y")
+    expected = Matrix.Identity(3)
     actual = root.matrix_world.to_3x3().normalized()
-    ensure(max(abs(actual[row][column] - expected[row][column]) for row in range(3) for column in range(3)) <= 0.0001, f"蝴蝶展示根旋转错误: {tuple(root.rotation_euler)}")
+    ensure(max(abs(actual[row][column] - expected[row][column]) for row in range(3) for column in range(3)) <= 0.0001, f"蝴蝶展示根应保持世界轴对齐: {tuple(root.rotation_euler)}")
     ensure(all(abs(left - right) <= 0.0001 for left, right in zip(root.scale, (1.0, 1.0, 1.0))), f"蝴蝶原生比例未保留: {tuple(root.scale)}")
+    ensure(root.get("master_front_direction_world") == "-X", "蝴蝶正面未朝向框体 -X")
+    ensure(root.get("master_head_direction_world") == "+Z", "蝴蝶触角/头部未朝世界 +Z")
+    ensure(root.get("wing_in_plane_orientation") == "180_degrees_from_previous_downward_wing_layout", "双翼未按确认方向在框面内翻转 180 度")
+    ensure(root.get("display_hierarchy_policy") == "root_directly_parents_body_left_wing_right_wing", "展示层级策略错误")
     display_meshes = [obj for obj in artist.objects if obj.type == "MESH" and _is_descendant(obj, root)]
+    direct_children = [obj for obj in artist.objects if obj.parent == root]
+    ensure(len(direct_children) == 3 and set(direct_children) == set(display_meshes), f"展示根应直接管理身体与双翼，实际为 {[obj.name for obj in direct_children]}")
+    legacy_display_empties = [
+        obj for obj in artist.objects
+        if obj.type == "EMPTY" and obj != root and (obj.name.startswith("展示_") or _is_descendant(obj, root))
+    ]
+    ensure(not legacy_display_empties, f"仍存在旧 FBX 展示空对象: {[obj.name for obj in legacy_display_empties]}")
     recomputed = _animated_bounds(artist, display_meshes)
     minimum = recomputed["min"]
     maximum = recomputed["max"]
@@ -470,9 +571,11 @@ def validate_attachment(artist, source_scene):
     body_bounds = _world_bounds([body])
     body_span = body_bounds["max"] - body_bounds["min"]
     body_center_y = (body_bounds["min"].y + body_bounds["max"].y) * 0.5
+    body_center = (body_bounds["min"] + body_bounds["max"]) * 0.5
     ensure(abs(body_center_y) <= 0.0001, f"身体未落在 Y=0 的 Z 向中心线: y={body_center_y}")
     ensure(body_span.z >= body_span.y * 1.5, f"身体主轴未沿世界 Z 方向: span={tuple(body_span)}")
     ensure(abs(body_bounds["min"].x - CONTACT_X) <= 0.0001, "蝴蝶身体未贴合框面")
+    ensure((body.matrix_world.translation - body_center).length <= 0.0001, f"身体原点未居中: origin={tuple(body.matrix_world.translation)}, center={tuple(body_center)}")
     ensure(maximum.x - minimum.x >= MIN_NATIVE_DEPTH, "蝴蝶模型被压成平面层")
     wings = [obj for obj in display_meshes if "WING" in obj.name.upper()]
     ensure(len(wings) == 2, "展示层左右翅膀数量错误")
@@ -480,15 +583,22 @@ def validate_attachment(artist, source_scene):
     side_extrema = {"left_max_y": -math.inf, "right_min_y": math.inf}
     hinge_gap_max = {"left": 0.0, "right": 0.0}
     rotation_ranges = {"left": [math.inf, -math.inf], "right": [math.inf, -math.inf]}
+    wing_overlap_max = 0
+    wing_origins = {}
     for wing in wings:
         role = _wing_role(wing)
-        ensure(role in PANEL_SAFE_WING_RANGES, f"无法识别翅膀方向: {wing.name}")
+        ensure(role in CLEAN_WING_FOLD_RANGES, f"无法识别翅膀方向: {wing.name}")
+        wing_origins[role] = list(wing.matrix_world.translation)
+        ensure(wing.parent == root, f"翅膀未直接绑定展示根: {wing.name}")
+        ensure(wing.animation_data and wing.animation_data.action, f"翅膀缺少 Action: {wing.name}")
+        curves = _action_fcurves(wing.animation_data.action)
+        ensure(len(curves) == 1 and curves[0].data_path == "rotation_euler" and curves[0].array_index == 2, f"翅膀 Action 应仅保留 Z 轴铰链曲线: {wing.name}")
         source_range = wing.get("frame_attachment_retarget_source_range")
         target_range = wing.get("frame_attachment_retarget_target_range")
         scale = wing.get("frame_attachment_retarget_scale")
         offset = wing.get("frame_attachment_retarget_offset")
         ensure(source_range is not None and target_range is not None and scale is not None and offset is not None, f"翅膀缺少面板安全区间重定向记录: {wing.name}")
-        ensure(max(abs(float(left) - right) for left, right in zip(target_range, PANEL_SAFE_WING_RANGES[role])) <= 0.0001, f"翅膀目标安全区间错误: {wing.name}")
+        ensure(max(abs(float(left) - right) for left, right in zip(target_range, CLEAN_WING_FOLD_RANGES[role])) <= 0.0001, f"翅膀目标安全区间错误: {wing.name}")
         wing_retarget[role] = {
             "source_range": [float(value) for value in source_range],
             "target_range": [float(value) for value in target_range],
@@ -510,13 +620,16 @@ def validate_attachment(artist, source_scene):
                 side_extrema["left_max_y"] = max(side_extrema["left_max_y"], bounds["max"].y)
             else:
                 side_extrema["right_min_y"] = min(side_extrema["right_min_y"], bounds["min"].y)
+        wing_overlap_max = max(wing_overlap_max, _surface_overlap_count(wings[0], wings[1]))
     artist.frame_set(original_frame)
     bpy.context.view_layer.update()
 
     ensure(side_extrema["left_max_y"] <= WING_CENTERLINE_TOLERANCE, f"左翼在动画中越过身体中线: y={side_extrema['left_max_y']}")
     ensure(side_extrema["right_min_y"] >= -WING_CENTERLINE_TOLERANCE, f"右翼在动画中越过身体中线: y={side_extrema['right_min_y']}")
+    ensure(wing_origins["left"][1] < 0.0 < wing_origins["right"][1], f"左右翅根原点未分列身体两侧: {wing_origins}")
+    ensure(wing_overlap_max == 0, f"左右翅膀在动画中发生表面互穿: overlap={wing_overlap_max}")
     ensure(max(hinge_gap_max.values()) <= MAX_WING_HINGE_GAP, f"翅根在动画中脱离身体: {hinge_gap_max}")
-    for role, target_range in PANEL_SAFE_WING_RANGES.items():
+    for role, target_range in CLEAN_WING_FOLD_RANGES.items():
         ensure(max(abs(left - right) for left, right in zip(rotation_ranges[role], target_range)) <= 0.0001, f"{role} 翅膀实际旋转范围与安全区间不一致: {rotation_ranges[role]}")
     unpacked_images = [image.name for image in bpy.data.images if image.source == "FILE" and image.packed_file is None]
     ensure(not unpacked_images, f"存在未打包图像: {unpacked_images}")
@@ -535,12 +648,22 @@ def validate_attachment(artist, source_scene):
         "body_center_y": body_center_y,
         "body_span": list(body_span),
         "body_axis": "world_Z",
+        "master_front_direction_world": "-X",
+        "master_head_direction_world": "+Z",
+        "wing_in_plane_orientation_degrees": 180,
         "native_proportions_preserved": True,
         "panel_normal_depth": maximum.x - minimum.x,
         "wing_panel_safe_retarget": wing_retarget,
         "wing_rotation_ranges": rotation_ranges,
         "wing_centerline_extrema": side_extrema,
         "wing_hinge_gap_max": hinge_gap_max,
+        "wing_origins": wing_origins,
+        "wing_surface_overlap_max": wing_overlap_max,
+        "display_hierarchy": {
+            "root": root.name,
+            "direct_children": sorted(obj.name for obj in direct_children),
+            "legacy_display_empties": [],
+        },
         "packed_file_images": sorted(image.name for image in bpy.data.images if image.source == "FILE" and image.packed_file is not None),
         "external_libraries": 0,
     }

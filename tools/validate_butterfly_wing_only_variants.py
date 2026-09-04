@@ -6,6 +6,7 @@ import bpy
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from workbench_paths import REPORTS_ROOT, WORKBENCH_ROOT, model_root, model_scenes
+from butterfly_frame_attachment import DISPLAY_ROOT_NAME
 
 PROJECT_ROOT = WORKBENCH_ROOT
 ASSET_ROOT = model_root("Butterfly")
@@ -49,19 +50,13 @@ def validate_one(path):
     ensure(artist is not None and source is not None, f"场景入口缺失: {path.name}")
     ensure(bpy.context.window.scene == artist, f"默认场景不是 ARTIST_EDIT: {path.name}")
 
-    display_path = next(
-        (
-            obj
-            for obj in artist.objects
-            if obj.name.startswith("展示_")
-            and obj.type == "EMPTY"
-            and obj.animation_data is None
-        ),
-        None,
-    )
-    ensure(display_path is not None, f"展示路径控制器缺失: {path.name}")
-    ensure(display_path.animation_data is None, f"展示路径控制器仍有动画: {path.name}")
-    ensure(display_path.motion_path is None, f"展示路径轨迹仍存在: {path.name}")
+    display_root = artist.objects.get(DISPLAY_ROOT_NAME)
+    ensure(display_root is not None and display_root.type == "EMPTY", f"展示总控根缺失: {path.name}")
+    ensure(display_root.animation_data is None, f"展示总控根仍有动画: {path.name}")
+    display_children = [obj for obj in artist.objects if obj.parent == display_root]
+    ensure(len(display_children) == 3 and all(obj.type == "MESH" for obj in display_children), f"展示总控根未直接绑定身体与双翼: {path.name}")
+    legacy_display_empties = [obj for obj in artist.objects if obj.type == "EMPTY" and obj != display_root and obj.name.startswith("展示_")]
+    ensure(not legacy_display_empties, f"仍存在旧展示路径/FBX 空对象: {path.name}")
 
     animated = [
         obj
@@ -107,12 +102,12 @@ def validate_one(path):
         bpy.context.view_layer.update()
         samples.append({
             "frame": frame,
-            "path_controller": transform_signature(display_path),
+            "display_root": transform_signature(display_root),
             "body": transform_signature(body),
         })
         wing_signatures.append(tuple(transform_signature(obj) for obj in animated))
 
-    ensure(all(not changed(samples[0]["path_controller"], item["path_controller"]) for item in samples[1:]), f"路径控制器仍在变化: {path.name}")
+    ensure(all(not changed(samples[0]["display_root"], item["display_root"]) for item in samples[1:]), f"展示总控根仍在变化: {path.name}")
     ensure(all(not changed(samples[0]["body"], item["body"]) for item in samples[1:]), f"身体仍在变化: {path.name}")
     ensure(wing_signatures[0] != wing_signatures[1], f"翅膀拍动动画没有变化: {path.name}")
 
@@ -121,7 +116,8 @@ def validate_one(path):
         "default_scene": artist.name,
         "display_animated_objects": [obj.name for obj in animated],
         "source_path_action": source_path.animation_data.action.name,
-        "path_and_body_static": True,
+        "clean_direct_display_hierarchy": True,
+        "display_root_and_body_static": True,
         "wing_animation_changed": True,
         "frame_samples": samples,
     }

@@ -7,7 +7,7 @@ import bpy
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from workbench_paths import REPORTS_ROOT, WORKBENCH_ROOT, model_root, model_scenes
-from butterfly_frame_attachment import DISPLAY_ROOT_NAME, PANEL_SAFE_WING_RANGES, validate_attachment
+from butterfly_frame_attachment import CLEAN_WING_FOLD_RANGES, DISPLAY_ROOT_NAME, validate_attachment
 
 PROJECT_ROOT = WORKBENCH_ROOT
 ASSET_ROOT = model_root("Butterfly")
@@ -162,64 +162,35 @@ def compare_retargeted_action(source_signature, output_wing, master_frame_one):
         (curve.data_path, curve.array_index): curve
         for curve in action_fcurves(output_action)
     }
-    source_keys = {
-        tuple(key.rsplit("[", 1)[0:1]) + (int(key.rsplit("[", 1)[1][:-1]),)
-        for key in source_curves
-    }
-    ensure(source_keys == set(output_curves), f"输出 Action 曲线集合与源 Action 不一致: {output_action.name}")
-    for source_key, source_curve in source_curves.items():
-        data_path, array_index = source_key.rsplit("[", 1)
-        key = (data_path, int(array_index[:-1]))
-        output_curve = output_curves[key]
+    ensure(set(output_curves) == {("rotation_euler", 2)}, f"输出 Action 应仅保留 Z 轴铰链曲线: {output_action.name}")
+    source_curve = source_curves["rotation_euler[2]"]
+    output_curve = output_curves[("rotation_euler", 2)]
+    ensure(len(source_curve["frames"]) == len(output_curve.keyframe_points), f"输出 Z 曲线关键帧数量与源 Action 不一致: {output_action.name}")
+    source_base = source_curve["values"][source_curve["frames"].index(1.0)]
+    scale = float(output_wing["frame_attachment_retarget_scale"])
+    offset = float(output_wing["frame_attachment_retarget_offset"])
+    for index, (source_frame, source_value, output_key) in enumerate(zip(source_curve["frames"], source_curve["values"], output_curve.keyframe_points)):
+        ensure(abs(source_frame - output_key.co.x) <= 0.000001, f"输出 Z 曲线帧号与源 Action 不一致: {output_action.name}")
         ensure(
-            len(source_curve["frames"]) == len(output_curve.keyframe_points),
-            f"输出 Action 关键帧数量与源 Action 不一致: {output_action.name} {key}",
+            abs(source_curve["handle_left"][index][0] - output_key.handle_left.x) <= 0.00001
+            and abs(source_curve["handle_right"][index][0] - output_key.handle_right.x) <= 0.00001,
+            f"输出 Z 曲线手柄时间被改变: {output_action.name}",
         )
-        source_base = source_curve["values"][source_curve["frames"].index(1.0)]
-        output_base = output_curve.evaluate(1.0)
-        for index, (source_frame, source_value, output_key) in enumerate(zip(source_curve["frames"], source_curve["values"], output_curve.keyframe_points)):
-            ensure(
-                abs(source_frame - output_key.co.x) <= 0.000001,
-                f"输出 Action 帧号与源 Action 不一致: {output_action.name} {key}",
-            )
-            ensure(
-                abs(source_curve["handle_left"][index][0] - output_key.handle_left.x) <= 0.00001
-                and abs(source_curve["handle_right"][index][0] - output_key.handle_right.x) <= 0.00001,
-                f"输出 Action 关键帧手柄时间被改变: {output_action.name} {key}",
-            )
-            ensure(
-                source_curve["interpolation"][index] == output_key.interpolation
-                and source_curve["easing"][index] == output_key.easing
-                and source_curve["handle_left_type"][index] == output_key.handle_left_type
-                and source_curve["handle_right_type"][index] == output_key.handle_right_type,
-                f"输出 Action 关键帧缓动或手柄类型被改变: {output_action.name} {key}",
-            )
-            source_delta = source_value - source_base
-            if key == ("rotation_euler", 2):
-                scale = float(output_wing["frame_attachment_retarget_scale"])
-                offset = float(output_wing["frame_attachment_retarget_offset"])
-                expected = (master_frame_one["rotation_euler"][2] + source_delta) * scale + offset
-                ensure(
-                    abs(expected - output_key.co.y) <= 0.00001,
-                    f"输出 Action Z 旋转未按面板安全区间重定向: {output_action.name} {key}",
-                )
-                for source_handle, output_handle in (
-                    (source_curve["handle_left"][index], output_key.handle_left),
-                    (source_curve["handle_right"][index], output_key.handle_right),
-                ):
-                    expected_handle_y = (master_frame_one["rotation_euler"][2] + (source_handle[1] - source_base)) * scale + offset
-                    ensure(abs(expected_handle_y - output_handle.y) <= 0.00001, f"输出 Action Z 旋转手柄未按面板安全区间重定向: {output_action.name} {key}")
-            else:
-                output_delta = output_key.co.y - output_base
-                ensure(
-                    abs(source_delta - output_delta) <= 0.00001,
-                    f"输出 Action 非重定向曲线变化与源 Action 不一致: {output_action.name} {key}",
-                )
-                ensure(
-                    abs((source_curve["handle_left"][index][1] - source_value) - (output_key.handle_left.y - output_key.co.y)) <= 0.00001
-                    and abs((source_curve["handle_right"][index][1] - source_value) - (output_key.handle_right.y - output_key.co.y)) <= 0.00001,
-                    f"输出 Action 非重定向曲线手柄变化与源 Action 不一致: {output_action.name} {key}",
-                )
+        ensure(
+            source_curve["interpolation"][index] == output_key.interpolation
+            and source_curve["easing"][index] == output_key.easing
+            and source_curve["handle_left_type"][index] == output_key.handle_left_type
+            and source_curve["handle_right_type"][index] == output_key.handle_right_type,
+            f"输出 Z 曲线缓动或手柄类型被改变: {output_action.name}",
+        )
+        expected = (master_frame_one["rotation_euler"][2] + source_value - source_base) * scale + offset
+        ensure(abs(expected - output_key.co.y) <= 0.00001, f"输出 Z 曲线未按无交叉折叠区间重定向: {output_action.name}")
+        for source_handle, output_handle in (
+            (source_curve["handle_left"][index], output_key.handle_left),
+            (source_curve["handle_right"][index], output_key.handle_right),
+        ):
+            expected_handle_y = (master_frame_one["rotation_euler"][2] + source_handle[1] - source_base) * scale + offset
+            ensure(abs(expected_handle_y - output_handle.y) <= 0.00001, f"输出 Z 曲线手柄未按无交叉折叠区间重定向: {output_action.name}")
 
 
 def find_display_wings(scene):
@@ -235,7 +206,7 @@ def find_display_wings(scene):
     return wings
 
 
-def validate_one(path, source_path, master_default_frame, master_artist_snapshot, master_source_snapshot, master_wing_parents, master_frames, source_action_signatures, expected_build):
+def validate_one(path, source_path, master_default_frame, master_artist_snapshot, master_source_snapshot, master_frames, source_action_signatures, expected_build):
     bpy.ops.wm.open_mainfile(filepath=str(path), load_ui=False)
     artist = bpy.data.scenes.get("ARTIST_EDIT")
     source_scene = bpy.data.scenes.get("SOURCE_REFERENCE")
@@ -246,49 +217,25 @@ def validate_one(path, source_path, master_default_frame, master_artist_snapshot
 
     output_artist = scene_snapshot(artist, master_frames, lambda obj: obj.name.startswith("展示_") or obj.name.startswith("DISPLAY_"))
     output_source = scene_snapshot(source_scene, master_frames, lambda obj: obj.name.startswith("源_"))
-    ensure(set(output_artist[master_frames[0]]) == set(master_artist_snapshot[master_frames[0]]), f"Master 展示对象集合被改变: {path.name}")
     ensure(set(output_source[master_frames[0]]) == set(master_source_snapshot[master_frames[0]]), f"Master 源对象集合被改变: {path.name}")
 
     output_wings = find_display_wings(artist)
     wing_names = {obj.name for obj in output_wings.values()}
     display_root = artist.objects.get(DISPLAY_ROOT_NAME)
     ensure(display_root is not None, f"缺少展示根: {path.name}")
-    placement_controls = {display_root.name} | {obj.name for obj in artist.objects if obj.parent == display_root}
-    for frame in master_frames:
-        for name, master_signature in master_artist_snapshot[frame].items():
-            if name in wing_names or name in placement_controls:
-                continue
-            ensure(
-                max_local_signature_difference(master_signature, output_artist[frame][name]) <= 0.000001,
-                f"Master 非翅膀局部位置/旋转被改变: {path.name}, {name}, frame {frame}",
-            )
+    display_mesh_names = {obj.name for obj in artist.objects if obj.type == "MESH" and obj.name.startswith("展示_")}
+    ensure(len(display_mesh_names) == 3 and display_mesh_names.issubset(master_artist_snapshot[master_frames[0]]), f"Master 三个展示网格名称被改变: {path.name}")
+    ensure({obj.name for obj in artist.objects if obj.parent == display_root} == display_mesh_names, f"展示根未直接绑定身体与双翼: {path.name}")
     for role, output_wing in output_wings.items():
         name = output_wing.name
         master_frame_one = master_artist_snapshot[master_frames[0]][name]
-        output_frame_one = output_artist[master_frames[0]][name]
-        ensure(
-            max(
-                abs(left - right)
-                for key in ("location", "scale")
-                for left, right in zip(master_frame_one[key], output_frame_one[key])
-            ) <= 0.000001,
-            f"Master 翅膀第 1 帧局部位置或缩放被改变: {path.name}, {name}",
-        )
-        ensure(
-            max(abs(master_frame_one["rotation_euler"][index] - output_frame_one["rotation_euler"][index]) for index in (0, 1)) <= 0.000001,
-            f"Master 翅膀第 1 帧非扇动旋转轴被改变: {path.name}, {name}",
-        )
         source_range = output_wing.get("frame_attachment_retarget_source_range")
         target_range = output_wing.get("frame_attachment_retarget_target_range")
         scale = output_wing.get("frame_attachment_retarget_scale")
         offset = output_wing.get("frame_attachment_retarget_offset")
         ensure(source_range is not None and target_range is not None and scale is not None and offset is not None, f"翅膀缺少面板安全区间重定向记录: {path.name}, {name}")
-        ensure(max(abs(float(left) - right) for left, right in zip(target_range, PANEL_SAFE_WING_RANGES[role])) <= 0.0001, f"翅膀目标安全区间错误: {path.name}, {name}")
-        ensure(
-            abs(output_frame_one["rotation_euler"][2] - (master_frame_one["rotation_euler"][2] * float(scale) + float(offset))) <= 0.00001,
-            f"翅膀第 1 帧 Z 旋转与面板安全重定向不一致: {path.name}, {name}",
-        )
-        ensure(output_wing.parent.name == master_wing_parents[role], f"翅膀父子关系被改变: {path.name}, {name}")
+        ensure(max(abs(float(left) - right) for left, right in zip(target_range, CLEAN_WING_FOLD_RANGES[role])) <= 0.0001, f"翅膀目标安全区间错误: {path.name}, {name}")
+        ensure(output_wing.parent == display_root, f"翅膀未直接绑定展示根: {path.name}, {name}")
         ensure(output_wing.animation_data and output_wing.animation_data.action, f"输出翅膀缺少 Action: {path.name}, {name}")
         ensure(output_wing.animation_data.action.name.startswith("MASTER_WING_FLAP_ONLY_"), f"输出翅膀未使用 Master 替换 Action: {path.name}, {name}")
         ensure(output_wing.animation_data.action.get("animation_source_file") == relative(source_path), f"输出 Action 来源不匹配: {path.name}, {name}")
@@ -343,11 +290,11 @@ def validate_one(path, source_path, master_default_frame, master_artist_snapshot
         "default_frame": artist.frame_current,
         "display_wings": {role: obj.name for role, obj in output_wings.items()},
         "display_animated_objects": [obj.name for obj in display_animated],
-        "master_non_wing_local_transforms_preserved": True,
-        "master_wing_frame_one_location_scale_and_nonflap_axes_preserved": True,
-        "wing_animation_panel_safe_retargeted": True,
+        "master_display_meshes_preserved_and_reoriented": True,
+        "clean_direct_display_hierarchy": True,
+        "wing_animation_outward_fold_retargeted": True,
         "source_reference_unchanged": source_snapshot_match,
-        "source_wing_keyframe_timing_and_non_z_deltas_preserved": True,
+        "source_wing_z_keyframe_timing_and_easing_preserved": True,
         "source_wing_z_curve_affinely_retargeted": True,
         "wing_animation_changed": True,
         "frame_attachment": attachment,
@@ -380,7 +327,6 @@ def main():
     master_artist_snapshot = scene_snapshot(master_artist, master_frames, lambda obj: obj.name.startswith("展示_") or obj.name.startswith("DISPLAY_"))
     master_source_snapshot = scene_snapshot(master_source, master_frames, lambda obj: obj.name.startswith("源_"))
     master_wings = find_display_wings(master_artist)
-    master_wing_parents = {role: obj.parent.name for role, obj in master_wings.items()}
     source_action_signatures = capture_source_action_signatures(source_paths)
 
     reports = []
@@ -394,7 +340,6 @@ def main():
                 master_default_frame,
                 master_artist_snapshot,
                 master_source_snapshot,
-                master_wing_parents,
                 master_frames,
                 source_action_signatures[source_path.name],
                 build_by_output[relative(output_path)],

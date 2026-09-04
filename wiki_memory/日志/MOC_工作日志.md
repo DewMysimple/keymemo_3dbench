@@ -15,6 +15,7 @@ supersedes: null
 
 | 时间 | 类型 | 目标 | 状态 | 主题 | 日志 |
 | --- | --- | --- | --- | --- | --- |
+| 2026-09-04 | bug | - | archived | butterfly-frame-clean-rig-and-orientation | [[日志/2026-09-04-重建竖框蝴蝶轴向与干净层级.md|重建竖框蝴蝶轴向与干净层级]] |
 | 2026-09-04 | feature | - | archived | butterfly-vertical-specimen-frame-attachment | [[日志/2026-09-04-将蝴蝶贴附到竖直标本框.md|将蝴蝶贴附到竖直标本框]] |
 | 2026-09-04 | bug | - | archived | butterfly-panel-wing-keyframe-retarget | [[日志/2026-09-04-修复竖框蝴蝶翅膀关键帧换边.md|修复竖框蝴蝶翅膀关键帧换边]] |
 | 2026-09-03 | maintenance | - | archived | specimen-frame-final-file-cleanup-and-blender-backups | [[日志/2026-09-03-统一标本方框最终文件与清理自动备份.md|统一标本方框最终文件与清理自动备份]] |

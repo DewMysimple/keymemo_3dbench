@@ -24,11 +24,11 @@
         "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
         "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
       ],
-      "master_non_wing_local_transforms_preserved": true,
-      "master_wing_frame_one_location_scale_and_nonflap_axes_preserved": true,
-      "wing_animation_panel_safe_retargeted": true,
+      "master_display_meshes_preserved_and_reoriented": true,
+      "clean_direct_display_hierarchy": true,
+      "wing_animation_outward_fold_retargeted": true,
       "source_reference_unchanged": true,
-      "source_wing_keyframe_timing_and_non_z_deltas_preserved": true,
+      "source_wing_z_keyframe_timing_and_easing_preserved": true,
       "source_wing_z_curve_affinely_retargeted": true,
       "wing_animation_changed": true,
       "frame_attachment": {
@@ -46,31 +46,34 @@
           4.550000190734863
         ],
         "display_root_rotation_degrees": [
-          -90.00000250447816,
-          2.5044780654876655e-06,
-          90.00000250447816
+          0.0,
+          0.0,
+          0.0
         ],
         "all_frame_bounds_min": [
-          0.21199986338615417,
-          -3.23367977142334,
-          2.0380122661590576
+          0.21199998259544373,
+          -3.185056447982788,
+          2.252645969390869
         ],
         "all_frame_bounds_max": [
-          4.08955717086792,
-          3.2663204669952393,
-          7.061988353729248
+          3.6502246856689453,
+          3.2149434089660645,
+          6.847354412078857
         ],
         "all_frame_bounds_recomputed_after_reopen": true,
         "source_reference_has_frame": false,
-        "body_center_y": 2.9802322387695312e-08,
+        "body_center_y": 0.0,
         "body_span": [
-          0.6476775407791138,
-          0.6848528385162354,
-          1.4980459213256836
+          0.592431902885437,
+          0.6264364719390869,
+          1.3702659606933594
         ],
         "body_axis": "world_Z",
+        "master_front_direction_world": "-X",
+        "master_head_direction_world": "+Z",
+        "wing_in_plane_orientation_degrees": 180,
         "native_proportions_preserved": true,
-        "panel_normal_depth": 3.8775573074817657,
+        "panel_normal_depth": 3.4382247030735016,
         "wing_panel_safe_retarget": {
           "left": {
             "source_range": [
@@ -78,11 +81,11 @@
               2.05279541015625
             ],
             "target_range": [
-              -2.792526803190927,
-              -1.5707963267948966
+              0.0,
+              1.3089969389957472
             ],
-            "scale": 0.5027541050632156,
-            "offset": -2.6028476461058787
+            "scale": 0.538665112567731,
+            "offset": 0.20322766830540925
           },
           "right": {
             "source_range": [
@@ -90,30 +93,52 @@
               0.23428484797477722
             ],
             "target_range": [
-              1.5707963267948966,
-              2.792526803190927
+              -1.3089969389957472,
+              0.0
             ],
-            "scale": 0.502754098897465,
-            "offset": 2.6747391355620387
+            "scale": 0.5386651059615698,
+            "offset": -0.1262010724595235
           }
         },
         "wing_rotation_ranges": {
           "left": [
-            -2.7925267219543457,
-            -1.5707963705062866
+            0.0,
+            1.3089969158172607
           ],
           "right": [
-            1.5707963705062866,
-            2.7925267219543457
+            -1.3089969158172607,
+            1.3877787807814457e-16
           ]
         },
         "wing_centerline_extrema": {
-          "left_max_y": 0.036272432655096054,
-          "right_min_y": -0.003636072389781475
+          "left_max_y": -0.0027472497895359993,
+          "right_min_y": 0.03263435885310173
         },
         "wing_hinge_gap_max": {
-          "left": 0.0007571689202450216,
-          "right": 0.0028882501646876335
+          "left": 0.002635770244523883,
+          "right": 0.0006960302707739174
+        },
+        "wing_origins": {
+          "left": [
+            0.5763503313064575,
+            -0.0027472497895359993,
+            4.550000190734863
+          ],
+          "right": [
+            0.5763503313064575,
+            0.03263435885310173,
+            4.550000190734863
+          ]
+        },
+        "wing_surface_overlap_max": 0,
+        "display_hierarchy": {
+          "root": "DISPLAY_Butterfly_Master_ROOT",
+          "direct_children": [
+            "展示_Butterfly_Master_源_FBX_01_01_BASIC_BUTTERFLY_BODY_Travis_Davids_OBJ_1",
+            "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+            "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
+          ],
+          "legacy_display_empties": []
         },
         "packed_file_images": [
           "蝴蝶源图参考_Male_Dos_MHNT",
@@ -137,11 +162,11 @@
         "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
         "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
       ],
-      "master_non_wing_local_transforms_preserved": true,
-      "master_wing_frame_one_location_scale_and_nonflap_axes_preserved": true,
-      "wing_animation_panel_safe_retargeted": true,
+      "master_display_meshes_preserved_and_reoriented": true,
+      "clean_direct_display_hierarchy": true,
+      "wing_animation_outward_fold_retargeted": true,
       "source_reference_unchanged": true,
-      "source_wing_keyframe_timing_and_non_z_deltas_preserved": true,
+      "source_wing_z_keyframe_timing_and_easing_preserved": true,
       "source_wing_z_curve_affinely_retargeted": true,
       "wing_animation_changed": true,
       "frame_attachment": {
@@ -159,31 +184,34 @@
           4.550000190734863
         ],
         "display_root_rotation_degrees": [
-          -90.00000250447816,
-          2.5044780654876655e-06,
-          90.00000250447816
+          0.0,
+          0.0,
+          0.0
         ],
         "all_frame_bounds_min": [
-          0.21199986338615417,
-          -3.23367977142334,
-          2.0380122661590576
+          0.21199998259544373,
+          -3.185056447982788,
+          2.252645969390869
         ],
         "all_frame_bounds_max": [
-          4.08955717086792,
-          3.2663204669952393,
-          7.061988353729248
+          3.6502246856689453,
+          3.2149434089660645,
+          6.847354412078857
         ],
         "all_frame_bounds_recomputed_after_reopen": true,
         "source_reference_has_frame": false,
-        "body_center_y": 2.9802322387695312e-08,
+        "body_center_y": 0.0,
         "body_span": [
-          0.6476775407791138,
-          0.6848528385162354,
-          1.4980459213256836
+          0.592431902885437,
+          0.6264364719390869,
+          1.3702659606933594
         ],
         "body_axis": "world_Z",
+        "master_front_direction_world": "-X",
+        "master_head_direction_world": "+Z",
+        "wing_in_plane_orientation_degrees": 180,
         "native_proportions_preserved": true,
-        "panel_normal_depth": 3.8775573074817657,
+        "panel_normal_depth": 3.4382247030735016,
         "wing_panel_safe_retarget": {
           "left": {
             "source_range": [
@@ -191,11 +219,11 @@
               2.05279541015625
             ],
             "target_range": [
-              -2.792526803190927,
-              -1.5707963267948966
+              0.0,
+              1.3089969389957472
             ],
-            "scale": 0.5027541050632156,
-            "offset": -2.6028476461058787
+            "scale": 0.538665112567731,
+            "offset": 0.20322766830540925
           },
           "right": {
             "source_range": [
@@ -203,30 +231,52 @@
               0.23428484797477722
             ],
             "target_range": [
-              1.5707963267948966,
-              2.792526803190927
+              -1.3089969389957472,
+              0.0
             ],
-            "scale": 0.502754098897465,
-            "offset": 2.6747391355620387
+            "scale": 0.5386651059615698,
+            "offset": -0.1262010724595235
           }
         },
         "wing_rotation_ranges": {
           "left": [
-            -2.7925267219543457,
-            -1.5707963705062866
+            0.0,
+            1.3089969158172607
           ],
           "right": [
-            1.5707963705062866,
-            2.7925267219543457
+            -1.3089969158172607,
+            1.3877787807814457e-16
           ]
         },
         "wing_centerline_extrema": {
-          "left_max_y": 0.036272432655096054,
-          "right_min_y": -0.003636072389781475
+          "left_max_y": -0.0027472497895359993,
+          "right_min_y": 0.03263435885310173
         },
         "wing_hinge_gap_max": {
-          "left": 0.0007571689202450216,
-          "right": 0.0028882501646876335
+          "left": 0.002635770244523883,
+          "right": 0.0006960302707739174
+        },
+        "wing_origins": {
+          "left": [
+            0.5763503313064575,
+            -0.0027472497895359993,
+            4.550000190734863
+          ],
+          "right": [
+            0.5763503313064575,
+            0.03263435885310173,
+            4.550000190734863
+          ]
+        },
+        "wing_surface_overlap_max": 0,
+        "display_hierarchy": {
+          "root": "DISPLAY_Butterfly_Master_ROOT",
+          "direct_children": [
+            "展示_Butterfly_Master_源_FBX_01_01_BASIC_BUTTERFLY_BODY_Travis_Davids_OBJ_1",
+            "展示_Butterfly_Master_源_FBX_01_03_BUTTERFLY_IDLE_1_LEFT_WING_",
+            "展示_Butterfly_Master_源_FBX_01_04_BUTTERFLY_IDLE_1_RIGHT_WING_"
+          ],
+          "legacy_display_empties": []
         },
         "packed_file_images": [
           "蝴蝶源图参考_Male_Dos_MHNT",
